@@ -1,0 +1,981 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+<style type="text/css">
+	body {
+		margin-left: 30px;
+		margin-right: 30px;
+	}
+
+	;
+
+	P {
+		font-family: Tahoma;
+		font-size: 10pt;
+	}
+
+	;
+
+	a,
+	a:visited,
+	a:active,
+	a:link,
+	a:hover {
+		text-decoration: underline;
+		color: #545454;
+		background-color: transparent;
+		font-size: 93%;
+	}
+
+	a:hover {
+		background-color: #cccccc;
+	}
+
+
+	hr {
+		clear: both;
+		height: 1px;
+		color: #242424;
+		background-color: transparent;
+	}
+
+	h1,
+	h2,
+	h3 {
+		color: #242424;
+		clear: left;
+		font: 100% Tahoma, Helvetica, Arial, sans-serif;
+		margin-bottom: 0.5em;
+		padding-top: 0.5em;
+		border-radius: 10px;
+		padding: 5px;
+	}
+
+	top {
+		width: 100%;
+	}
+
+
+	#i {
+		color: #ff1010;
+	}
+
+	tt {
+		font-family: "Arial";
+		font-size: 90%;
+		color: #006600;
+	}
+
+	div.remark2 {
+		background-color: #F5F5DC;
+		border: 1.5px solid #d5f2ed;
+		padding: 15px;
+		margin: 10px;
+		border-radius: 25px;
+	}
+
+
+	em {
+		font-family: "Arial";
+		font-size: 80%;
+		font-weight: bold;
+		border-style: solid;
+		border-color: #abe876;
+		color: #1632cc;
+	}
+
+	bc {
+		font-family: "Arial";
+		font-size: 90%;
+		font-weight: bold;
+		color: #990000;
+		background-color: #fcf8c7;
+	}
+
+	ks {
+		font-family: "Arial";
+		font-weight: bold;
+		color: #0000CD;
+		font-size: 90%;
+	}
+
+	kc {
+		font-family: "Arial";
+		font-weight: bold;
+		color: #008000;
+		font-size: 90%;
+	}
+
+	pre {
+		font-family: "Consolas";
+		font-size: 85%;
+		background-color: #f5f5f5;
+		border: 1.5px solid silver;
+		padding: 5px;
+	}
+
+	m {
+		font-family: "Helvetica";
+		line-height: 100%;
+		font-size: 75%;
+	}
+
+	div.body {
+
+		font-size: 18px;
+	}
+
+	k {
+		color: #990000;
+		font-weight: bold;
+		font-size: 90%;
+	}
+
+	h1 {
+		font-size: 150%;
+		background-color: #b2c0ff;
+		padding: 10px;
+	}
+
+	h2 {
+		background-color: #9ed8ff;
+		font-size: 130%;
+	}
+
+	h3 {
+		background-color: #e6ccff;
+		font-size: 100%;
+	}
+
+	h4 {
+		background-color: #ccffcc;
+		font-size: 100%;
+		width: 95%;
+		border-radius: 5px;
+		padding: 2px;
+	}
+
+	h5 {
+		background-color: #d5ffb0;
+		font-size: 100%;
+
+	}
+
+	div.req {
+		background-color: #d9ffb3;
+		font-size: 18px;
+		width: 700px;
+		border: 3px solid green;
+		padding: 15px;
+		margin: 10px;
+	}
+
+	div.remark {
+		background-color: #E3F2FD;
+		border: 1.5px solid #d5f2ed;
+		padding: 15px;
+		margin: 10px;
+		border-radius: 25px;
+	}
+
+	table,
+	th,
+	td {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+
+	ol,
+	ul,
+	li {
+		margin: 0;
+		margin-left: 10px;
+		padding: 0;
+		padding-bottom: 5px;
+	}
+
+	table,
+	th,
+	td {
+		border: 1px solid black;
+	}
+
+	img {
+		border: 1.5px solid #d5f2ed
+	}
+
+	a,
+	a:visited,
+	a:active,
+	a:link,
+	a:hover {
+		text-decoration: underline;
+		color: #545454;
+		background-color: transparent;
+	}
+
+	div.wrapdesc {
+		width: 90%;
+		margin: auto;
+	}
+
+	div.imagedesc {
+		width: 85%;
+		margin: auto;
+	}
+</style>
+
+<head>
+
+	<title>AutomatedCarParking</title>
+</head>
+
+<body>
+	<div id="top">
+		<h1>
+			<font size="5">Automated Car-Parking</font>
+		</h1>
+	</div>
+
+	<div class="body">
+		<h2><a name="introduction"></a>Introduction - SPRINT 3</h2>
+		<div class="remark">
+			<p>In this document it will be analysed the third SPRINT of the project.
+				In this phase we will extend previous SPRINT's model, adding more features and removing some
+				semplifications,
+				introduced during <a href="https://htmlpreview.github.io/?https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_1/it.unibo.ParkManagerService_s1/userDocs/AutomatedCarParking.html">first SPRINT</a>.
+			</p>
+		</div>
+
+		<h2>Problem analysis</h2>
+		<div class="remark">
+			<p>As mentioned in the <a href="#introduction">Introduction</a> in this SPRINT, we will analyze a simplified
+				version (with less functionality) of the final system.
+				<p>
+					<h3>Assumptions</h3>
+
+					In this version are applied the simplifications below:
+					<br><br>
+					<ul>
+						<li>no <k>GUI</k> will be implemented (neither for the client nor for the parking-manager);
+							<div class="remark2">GUIs will not be implemented because, during these early stages of
+								project development, we will only carry out local tests.</div>
+
+						<li>
+							<k>Outsonar</k> and <k>WeightSensor</k> are components simulated by a software;
+							<div class=remark2>These sensors are simulated because they are not yet physically
+								available.
+								It is possible that real <b>outsonar</b> will be used in future SPRINTs.</div>
+
+						<li>
+							<k>Thermometer</k> and <k>fan</k> are components simulated by a software.Since the managerGui is not available, when critical temperature thresholds are reached the ParkingManager (QActor that simulates the use of the Gui) will automatically handle the problem.
+
+						<li>The alarm that is emmited if <k>outsonar timer</k> expires does not causes any action;
+							<div class=remark2>
+								The alarm is not handled at software level, no actions will be performed.
+							</div>
+
+					</ul>
+				</p>
+
+				<h3>Model - SPRINT 3</h3>
+
+								<br>
+								<table style="width:100%; border:1px solid; font-family: Consolas; background-color:#f5f5f5;">
+									<tr>
+										<td>
+											<center>
+												<ks>parkingmanagerservice</ks>
+											</center>
+										</td>
+										<td>
+											<center>
+												<ks>client</ks>
+											</center>
+										</td>
+									</tr>
+									<tr>
+										<td colspan=2>
+											<center>
+												<bc>Parking Phase</bc>
+											</center>
+										</td>
+									</tr>
+									<tr>
+										<td style="width:50%">
+											<br>
+											<ul style="font-family: Consolas; font-size: 15px">
+												<li>It checks if there is at least one <tt>parking-slot</tt> available.
+
+												<li>After this check it is determined if <tt>reqenter</tt> can be accepted.
+
+												<li>It's received the request <tt>reqenter</tt> sended by a <b>client</b>.</li>
+
+				                <li><ks>[acceptIN]</ks> It's generated <em>SLOTNUM</em> and the related slot is marked as occupied.
+
+				                <li><ks>[informIN]</ks> If <em>INDOOR-area</em> is <i>FREE</i> and trolley status is not <i>STOPPED</i> the request is immediately elaborated sending to <b>client</b> the reply
+				                  <tt>slotsnum : slotsnum ($SLOTNUM)</tt>. Otherwise it's sended to <b>client</b> the reply <tt>waitIndoor : slotsnum ($SLOTNUM)</tt>, and so <b>client</b>
+				                  waits until the <em>INDOOR-area</em> become FREE or trolley status is not STOPPED.
+
+												<li>It's received the request <tt>carenter</tt> sended by the <b>client</b>.
+
+				                <li><b>parkingmanagerservive</b> emits an event <tt>carindoorarrival</tt>, to notify that	the client's car is in <em>INDOOR-area</em>.
+
+				                <li><ks>[moveToIn]</ks> Commands are sent to the <b>trolley</b> so that it performs the movements to go from its current position to <em>INDOOR</em>
+
+				                <li>The <b>weightsensor</b> perceives <tt>carindoorarrival</tt> and emit the event <tt>weight(CARWEIGHT)</tt>.
+
+				                <li><em>INDOOR</em> is marked as occupied.
+
+				                <li> It's expected the event <tt>finished</tt> emitted by <b>trolley</b> at the end of his path.
+
+												<li> <ks>[receipt]</ks> It's generated the <em>TOKENID</em> related to <em>SLOTNUM</em> assigned to <b>client</b> and reply to him with <tt>receipt(TOKENID)</tt>.
+
+				                <li> <ks>[moveToSlotIn]</ks> If <b>trolley</b> is in <em>INDOOR-area</em>, <b>Trolley</b> takes the car and moves it to slot assigned to it.
+
+				                <li>When event <tt>finished</tt> is perceived, <em>INDOOR</em> is marked as free.
+
+				                <li><ks>[moveToHome]</ks> If for a while no requests are received, commands are sent to the <b>trolley</b> for return to <em>HOME</em>.
+
+				                <li> If a new request arrives during returnig to <em>HOME</em>, it must be immediately handled.
+
+											</ul>
+
+										<td>
+
+											<ul style="font-family: Consolas; font-size: 15px">
+												<li><b>client</b> sends a request <tt>reqenter</tt> to notify his interest in
+													entering his car in the <em>parking-area</em>.
+												<li>If <em>SLOTNUM > 0</em> and <em>INDOOR-area</em> is FREE, <b>client</b> moves the car in front of <em>INDOOR</em>,
+													(press the <em>CARENTER</em> button) and send the request <tt>carenter</tt> to <b>parkingmanagerservive</b>, otherwise
+													<b>client</b> waits for the <em>INDOOR-area</em> to become FREE.
+											</ul>
+										</td>
+									<tr>
+										<td colspan=2>
+											<center>
+												<bc>Car pick up phase</bc>
+											</center>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<ul style="font-family: Consolas; font-size: 15px">
+
+												<li>It checks if <em>OUTDOOR</em> is FREE and if trolley status is not STOPPED.
+
+												<li>After the checks it is determined if <tt>pickup</tt> can be elaborated.
+
+												<li> <ks>[acceptOUT]</ks> It's received the dispatch <tt>pickup(TOKENID)</tt> sended by a <b>client</b>.
+
+												<li> <ks>[findSlot]</ks> It's obtained the <em>CARSLOTNUM</em> from <tt>TOKENID</tt> sended by <b>client</b>.
+
+				                <li> <ks>[moveToSlotOut]</ks> Commands are sent to the <b>trolley</b> so that it performs the movements to go from the current position to <em>CARSLOTNUM</em>.
+
+				                <li>The slot corrisponding to <em>CARSLOTNUM</em> is marked as free.
+
+				                <li> <ks>[moveToOut]</ks> When it's perceives event <tt>finished</tt> and it's verified that <b>trolley</b> is in <em>CARSLOTNUM</em>, are sent commands to the <b>trolley</b>
+				                  so that it performs the movements to go from <em>CARSLOTNUM</em> to <em>OUTDOOR</em>.
+
+				                <li><b>parkingmanagerservice</b> emits an event <tt>caroutdoorarrival</tt>
+
+				                <li>The <b>ousonar</b> perceives <tt>caroutdoorarrival</tt> and actives itself and its internal timer and <em>OUTDOOR</em> is marked as occupied.
+
+				                <li>Timer of <b>outsonar</b> will be cancel when the <b>client</b> emits the event <tt>carwithdrawn</tt>.
+
+												<li>If timer (set to <tt>DTFREE</tt>) expires, <b>outsonar</b> emit an event <tt>timeout</tt>.
+
+												<li><ks>[moveToHome]</ks> If for a while no requests are received, commands are sent to the <b>trolley</b> for return to <em>HOME</em>.
+
+				                <li> If a new request arrives during returnig to <em>HOME</em>, it must be immediately handled.
+
+											</ul>
+										</td>
+										<td>
+											<ul style="font-family: Consolas; font-size: 15px">
+												<li><b>client</b> send a dispatch to <b>parkingmanagerservice</b>
+													<tt>pickup(TOKENID)</tt>
+													to notify his interest in
+													in picking his car from parking-area.
+												<li>When the car is in <em>OUTDOOR-area</em>, the <b>client</b> takes his car away, then
+													emits an event <tt>carwithdrawn</tt>.
+											</ul>
+										</td>
+									</tr>
+									<tr>
+										<td colspan=2>
+											<center>
+												<bc>Parking-manager</bc>
+											</center>
+										</td>
+									</tr>
+									<tr>
+										<td colspan=2>
+											<ul style="font-family: Consolas; font-size: 15px">
+												<li>When the temperature reaches the high threshold, the Parking-manager will automatically turn on the fan in order to lower the temperature
+													<li>When the temperature reaches the low threshold, the Parking-manager will automatically turn off the fan in order to start again the increasing of temperature
+												<li>Any alarm (timeout) emitted by the <b>outsonar</b> is not managed.
+											</ul>
+										</td>
+
+									</tr>
+								</table>
+
+
+				<h4>Fan and Thermometer</h4>
+				<p>
+					<b>Fan</b> and <b>Thermometer</b> are two components simulated by software:
+					<ul>
+						<li>
+							<k>Thermometer</k> simulated the measurement of parking temperatures, in particular It is considered
+							that the temperature increases progressively due to the operation of machinery within the automated car park when the fan is off, and temperature decreases when the fan is off.
+						<li>
+							<k>Fan</k> it has the task to signal when the temperature has to go down or up.
+					</ul>
+				</p>
+
+				<h4>ParkingManager</h4>
+				<p>
+					It continuously reads the temperature measured by the thermometer and checks that it
+					does not exceed a certain threshold.<br>
+					When the maximum temperature is reached, it activates the <b>Fan</b> , simulating the switching
+					on of some fans whose task is to lower the temperature of the car park. It keeps in working until the
+					then Parkingmanager deactive it. <br>
+					When the temperature reaches a certain minimun threshold,the <b>ParkingManager</b> deactivate the <b>Fan</b>
+				</p>
+
+
+				<h3>Logical Architecture</h3>
+				<p>
+					<table style="width:100%" border="1">
+						<tr>
+							<td style="width:50%;">
+								<p>Our system <tt>ParkingManagerService</tt> it's composed by twelve <ks>actors</ks> in
+									the
+									same
+									context <tt>ctxCarParking</tt>, everyone of them
+									providing a different service.</p>
+								<p>Actors that we implement, will be of <ks><a
+											href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">QActor</a>
+									</ks>
+									type.</p>
+								<ul>
+									<li><b>parkingmanagerservice</b>
+									<li><b>client</b>
+										<li><b>weightsensor</b>
+										<li><b>outsonar</b>
+										<li><b>weightsensorhandler</b>
+										<li><b>outsonarhandler</b>
+										<li><b>timer</b>
+										<li><b>basicRobot</b>
+											<li><b>trolley</b>
+									<li><b>thermometer</b>
+									<li><b>fan</b>
+										<li><b>parkingmanager</b>
+								</ul>
+
+							</td>
+							<td>
+
+								<center><img src="./img/actorsModel.png"></center>
+
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<center>
+									<ks>parkingmanagerservice: </ks>
+								</center>
+								This QActor represents the system. It handles all client's request: <tt>reqenter</tt>,
+								<tt>carenter</tt> and <tt>pickup</tt> and performs some check to verify is it's possible to accept and manage them.
+								It provides the clients the SLOTNUM and the TICKETID. It coordinates the movements of the
+								trolley (in this version they are only simulated with delays). <br>
+								This actor also triggers the activation of <tt>weightsensor</tt> and
+								<tt>outsonar</tt>.<br><br>
+
+							</td>
+							<td>
+								<center>
+									<ks>client: </ks>
+								</center>
+								It's the QActor that sends the requests (<tt>reqenter</tt> and <tt>carenter</tt>) to the
+								system during the parking phase
+								and sends dispatch (<tt>pickup</tt>) during the picking phase.<br>
+								It replaces, in this version, the role of the <ks>ParkServiceGUI</ks>.
+
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<center>
+									<ks>weightsensor: </ks>
+								</center>
+								</center><br>
+								This mock-actor generates a random value that represents the
+								weight of car in entrance and propagates it by emitting an event
+								<tt>weight</tt>.<br>
+								It starts the simulation when perceives the <k>carindoorarrival</k> event.
+							</td>
+							<td>
+								<center>
+									<ks>weighsensorhandler: </ks>
+								</center>
+								This actor react to the <tt>weight</tt> event and has  the task to set <em>INDOOR-area</em> status, when he perceives the precense or absence of a car in this area.
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<center>
+									<ks>outsonar: </ks>
+								</center>
+								</center><br>
+								This actor simulate a real sensor. It start the
+								simulation when perceives <k>caroutdoorarrival</k> event emitting a certain distance smaller than a fixed threshold that means that the OUTDOOR-area is occupied. <br>
+								When the outsonar detects the <k>carwithdrawn</k> event,it emits a certain distance greater than a fixed threshold  indicating that the car has been taken
+								out	of the OUTDOOR-area.
+							</td>
+							<td>
+								<center>
+									<ks>sonarhandler: </ks>
+								</center>
+								It has tha aim to set <em>OUTDOOR-area</em> status when perceives the precense or absence of a car in the related area.
+								If it receives a distance value less than the threshold it will change the status of the outdoor to occupied and starts the timer sending a message to the Timer actor, otherwise it will make the outdoorarea free and will stop the timer sending a message to the Timer actor.
+								When the simulation stats, it's activated also an internal timer.
+							</td>
+						</tr>
+
+
+						<tr>
+							<td>
+								<center>
+									<ks>timer: </ks>
+								</center>
+								</center><br>
+								This actor is a simulator of a timer, it reacts to the startTimer and stopTimer messages sended by the sonarhandler and when the time will expire it emits an event <k>timeout</k>.
+							</td>
+						<td>
+							<center>
+								<ks>parkingmanager: </ks>
+							</center>
+							</center><br>
+							This actor simulate the actions that will be done by the parkingmanager through the managerGui
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<center>
+									<ks>basicrobot: </ks>
+								</center>
+								</center><br>
+								The model of the DDR-robot is related to the basicrobot given by the costumer: 	<a href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qak21.basicrobot/userDocs/basicrobot2021.html" target="web"> basicrobot2021.html</a>. <br>
+									The DDR-robot could be a VirtualRobot, Mbot or Nanobo
+							</td>
+							<td>
+								<center>
+									<ks>trolley: </ks>
+								</center>
+								This QActor works as an intermediary between the system and the remote virtual robot.
+								It can receive from parkingmmanagerservice dispatch move:move(GOAL), where GOAL represents the location that must be reached by the Trolley inside the environment.
+								this actor uses some functions implemented in KBSupport.kt to obtain from the GOAL a set of moves that the robot must make to reach it. In particular, the GOAL is translated into the corresponding pair of coordinates, then they are passed as arguments to a method of a class into the package "itunibo.planner" inside the library IssActorKotlinRobotSupport-2.0.jar , provided by the client.
+							</td>
+						</tr>
+
+
+						<tr>
+							<td>
+								<center>
+									<ks>thermometer: </ks>
+								</center>
+								</center><br>
+								This mock-actor is activated immediately at the start of application. It performs two
+								different task:
+								<li>emit continuously an event, in which are the actual temperature of environment</li>
+								<li>to cyclically increment the value of temperature, this to simulate the increasing of
+									environment temperature during his activity</li>
+								For it's coherence with requirements, we have fixed a constant value
+								<ks>maxTemp</ks> that indicates upper temperature limits of system operation. <br> It's
+								necessary to decide a value that represent the optimal temperature at which fan can be
+								stopped, we indicate this with constant value <k>minTemp</k>.
+								When temperature has reached the upper limit, fan actor send to thermometer a dispatch
+								message <tt>stopinc</tt>, which has the function of ending temperature increase process.
+								On the other hand, when the temperature has returned to the working values, this is
+								reported through an event <tt>normtemp</tt> emitted by fan, the process of increasing
+								the temperature can restart.
+							</td>
+							<td>
+								<center>
+									<ks>fan: </ks>
+								</center>
+								This mock-actor is strictly related with thermometer actor. It evaluates every
+								<tt>temp</tt> event that thermometer emit and check if the temperature of the
+								environment
+								is under the max prefixed temperature values. If temperature exeed the limits, fan actor
+								send a dispatch message <tt>stopinc</tt> to the thermometer; this message is required to
+								stop execution of increasing process.<br>
+								When fan stat his execution, it start to decrease temperature, until this reaches <k>
+									minTemp</k>. Then an event is emitted <tt>normtemp</tt> that warns that the
+								simulation can restart adn fan actor terminate his work.
+							</td>
+						</tr>
+					</table>
+				</p>
+
+		</div>
+
+		<h2>Test plans</h2>
+		<p>
+			In this test plan are considered only <ks>non-distributed</ks> tests.
+			<br>
+			<br>
+			<kc>TestPlans goals:</kc>
+			<ul>
+				<li>Ensure that the workflow of the system meets a set of requirements <k><b>(integration testing)</b>
+					</k>. <br> <br>
+					In this testing plan are employed <tt>parkingmanagerservice</tt> and <tt>client</tt>. In particular,
+					to start system simulation <tt>client</tt> sends a request <tt>reqenter</tt> and the others messages
+					necessary to continue properly the entire workflow. Test is performed observing some significant
+					resouces updated by <tt>parkingmanagerservice</tt> so as to verify the correct functioning of the
+					system, now that the start and stop of the trolley is implemented.
+
+
+				<li>Ensure that some components work properly individually. <k><b>(unit testing)</b></k> <br>
+					<br>
+					Here it's tested the correct behaviour of <tt>thermometer</tt> and<tt>fan</tt>. During this
+					kind of test, like in the <k>integration test</k>, the components updates some resouces whose values
+					are observed and then checked.
+					No tests are carried out on <b>outsonar</b> and <b>weightsensor</b> because they have already been tested in SPRINT 1.
+					<div class=remark2>
+						<h3>Testing the thermometer and fan</h3>
+							It is tested that when the fan is not running all the values measured by the <b>thermometer</b> are increasing.<br>
+							When the <b>fan</b> is running, it is checked that the temperature values decrease.
+
+
+					</div>
+			</ul>
+
+		</p>
+
+		<h2>Project</h2>
+			We proceed by showing how the added components that allow the new features to work properly are implemented.<br>
+			In particular we'll analyze the most relevant changes to existent QAktors, the new QAktor added to the system and
+			some other components developed during SPRINT 2.
+			<br><br>
+
+
+        <p id="Intro to termo and fan" >
+			Others Qactors are unchanged but  <b>thermometer</b>, <b>fan</b> and <b>parkingmanager</b> are adder.
+        </p>
+
+        <table>
+
+            <tr>
+                <td style="vertical-align:top;">
+                    <center><b><u>THERMOMETER</u></b></center>
+                    <center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/codedqak/thermometerSimulator.kt">thermometerSimulator.kt</a></center>
+
+<pre>
+QActor thermometer context ctxCarParking{
+	[#Temp=20#]
+	State s0 initial{
+		println("thermometer | starting ")
+	}Goto increasing
+
+	State increasing{
+		println("temperature increasing, actual temperature: $Temp| THERMOMETER")
+		delay 3000
+		[#Temp=Temp+5#]
+		delay 3000
+		[#if(Temp>35){
+			{forward("updateForTesting", "temperature($Temp)" ,"testupdater" )
+		}#]
+		emit temperature:temperature($Temp)
+	}Transition t0 whenTime 100->increasing
+		whenEvent decrease -> decreasing
+
+	State decreasing{
+		println("temperature decreasing, actual temperature: $Temp| THERMOMETER")
+		delay 3000
+		[#Temp=Temp-5#]
+		delay 3000
+		[#if(Temp==20){
+			{forward("updateForTesting", "temperature($Temp)" ,"testupdater" )
+		}#]
+		emit temperature:temperature($Temp)
+	}Transition t0 whenTime 100->decreasing
+		whenEvent increase -> increasing
+}
+</pre>
+<p>
+	This is a new qActor, introduced from this SPRINT. It's simulate the behavior of a thermometer. It has a state <i>increasing</i>
+	in which increase the temperature every period of time, in order to simulate temperature increasing.
+	There is also another state decreasing that has simply the task of stopping this increasing, and starting the decreasing of temperature (when Fan is ON) <br>
+	In this two state it emits an event <tt>temperature</tt>, cointainig the current temperature value.
+	<br><br>
+	At the starting of the system, it goes in the state <i>increasing</i> .
+	This actor is able to perceive the event <tt>decrease</tt>, emitted from <b>fan</b> when maximum temperature is reached  too, and the event <tt>increase</tt> when temperature is came back under tollerance threshold.
+</p>
+
+
+</td>
+</tr><tr>
+
+                <td style="vertical-align:top;">
+                    <center><b><u>FAN</u></b></center>
+			<center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/codedqak/fanSimulator.kt">fanSimulator.kt</a></center>
+
+<pre>
+QActor fan context ctxCarParking{
+	State s0 initial{
+		println("fan | start")
+	}Transition t0 whenMsg startfan -> working
+
+	State working{
+		println("Fan working | FAN")
+		emit decrease:decrease(V)
+		delay 1000
+		forward testupdater -m updateForTesting: fan(ON)
+	}whenMsg stopfan ->stopped
+
+	State stopped{
+		println("Fan stopped | FAN")
+		emit increase:increase(V)
+		delay 1000
+		forward testupdater -m updateForTesting: fan(OFF)
+	}Transition t0 whenMsg startfan ->working
+}
+</pre>
+<p>
+	It's an actor that simulate a cooler system equipped with a fan and emits  events that are perceived by the Temperature actor in order to start the increasing/decreasing of temperature.<br>
+
+
+</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:50%">
+                    <center><b><u>ParkingManager</u></b></center>
+                    <center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/resources/it/unibo/utils/ParkingSlotsKb.kt">ParkingSlotsKb.kt</a></center>
+                    <pre>
+QActor Parkingmanager{
+	[#var fanIsStarted=0
+		var minTemp=0
+		var maxTemp=36#]
+
+		State s0 initial{
+			println("parkingManager | start")
+		}Goto monitoring
+
+		State monitoring{
+			println("parkingManager monitoring the situation | PARKINGMANAGER")
+		} Transition t0 whenEvent temperature -> handleTemp
+
+		State handleTemp{
+			onMsg(temperature : temperature (T)){
+				[# var temp=payloadArg(0).toInt()
+				if(  temp > maxTemp  && fanIsStarted == 0){
+						println("parkingManager [handleTemp]: send start command to fan  | PARKINGMANAGER")
+						forward("startfan", "startfan(on)" ,"fan" )
+						fanIsStarted = 1
+						forward("trolleystop", "trolleystop(OK)" ,"trolley" )
+				}
+				if(temp <= minTemp  && fanIsStarted == 1 ){
+					println("parkingManager [handleTemp]: send stop command to fan | PARKINGMANAGER")
+					forward("stopfan", "stopfan(off)" ,"fan" )
+					fanIsStarted = 0
+					forward("trolleyresume", "trolleyresume(OK)" ,"trolley" )
+					}	 #]
+			}
+		} Transition t0 whenEvent temperature -> handleTemp
+}
+	</pre>
+					<p>
+						This actor perceives all <tt>temperature</tt> events and checks temperature value: if it is over
+						<k>maxTemp</k> value,a  <k>startFan</k> dispatch is sended that will be perceived by the <b>Fan</b> and it is sended a <k>trolleystop</k> to the <b>Trolley</b> in order to stop it.<br>
+						When temperature value is under tollerance threshold, it's sended a <tt>stopFan</tt> dispatch that will be perceived by the <b>Fan</b> and it is sended a <k>trolleyresume</k> to the <b>Trolley</b> in order to resuming its functioning.
+      </p>
+
+
+                </td>
+            </tr>
+        </table>
+
+
+		<h2>Testing</h2>
+		<a href="../test/it/unibo/parkingmanagerservicetest/TestPlan.kt">TestPlan.kt </a><br>
+		<p>Tests is built using CoapObserver provided by the costumer in the project <ks>it.unibo.qak21.basicrobot
+				</ks> (<a
+					href="../test/it/unibo/parkingmanagerservice/test/utils/CoapObserverForTesting.kt">CoapObserverForTesting.kt</a>).
+				<br>
+		</p>
+		<br>
+		<kc>TestPlans goals:</kc>
+			<ul>
+				<li>Ensure that the workflow of the system meets a set of requirements <k><b>(integration testing)</b>
+					</k>. <br> <br>
+					In this testing plan are employed <tt>parkingmanagerservice</tt> and <tt>client</tt>. In particular,
+					to start system simulation <tt>client</tt> sends a request <tt>reqenter</tt> and the others messages
+					necessary to continue properly the entire workflow. Test is performed observing some significant
+					resouces updated by <tt>parkingmanagerservice</tt> so as to verify the correct functioning of the
+					system, now that the start and stop of the trolley is implemented
+					<div class=remark2>
+						<h3>1) At least a FREE SLOT, INDOOR-AREA FREE and OUTDOOR-AREA FREE</h3>
+						<p>In this test is initially checked if value of <em>SLOTNUM</em> is greater than 0.</p>
+						<p>Subsequently the simulation is continued and controls that the value of the <em>RECEIPT</em> given from the system is greater than 10000.</p>
+						<p>
+							We want to check if, at the end of picking phase, the <em>CARSLOTNUM</em> value obtained starting from <tt>pickup</tt> request is greater than 0.
+						</p>
+						<table>
+						<tr>
+							<td style="width:50%">
+						<pre>@Test
+@kotlinx.coroutines.ObsoleteCoroutinesApi
+fun testWorkflow(){
+	//=============================== SETUP =================================
+	`it.unibo`.utils.ParkingSlotsKb.setArea(false,false,false,false,true,false)
+	`it.unibo`.utils.ParkingSlotsKb.indoorFree  = true
+	`it.unibo`.utils.ParkingSlotsKb.outdoorFree = true
+	//========================================================================
+	runBlocking{
+		val channelForObserver = Channel<String>()
+		testingObserver!!.addObserver(channelForObserver, "slotnum")
+		clientactor!!.request("reqenter","reqenter(bob)","parkingmanagerservice")
+
+		println("+++++++++ testreqenter ")
+
+		var result = channelForObserver.receive()
+		println("+++++++++ testreqenter RESULT=$result +++++++++")
+		slotnum = result.substringAfter("(",result).substringBefore(")",result).toInt()
+		assertTrue(slotnum > 0)
+
+		delay(2000)
+
+		testingObserver!!.addObserver(channelForObserver, "receipt")
+		clientactor!!.request("carenter","carenter(ok)","parkingmanagerservice")
+
+		println("+++++++++ testcarenter")
+		result = channelForObserver.receive()
+		token = result.substringAfter("(",result).substringBefore(")",result).toInt()
+		println("+++++++++ testcarenter RESULT=$result +++++++++")
+		assertTrue(token > 10000)
+
+		delay(4000)
+
+		testingObserver!!.addObserver(channelForObserver!!, "pickup")
+		clientactor!!.forward("pickup","pickup($token)","parkingmanagerservice")
+		println("+++++++++ testpickup")
+		result = channelForObserver.receive()
+		println("+++++++++ testpickup RESULT=$result +++++++++")
+		assertTrue(result.substringAfter("(",result).substringBefore(")",result).toInt() > 0)
+  	}
+}</pre>
+		</td>
+		<td>
+		<p>
+			Test starts with a setup phase, in which is setted the system with required condition to perfoming current test.<br>
+			Are observed three different resources <tt>slotnum</tt>, <tt>receipt</tt> and <tt>pickup</tt>.
+			Are simulated, sequentially, the sending of a <tt>reqenter</tt>, a <tt>carenter</tt> and a <tt>pikcup</tt>.<br>
+			Then the value of resources updated by the system are checked.
+		</p>
+		</td>
+ 	</tr>
+ 	</table>
+
+
+
+					</div>
+
+				<li>Ensure that some components work properly individually. <k><b>(unit testing)</b></k> <br>
+					<br>
+					Here it's tested the correct behaviour of <tt>thermometer</tt> and <tt>fan</tt>. During this
+					kind of test, like in the <k>integration test</k>, the components updates some resouces whose values
+					are observed and then checked.
+					No tests are carried out on <b>outsonar</b> and <b>weightsensor</b> because they have already been tested in SPRINT 1 and 2.
+					<div class=remark2>
+						<h3>Testing thermometer,fan and parkingmanager</h3>
+							It is tested that when the fan is not running all the values measured by the <b>thermometer</b> are increasing.<br>
+							When the <b>fan</b> is running, it is checked that the temperature values decrease And that the parking manager start and stop the fan properly
+
+					<table>
+						<tr>
+							<td>
+								<pre>
+	runBlocking{
+		val channelForObserver = Channel<String>()
+		testingObserver!!.addObserver(channelForObserver, "temperature")
+
+		var result = channelForObserver.receive()
+		println("+++++++++ temperature 40 RESULT=$result +++++++++")
+		var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+		assertEquals(40, t)
+
+
+		testingObserver!!.addObserver(channelForObserver, "fan")
+		result = channelForObserver.receive()
+		println("+++++++++ fan should be ON RESULT=$result +++++++++")
+		var fanstatus = result.substringAfter("(",result).substringBefore(")",result)
+		assertEquals("ON",fanstatus)
+
+
+		testingObserver!!.addObserver(channelForObserver, "trolley")
+		result = channelForObserver.receive()
+		println("+++++++++ TROLLEY should be Stopped RESULT=$result +++++++++")
+		var trolleystatus = result.substringAfter("(",result).substringBefore(")",result)
+		assertEquals("STOPPED",trolleystatus)
+
+
+		//----------------------------------------------------------------------------------
+		result = channelForObserver.receive()
+		println("+++++++++ temperature 20 RESULT=$result +++++++++")
+		t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+		assertEquals(20, t)
+
+
+		result = channelForObserver.receive()
+		println("+++++++++ fan should be OFF RESULT=$result +++++++++")
+		fanstatus = result.substringAfter("(",result).substringBefore(")",result)
+		assertEquals("OFF",fanstatus)
+
+		result = channelForObserver.receive()
+		println("+++++++++ TROLLEY should be Working RESULT=$result +++++++++")
+		trolleystatus = result.substringAfter("(",result).substringBefore(")",result)
+		assertEquals("WORKING",trolleystatus)
+	}
+}</pre>
+							</td>
+							<td>
+								<p>
+									The test consists in starting the system, let the temperature increase and verify if parking manager correctly start cooler system and stop the trolley when the MaxTemp is reached and then it's verified the opposite.
+							</td>
+						</tr>
+					</table>
+
+					</div>
+			</ul>
+
+		</p>
+
+
+		<h2>Deployment</h2>
+		The deployment of SPRINT 3 consists in a release on a <a
+			href="https://github.com/P-damicis/Automated_Car_Parking/tree/main/sprint_2">Github repository</a>.
+
+		<h2>Maintenance</h2>
+		This is the second SPRINT, more features will be released in the next (third) SPRINT.
+		<br /><br />
+	</div>
+
+	<div style="background-color:rgba(42, 7, 241, 1.0); width:100%;text-align:center;color:white">
+		<table style="width:100%" border="1">
+			<tr>
+				By Mantovani Leonardo and Pier Domenico d'Amicis
+
+			</tr>
+		</table>
+	</div>
+</body>
+
+</html>

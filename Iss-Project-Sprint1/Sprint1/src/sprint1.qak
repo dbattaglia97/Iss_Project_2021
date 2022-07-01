@@ -1,0 +1,429 @@
+System carparking
+
+Request reqenter : reqenter(X)
+Reply enter: enter(SLOTNUM)
+Request carenter: carenter(SLOTNUM)
+Reply receipt : receipt(TOKENID)
+Dispatch pickup:pickup(V)
+Request pickup : pickup(TOKENID)
+Reply pickupaccepted: pickupaccepted(TOKENID)
+Reply waitIndoor: waitIndoor(TOKENID)
+Event caroutdoorarrival : coa(V)
+Event carwithdrawn : cw(X)
+Event carindoorarrival : cia(V)
+Dispatch withdrawn:withdrawn(X)
+
+Event sonaroutdoor:distance(D)
+Event timeout 			: timeout(V)
+Event weight		: weight(W)
+Event alarm 			: timeout(alarm)
+Dispatch weightcheck:wc(V)
+Dispatch starttimer:timer(X)
+Dispatch stoptimer:timer(X)
+Dispatch startsonar:startsonar(X)
+Dispatch startweightsensor:startweightsensor(X)
+
+Dispatch updateForTesting: update(X)
+
+
+
+Context ctxCarParking ip[host="localhost" port=8092]
+
+CodedQActor testupdater	context ctxCarParking className "testUpdater"
+
+
+QActor client context ctxCarParking{
+	[#
+		var CLIENTDONE  = 0
+		var SLOTNUM 	= 0 //slot assegnato
+		var TOKENID 	= "0"
+	#]
+	State s0 initial{
+		println("Client mock simulation START | CLIENT")
+	} Transition t0
+					whenTime 4000 -> requestToEnter
+
+	State init{
+	}
+
+	State requestToEnter{
+		[# var t = kotlin.random.Random.nextLong(2000,4000) #]
+		[# delay(t) #]
+		println("client notify his interest in entering | CLIENT")
+		request parkingmanagerservice -m reqenter : reqenter(client)
+	} Transition t0
+					whenReply waitIndoor -> noImmediatlyEntry
+					whenReply enter -> cartoindoor
+
+
+	State noImmediatlyEntry{
+		delay 3000
+	} Goto cartoindoor
+
+	State cartoindoor{
+		onMsg(enter : enter (SLOTNUM)){
+			[# SLOTNUM = payloadArg(0).toInt() #]
+			if [# SLOTNUM > 0 #]{
+				println("SLOTNUM = $SLOTNUM . Moving car to Indoor | CLIENT")
+				request parkingmanagerservice -m carenter : carenter(V)
+			}
+		}
+	}
+	Transition t0			whenReply receipt -> afterreceipt
+
+	State afterreceipt{
+		onMsg(receipt : receipt (TOKENID)){
+			[# TOKENID = payloadArg(0) #]
+			updateResource [# "TOKENID" #]
+			println("client's TOKENID is $TOKENID | CLIENT")
+			[# var t1 = kotlin.random.Random.nextLong(3000, 6000)
+			 delay(15000) #]
+		}
+	} Goto reqpickup
+
+	State reqpickup{
+		println("client notify his interest in picking his car | CLIENT")
+		request parkingmanagerservice -m pickup : pickup($TOKENID)
+	} Transition t0 whenReply pickupaccepted -> waitingForCar
+
+	State waitingForCar{
+	}Transition t0 whenMsg pickup -> pickupcar
+
+	State pickupcar{
+		delay 3000 //in 2 secondi porta via l'auto da OUTDOOR
+		emit carwithdrawn : cw(bye)
+		[# CLIENTDONE = CLIENTDONE + 1 #]
+	} Goto stop if [# CLIENTDONE == 4 #] else requestToEnter
+
+	State stop{
+		println("No more clients")
+	}
+}
+
+
+
+QActor outsonar context ctxCarParking{
+	State s0 initial{
+	}Goto working
+
+	State working{
+		println("Sonar working")
+	}Transition t0 whenEvent caroutdoorarrival -> distanceSimulationOccupied
+	                whenEvent carwithdrawn -> distanceSimulationFreed
+
+	State distanceSimulationOccupied{
+		println("Emitting distance 15 -> car is in outdoor")
+		emit sonaroutdoor:distance(15)
+	}Goto working
+
+	State distanceSimulationFreed{
+		println("Emitting distance 50 -> car is NOT ANYMORE in outdoor")
+		emit sonaroutdoor:distance(50)
+	}Goto working
+}
+
+QActor sonarhandler context ctxCarParking{
+    [#var distance=2000
+    	var outdoorfree=true#]
+
+    State s initial{
+        [#KBSupport.init()#]
+        println("SonarHandler INIT|SONAR")
+    }Transition t0 whenMsg startsonar->start
+
+    State start{
+        delay 1000
+    }Transition t0 whenEvent sonaroutdoor ->handleSonarData
+
+    State handleSonarData{
+        onMsg(sonaroutdoor : distance(V)){
+            [# distance = payloadArg(0).toInt() #]
+        }
+        [#if (outdoorfree){#]
+            [#if(distance <30 ) {#]
+                [#KBSupport.changeOutdoorToOccupied()
+                	outdoorfree=false#]
+                forward testupdater -m updateForTesting : outdoorStatus(BUSY)
+                forward timer -m starttimer:timer(ON)
+                println("Car in Outdoor | SONAR")
+            [#}#]
+        [#} else{ #]//outdoor occupata
+            [#if(distance >=30 ) {
+            	outdoorfree=true
+                KBSupport.changeOutdoorToFree()#]
+                forward timer -m stoptimer:timer(OFF)
+                forward parkingmanagerservice -m withdrawn:withdrawn(OK)
+                forward testupdater -m updateForTesting:outdoorStatus(FREE)
+            [#}#]
+        [#}#]
+    }Transition t0 whenEvent sonaroutdoor ->handleSonarData
+}
+
+
+QActor timer context ctxCarParking{
+    State s0 initial{
+
+    }Goto working
+
+    State working{
+    }Transition t0 whenMsg starttimer -> startTimer
+
+    State startTimer{
+        println("Sonar startTimer")
+        delay 2000
+    }Transition t0 whenTime 20000->timeout
+                    whenMsg stoptimer ->stopTimer
+    State stopTimer{
+        println("Sonar stopTimer")
+        delay 1000
+    }Goto working
+
+    State timeout{
+        println("Sonar timeout")
+        emit timeout:timeout(T)
+    }Goto working
+}
+
+
+
+QActor weightsensor context ctxCarParking{
+	[#var P = 0#]
+	State s0 initial{
+		println("Weightsensor starts | WEIGHTSENSOR")
+	} Goto ready
+
+	State ready{
+		println("Weightsensor waiting | WEIGHTSENSOR")
+	}Transition t0 whenEvent carindoorarrival -> simulate
+
+	State simulate{
+		println("Weight simulation | WEIGHTSENSOR")
+		[# P =kotlin.random.Random.nextInt(500,4000) #]
+		emit weight : weight($P)
+	}Goto ready
+}
+
+
+QActor weightsensorhandler context ctxCarParking{
+    [#var Www=1#]
+    State s0 initial{
+        println("WeightsensorHandler INIT | WEIGHTSENSORHANDLER")
+				[#KBSupport.init()#]
+    }Transition t0 whenMsg startweightsensor ->working
+
+    State working{
+        println("WeightsensorHandler START | WEIGHTSENSORHANDLER")
+        delay 1000
+    }Transition t0 whenEvent weight -> handleWeightData
+
+    State handleWeightData{
+        println("WeightsensorHandler handling weight | WEIGHTSENSORHANDLER")
+        onMsg(weight : weight(W)){
+            [# Www = payloadArg(0).toInt()
+            println("Weight: " + Www)#]
+            [#if(Www>=500){#]
+							[#KBSupport.changeIndoorToOccupied()#]
+                forward parkingmanagerservice -m weightcheck:wc(OK)
+            [#}else{#]
+                forward parkingmanagerservice -m weightcheck:wc(NOTOK)
+            [#}#]
+            forward testupdater -m  updateForTesting : weight($Www)
+        }
+    }Goto working
+}
+
+
+QActor parkingmanagerservice context ctxCarParking{
+	[#lateinit var testUpdaterActor	: ActorBasic
+	var prog= 0
+	var SLOTNUM=-1
+	var CARSLOTNUM=-1
+	var TOKENIN= -1
+	var boolIN=false
+	var boolOUT=false
+	var weightCheck=""
+	var atHome=false#]
+
+	State s0 initial{
+		solve( consult("sysRules.pl"))
+		solve( consult("parkingAreaKb.pl"))
+		println("Park System START | SERVICE")
+		[#testUpdaterActor= sysUtil.getActor("testupdater")!!#]
+		forward sonarhandler -m startsonar:sonar(ON)
+		forward weightsensorhandler -m startweightsensor:sensor(ON)
+	}Transition t0 whenTime 1000-> checkAcceptIN
+
+	State checkAcceptIN{
+	    println("Checking if an AcceptIN can be elaborated| SERVICE")
+	    solve(availableParking)
+	    ifSolved{
+	        [#boolIN=true#]
+	    }else{
+	        [#boolIN=false#]
+	    }
+	}Goto checkOutdoor if [#boolIN==true#] else checkOnlyOutdoor
+
+	State checkOutdoor{
+	    println("Checking if an AcceptOut can be elaborated| SERVICE")
+	    solve(acceptOUT)
+	    ifSolved{
+	        [#boolOUT=true#]
+	    }else{
+	        [#boolOUT=false#]
+	    }
+	}Goto allReady if [#boolOUT==true#] else indoorOnlyReady
+
+	State checkOnlyOutdoor{
+	    println("Checking if an AcceptOut can be elaborated| SERVICE")
+    	solve(acceptOUT)
+    	ifSolved{
+    	    [#boolOUT=true#]
+    	}else{
+    	    [#boolOUT=false#]
+    	}
+	}Goto outdoorOnlyReady if [#boolOUT==true#] else waiting
+
+	State indoorOnlyReady{
+	   println("The system can only elaborate AcceptIN request| SERVICE")
+       [#boolOUT=false
+        boolIN=false #]
+	}Transition t0 whenTime 10000-> moveToHome
+	                whenRequest reqenter-> acceptin
+
+	State outdoorOnlyReady{
+	   println("The system can only elaborate AcceptOUT request| SERVICE")
+       [#boolOUT=false
+        boolIN=false #]
+	}Transition t0 whenTime 10000-> moveToHome
+	                whenRequest pickup-> acceptout
+
+	State waiting{
+        println("The system can't elaborate any request| SERVICE")
+	}	 Transition t0 whenTime 5000-> moveToHome
+
+	State moveToHome{
+	    [#if(!atHome){#]
+	        println("Sending command in order to send trolley to HOME | SERVICE")
+	        forward testupdater -m updateForTesting: toHome(V)
+	    [#}
+	        atHome=true#]
+	}Goto checkAcceptIN
+
+	State allReady{
+        println("The system can elaborate AcceptIN and AcceptOut requests| SERVICE")
+	}Transition t0 whenRequest reqenter -> acceptin
+	                whenRequest pickup -> acceptout
+
+	State acceptin{
+			println("The system is elaborating an AcceptIN request| SERVICE")
+			solve(availableParking)
+			ifSolved{
+				solve(slotFree(S))
+			    [# SLOTNUM = getCurSol("S").toString().toInt()#]
+			}else{
+			    [#SLOTNUM=0#]
+			}
+			solve(indoorfree)
+			ifSolved{
+			    forward testupdater -m updateForTesting: slotnum($SLOTNUM)
+			    println("Reply to reqenter with $SLOTNUM  | SERVICE")
+			    replyTo reqenter with enter : enter ($SLOTNUM)
+			}else{
+			    forward testupdater -m updateForTesting: slotnum($SLOTNUM)
+                println("Reply to reqenter with waitIndoor($SLOTNUM)  | SERVICE")
+                replyTo reqenter with enter : waitIndoor($SLOTNUM)
+			}
+	}Goto moveToIn if [#SLOTNUM!=0#] else moveToHome
+
+	State moveToIn{
+	    [#atHome=false#]
+	    println("Trolley is moving to Indoor")
+	}Transition t0 whenRequest carenter ->carenter
+
+	State carenter{
+	    println("The system is elaborating a carenter request| SERVICE")
+		[# prog++#]
+		println("carindoorarrival emitted in order to be processed by  WEIGHT SENSOR   | SERVICE")
+		emit carindoorarrival : cia(car_arrived)  //questo lo deve catturare il weightsensor
+	} Transition t0
+				whenMsg weightcheck -> weightCheck
+
+	State weightCheck{
+        println("The system is checking if there is a car in the indoorArea| SERVICE")
+		onMsg(weightcheck : wc(V)){
+			[#weightCheck = payloadArg(0).toString()
+				println("Weight check: " + weightCheck)#]
+	 	}
+	}Goto receipt if [#weightCheck.equals("OK")#] else weightNotOK
+
+	State weightNotOK{
+		println("There isn't a car in the indoor")
+	}Goto moveToHome
+
+
+	State receipt{
+		[# var TOKENID = "$prog$SLOTNUM"#]
+		solve(addToken($TOKENID))
+		println("REPLY TO CARENTER WITH RECEIPT $TOKENID | SERVICE")
+		replyTo carenter with receipt : receipt($TOKENID)
+		forward testupdater -m updateForTesting: receipt($TOKENID)
+	} Transition t0
+					whenTime 1000 -> moveToSlotIn
+
+	State moveToSlotIn{
+		solve(freedindoor)
+		println("SLOTNUM IS $SLOTNUM")
+		solve(occupySlot($SLOTNUM))
+		[#atHome=false#]
+		println("Trolley moves from entrance to slot $SLOTNUM | SERVICE")
+	} Transition t0
+			whenTime 4000 -> checkAcceptIN //simuliamo lo spostamento del Trolley
+
+
+
+	State acceptout{
+	    onMsg (pickup : pickup(TOKENIN)){
+	        [# TOKENIN = payloadArg(0).toInt() #]
+	        println("Token provided by the customer for the pickup $TOKENIN | SERVICE")
+	        solve(token($TOKENIN))
+            ifSolved{
+                replyTo pickup with pickupaccepted: pickupaccepted($TOKENIN)
+                [#CARSLOTNUM= TOKENIN%10#]
+                println("Token elaboration OK, token= $TOKENIN and corresponding slot= $CARSLOTNUM| SERVICE")
+                forward testupdater -m updateForTesting : pickup($CARSLOTNUM)
+            }else{
+                replyTo pickup with pickupaccepted: pickupaccepted($TOKENIN)
+                [#TOKENIN=-1#]
+                println("TOKEN NOT OK | SERVICE")
+	    	}
+	    }
+	   }Goto picking if [#TOKENIN>0#] else tokenError
+
+	State tokenError{
+	    println("TOKEN ERROR | SERVICE")
+	}Goto checkAcceptIN
+
+	State picking{
+		println("Trolley is picking a car | SERVICE")
+		[#atHome= false#]
+		println("Trolley picking car from slot $CARSLOTNUM result from $TOKENIN % 10 | SERVICE")
+		delay 3000
+		solve(vacateSlot($CARSLOTNUM))
+		solve(removeToken($TOKENIN))
+		println("Car is in Outdoor area | SERVICE")
+		emit caroutdoorarrival : coa(car_outdoor)  //deve essere percepito dal sensore
+		forward client -m pickup:pickup(OK)
+	}
+	Transition t0 	whenMsg withdrawn  -> withdrawn
+					whenEvent timeout -> timeout
+
+	State withdrawn{
+		println("Car withdrawn!")
+	}
+	Goto checkAcceptIN
+
+	State timeout{
+		println("%%%% TIMEOUT %%%%" )
+		emit alarm : timeout(alarm)
+	}
+}
