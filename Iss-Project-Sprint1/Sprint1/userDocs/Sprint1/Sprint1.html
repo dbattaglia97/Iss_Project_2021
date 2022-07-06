@@ -1625,7 +1625,7 @@ QActor parkingmanagerservice context ctxcarparking{
 		println("Car is in Outdoor area | SERVICE")
 		emit caroutdoorarrival : coa(car_outdoor)  //deve essere percepito dal sensore
 	}
-	Transition t0 	whenMsg withdrawn  -> withdrawn
+	Transition t0 	whenTime 3000 ->withdrawn
 					whenEvent timeout -> timeout
 
 	State withdrawn{

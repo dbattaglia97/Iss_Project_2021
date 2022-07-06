@@ -48,7 +48,7 @@ Context ctxCarParking ip[host="localhost" port=8092]
 CodedQActor testupdater	context ctxCarParking className "testUpdater"
 
 
-QActor client context ctxCarParking{
+QActor client context ctxcarparking{
 	[#
 		var CLIENTDONE  = 0
 		var SLOTNUM 	= 0 //slot assegnato
@@ -61,7 +61,6 @@ QActor client context ctxCarParking{
 
 	State init{
 	}
-
 
 	State requestToEnter{
 		[# var t = kotlin.random.Random.nextLong(2000,4000) #]
@@ -77,7 +76,6 @@ QActor client context ctxCarParking{
 		delay 3000
 	} Goto cartoindoor
 
-
 	State cartoindoor{
 		onMsg(enter : enter (SLOTNUM)){
 			[# SLOTNUM = payloadArg(0).toInt() #]
@@ -88,7 +86,6 @@ QActor client context ctxCarParking{
 		}
 	}
 	Transition t0			whenReply receipt -> afterreceipt
-
 
 	State afterreceipt{
 		onMsg(receipt : receipt (TOKENID)){
@@ -102,24 +99,18 @@ QActor client context ctxCarParking{
 
 	State reqpickup{
 		println("client notify his interest in picking his car | CLIENT")
-		request parkingmanagerservice -m pickup : pickup($TOKENID)
-	} Transition t0 whenReply pickupaccepted -> waitingForCar
-
-	State waitingForCar{
-	}Transition t0 whenMsg pickup -> pickupcar
-
+		forward parkingmanagerservice -m pickup : pickup($TOKENID)
+	} Transition t0 whenTime 2000->pickupcar
 
 	State pickupcar{
-		delay 2000 //in 2 secondi porta via l'auto da OUTDOOR
+		delay 3000 //in 2 secondi porta via l'auto da OUTDOOR
 		emit carwithdrawn : cw(bye)
 		[# CLIENTDONE = CLIENTDONE + 1 #]
 	} Goto stop if [# CLIENTDONE == 4 #] else requestToEnter
 
-
 	State stop{
 		println("No more clients")
 	}
-
 }
 
 
@@ -256,9 +247,7 @@ QActor weightsensorhandler context ctxCarParking{
 
 QActor parkingmanagerservice context ctxCarParking{
 	[#
-
 	lateinit var testUpdaterActor	: ActorBasic
-
 	var prog= 0
 	var SLOTNUM=-1
 	var CARSLOTNUM=-1
@@ -277,74 +266,70 @@ QActor parkingmanagerservice context ctxCarParking{
 		forward sonarhandler -m startsonar:sonar(ON)
 		forward weightsensorhandler -m startweightsensor:sensor(ON)
 	}Transition t0 whenTime 1000-> checkAcceptIN
-
-
 	State checkAcceptIN{
-	    println("Checking if an AcceptIN can be elaborated| SERVICE")
-	    solve(availableParking)
-	    ifSolved{
-	        [#boolIN=true#]
-	    }else{
-	        [#boolIN=false#]
-	    }
+			println("Checking if an AcceptIN can be elaborated| SERVICE")
+			solve(availableParking)
+			ifSolved{
+					[#boolIN=true#]
+			}else{
+					[#boolIN=false#]
+			}
 	}Goto checkOutdoor if [#boolIN==true#] else checkOnlyOutdoor
 
 	State checkOutdoor{
-	    println("Checking if an AcceptOut can be elaborated| SERVICE")
-	    solve(acceptOUT)
-	    ifSolved{
-	        [#boolOUT=true#]
-	    }else{
-	        [#boolOUT=false#]
-	    }
+			println("Checking if an AcceptOut can be elaborated| SERVICE")
+			solve(acceptOUT)
+			ifSolved{
+					[#boolOUT=true#]
+
+			}else{
+					[#boolOUT=false#]
+			}
 	}Goto allReady if [#boolOUT==true#] else indoorOnlyReady
 
 	State checkOnlyOutdoor{
-	    println("Checking if an AcceptOut can be elaborated| SERVICE")
-    	solve(acceptOUT)
-    	ifSolved{
-    	    [#boolOUT=true#]
-    	}else{
-    	    [#boolOUT=false#]
-    	}
+			println("Checking if an AcceptOut can be elaborated| SERVICE")
+			solve(accetOUT)
+			ifSolved{
+					[#boolOUT=true#]
+			}else{
+					[#boolOUT=false#]
+			}
 	}Goto outdoorOnlyReady if [#boolOUT==true#] else waiting
 
 	State indoorOnlyReady{
-	   println("The system can only elaborate AcceptIN request| SERVICE")
-       [#boolOUT=false
-        boolIN=false #]
+		 println("The system can only elaborate AcceptIN request| SERVICE")
+			 [#boolOUT=false
+				boolIN=false #]
 	}Transition t0 whenTime 10000-> moveToHome
-	                whenRequest reqenter-> acceptin
+									whenRequest reqenter-> acceptin
 
 	State outdoorOnlyReady{
-	   println("The system can only elaborate AcceptOUT request| SERVICE")
-       [#boolOUT=false
-        boolIN=false #]
+		 println("The system can only elaborate AcceptOUT request| SERVICE")
+			 [#boolOUT=false
+				boolIN=false #]
 	}Transition t0 whenTime 10000-> moveToHome
-	                whenRequest pickup-> acceptout
+									whenRequest pickup-> acceptout
 
 	State waiting{
-        println("The system can't elaborate any request| SERVICE")
+				println("The system can't elaborate any request| SERVICE")
 	}	 Transition t0 whenTime 5000-> moveToHome
 
 	State moveToHome{
-	    println("Moving Trolley to HOME")
-		forward trolley -m trolleycmd:trolleycmd(moveToHome)
-	}Transition t0 whenEvent finishedPath-> trolleyIsHome
-
-	State trolleyIsHome{
-		onMsg(finishedPath:finishedPath(V)){
-			[#location = payloadArg(0).toString()
-			location= location.substringAfter("(",location).substringBefore(")",location)
-			println("Location: " + location + " || TrolleyIsHome")	#]
-		}
-	}
+		[#notAllowed=false#]
+			[#if(!TrolleyPlannerSupport.alreadyThere(0)){#]
+				println("Moving Trolley to HOME")
+			forward trolley -m trolleycmd:trolleycmd(moveToHome)
+			forward testupdater -m updateForTesting:movingTo(HOME)
+			[#}#]
+	}Transition t0 whenTime 3000-> checkAcceptIN
 
 
 	State allReady{
-        println("The system can elaborate AcceptIN and AcceptOut requests| SERVICE")
-	}Transition t0 whenRequest reqenter -> acceptin
-	                whenRequest pickup -> acceptout
+				println("The system can elaborate AcceptIN and AcceptOut requests| SERVICE")
+	}Transition t0 whenTime 10000->moveToHome
+		whenRequest reqenter -> acceptin
+									whenRequest pickup -> acceptout
 
 
 	State acceptin{
@@ -354,36 +339,27 @@ QActor parkingmanagerservice context ctxCarParking{
 				solve(slotFree(S))
 				[# SLOTNUM = getCurSol("S").toString().toInt()#]
 			}else{
-			    [#SLOTNUM=0#]
+					[#SLOTNUM=0#]
 			}
 			solve(acceptIN)
 			ifSolved{
-			    forward testupdater -m updateForTesting: slotnum($SLOTNUM)
-			    println("Reply to reqenter with $SLOTNUM  | SERVICE")
-			    replyTo reqenter with enter : enter ($SLOTNUM)
+					forward testupdater -m updateForTesting: slotnum($SLOTNUM)
+					println("Reply to reqenter with $SLOTNUM  | SERVICE")
+					replyTo reqenter with enter : enter ($SLOTNUM)
 			}else{
-			    forward testupdater -m updateForTesting: slotnum($SLOTNUM)
-          println("Reply to reqenter with waitIndoor($SLOTNUM)  | SERVICE")
-          replyTo reqenter with enter : waitIndoor($SLOTNUM)
+					forward testupdater -m updateForTesting: waitIndoor($SLOTNUM)
+					[#notAllowed=true#]
+							println("Reply to reqenter with waitIndoor($SLOTNUM)  | SERVICE")
+						replyTo reqenter with enter : waitIndoor($SLOTNUM)
 			}
-	}Goto moveToIn if [#SLOTNUM!=0#] else moveToHome
+	}Goto carenterCanBeAccepted if [#notAllowed==false#] else moveToHome
 
-	State moveToIn{
-	    println("Trolley is moving to Indoor")
-			forward trolley -m trolleycmd:trolleycmd(moveToIn)
-	}Transition t0 whenEvent finishedPath->trolleyIsInIndoor
+	State carenterCanBeAccepted{
 
-	State trolleyIsInIndoor{
-		onMsg(finishedPath:finishedPath(V)){
-			[#location = payloadArg(0).toString()
-			location= location.substringAfter("(",location).substringBefore(")",location)
-			println("Location: " + location + " || trolleyIsInIndoor")	#]
-		}
 	}Transition t0 whenRequest carenter ->carenter
 
-
 	State carenter{
-	    println("The system is elaborating a carenter request| SERVICE")
+			println("The system is elaborating a carenter request| SERVICE")
 		[# prog++#]
 		println("carindoorarrival emitted in order to be processed by  WEIGHT SENSOR   | SERVICE")
 		emit carindoorarrival : cia(car_arrived)  //questo lo deve catturare il weightsensor
@@ -392,21 +368,39 @@ QActor parkingmanagerservice context ctxCarParking{
 
 
 	State weightCheck{
-        println("The system is checking if there is a car in the indoorArea| SERVICE")
+				println("The system is checking if there is a car in the indoorArea| SERVICE")
 		onMsg(weightcheck : wc(V)){
 			[#weightCheck = payloadArg(0).toString()#]
 			println("Weight check: $weightCheck")
-			println("on msg no??")
-	 	}
-	 	println("Questo si?")
-	}Goto receipt if [#weightCheck.equals("OK")#] else weightNotOK
+		}
+
+	}Goto moveToIn if [#weightCheck.equals("OK")#] else weightNotOK
 
 	State weightNotOK{
 		println("There isn't a car in the indoor")
 	}Goto moveToHome
 
+
+	State moveToIn{
+			println("Trolley is moving to Indoor")
+			forward trolley -m trolleycmd:trolleycmd(moveToIn)
+	}Transition t0 whenEvent finishedPath->trolleyIsInIndoor
+
+	State trolleyIsInIndoor{
+		onMsg(finishedPath:finishedPath(V)){
+			[#location = payloadArg(0).toString()
+			location= location.substringAfter("(",location).substringBefore(")",location)
+			println("Location: " + location + " || trolleyIsInIndoor")
+			forward("updateForTesting", "posRobot($location)" ,"testupdater" )
+			#]
+		}
+	}Goto receipt
+
+
 	State receipt{
+		delay 1000
 		solve(freedindoor)
+		forward testupdater -m updateForTesting : indoorStatus(FREE)
 		[# var TOKENID = "$prog$SLOTNUM"#]
 		solve(addToken($TOKENID))
 		/*==========[receipt]==========*/
@@ -428,49 +422,65 @@ QActor parkingmanagerservice context ctxCarParking{
 			whenEvent finishedPath-> trolleyIsInSlot
 
 
-    State trolleyIsInSlot{
-        onMsg(finishedPath:finishedPath(V)){
-            [#location = payloadArg(0).toString()
-            location= location.substringAfter("(",location).substringBefore(")",location)
-            println("Location: " + location + " || trolleyIsInSlot")	#]
-        }
-    }Goto checkAcceptIN
+		State trolleyIsInSlot{
+				onMsg(finishedPath:finishedPath(V)){
+						[#location = payloadArg(0).toString()
+						location= location.substringAfter("(",location).substringBefore(")",location)
+						println("Location: " + location + " || trolleyIsInSlot")
+						forward("updateForTesting", "posRobot($location)" ,"testupdater" )
+						#]
+				}
+		}Goto checkAcceptIN
 
 
 	State acceptout{
-	    onMsg (pickup : pickup(TOKENIN)){
-	        [# TOKENIN = payloadArg(0).toInt() #]
-	        println("Token provided by the customer for the pickup $TOKENIN | SERVICE")
-	        solve(token($TOKENIN))
-            ifSolved{
-                replyTo pickup with pickupaccepted: pickupaccepted($TOKENIN)
-                [#CARSLOTNUM= TOKENIN%10#]
-                println("Token elaboration OK, token= $TOKENIN and corresponding slot= $CARSLOTNUM| SERVICE")
-                forward testupdater -m updateForTesting : pickup($CARSLOTNUM)
-            }else{
-                replyTo pickup with pickupaccepted: pickupaccepted($TOKENIN)
-                [#TOKENIN=-1#]
-                println("TOKEN NOT OK | SERVICE")
+			onMsg (pickup : pickup(TOKENIN)){
+					[# TOKENIN = payloadArg(0).toInt() #]
+					println("Token provided by the customer for the pickup $TOKENIN | SERVICE")
+					solve(token($TOKENIN))
+						ifSolved{
+								replyTo pickup with pickupaccepted: pickupaccepted($TOKENIN)
+								[#CARSLOTNUM= TOKENIN%10#]
+								println("Token elaboration OK, token= $TOKENIN and corresponding slot= $CARSLOTNUM| SERVICE")
+								forward testupdater -m updateForTesting : carslotnum($CARSLOTNUM)
+						}else{
+								replyTo pickup with pickupaccepted: pickupaccepted($TOKENIN)
+								[#TOKENIN=-1#]
+								println("TOKEN NOT OK | SERVICE")
 				forward testupdater -m updateForTesting : pickupNotAccepted($TOKENIN)
-	    	}
-	    }
-	}Goto picking if [#TOKENIN>0#] else tokenError
+				}
+			}
+	}Goto checkAlreadyInSlot if [#TOKENIN>0#] else tokenError
 
 	State tokenError{
-	    println("TOKEN ERROR | SERVICE")
+			println("TOKEN ERROR | SERVICE")
 	}Goto checkAcceptIN
 
 
+	State checkAlreadyInSlot{
+		[#alreadythere=TrolleyPlannerSupport.alreadyThere(SLOTNUM)#]
+	}Goto picking if [#alreadythere==true#] else goToSlot
+
+	State goToSlot{
+		println("Trolley moves to slot $SLOTNUM | SERVICE")
+		[#	var MOVETOSLOT = "moveToSlot".plus(SLOTNUM)#]
+		forward trolley -m trolleycmd:trolleycmd($MOVETOSLOT)
+	}Transition t0 	whenEvent finishedPath-> picking
 
 	State picking{
+		onMsg(finishedPath:finishedPath(V)){
+			[#location = payloadArg(0).toString()
+			location= location.substringAfter("(",location).substringBefore(")",location)
+			println("Location: " + location )
+			forward("updateForTesting", "posRobot($location)" ,"testupdater" )
+		#]
+
+		}
 		println("Trolley is picking a car | SERVICE")
 		println("Trolley picking car from slot $CARSLOTNUM result from $TOKENIN % 10 | SERVICE")
-		[#var MOVETOSLOT = "moveToSlot".plus(CARSLOTNUM)#]
-
-		forward trolley -m trolleycmd:trolleycmd($MOVETOSLOT)
 		solve(liberaSlot($CARSLOTNUM))
 		solve(removeToken($TOKENIN))
-	}Transition t0 	whenEvent finishedPath-> moveToOut
+	}Goto moveToOut
 
 
 	State moveToOut{
@@ -482,24 +492,18 @@ QActor parkingmanagerservice context ctxCarParking{
 		onMsg(finishedPath:finishedPath(V)){
 			[#location = payloadArg(0).toString()
 			location= location.substringAfter("(",location).substringBefore(")",location)
-			println("Location: " + location + " || trolleyIsInOutdoor")	#]
+			println("Location: " + location + " || trolleyIsInOutdoor")
+			forward("updateForTesting", "posRobot($location)" ,"testupdater" )
+		#]
 		}
 		println("Car is in Outdoor area | SERVICE")
-		emit caroutdoorarrival : coa(car_outdoor)  //deve essere percepito dal sensore
-		forward client -m pickup:pickup(OK)
-	}Transition t0 whenMsg withdrawn -> withdrawn
-								whenEvent timeout ->timeout
-
-
-	State withdrawn{
-		println("Car withdrawn!")
-	}
-	Goto checkAcceptIN
-
-	State timeout{
-		println("%%%% TIMEOUT %%%%" )
-		emit alarm : timeout(alarm)
-	}
+		[#if(outsonarSimulated){#]
+			emit caroutdoorarrival : coa(car_outdoor)
+			delay 2000
+			emit carwithdrawn:cw(bye)
+		[#}#]
+		 //deve essere percepito dal sensore
+	}Transition t0 whenTime 2000 -> checkAcceptIN
 
 }
 

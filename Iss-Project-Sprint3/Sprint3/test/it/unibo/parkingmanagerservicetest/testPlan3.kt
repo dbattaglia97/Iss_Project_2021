@@ -112,7 +112,27 @@ class TestPlan {
 			var result = channelForObserver.receive()
 			println("+++++++++ temperature 40 RESULT=$result +++++++++")
 			var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
-			assertEquals(40, t)
+			assertEquals(20, t)
+
+			result = channelForObserver.receive()
+			println("+++++++++ temperature 40 RESULT=$result +++++++++")
+			var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+			assertEquals(25, t)
+
+			result = channelForObserver.receive()
+			println("+++++++++ temperature 40 RESULT=$result +++++++++")
+			var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+			assertEquals(30, t)
+
+			result = channelForObserver.receive()
+			println("+++++++++ temperature 40 RESULT=$result +++++++++")
+			var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+			assertEquals(35, t)
+
+			result = channelForObserver.receive()
+			println("+++++++++ temperature 40 RESULT=$result +++++++++")
+			var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+			assertEquals(40), t)
 
 
 			testingObserver!!.addObserver(channelForObserver, "fan")
@@ -122,14 +142,21 @@ class TestPlan {
 			assertEquals("ON",fanstatus)
 
 
-			testingObserver!!.addObserver(channelForObserver, "trolley")
 			result = channelForObserver.receive()
-			println("+++++++++ TROLLEY should be Stopped RESULT=$result +++++++++")
-			var trolleystatus = result.substringAfter("(",result).substringBefore(")",result)
-			assertEquals("STOPPED",trolleystatus)
+			println("+++++++++ temperature 40 RESULT=$result +++++++++")
+			var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+			assertEquals(35, t)
 
+			result = channelForObserver.receive()
+			println("+++++++++ temperature 40 RESULT=$result +++++++++")
+			var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+			assertEquals(30, t)
 
-			//----------------------------------------------------------------------------------
+			result = channelForObserver.receive()
+			println("+++++++++ temperature 40 RESULT=$result +++++++++")
+			var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+			assertEquals(25, t)
+
 			result = channelForObserver.receive()
 			println("+++++++++ temperature 20 RESULT=$result +++++++++")
 			t = result.substringAfter("(",result).substringBefore(")",result).toInt()
@@ -140,43 +167,6 @@ class TestPlan {
 			println("+++++++++ fan should be OFF RESULT=$result +++++++++")
 			fanstatus = result.substringAfter("(",result).substringBefore(")",result)
 			assertEquals("OFF",fanstatus)
-
-			result = channelForObserver.receive()
-			println("+++++++++ TROLLEY should be Working RESULT=$result +++++++++")
-			trolleystatus = result.substringAfter("(",result).substringBefore(")",result)
-			assertEquals("WORKING",trolleystatus)
 		}
 	}
-
-
-	@Test
- 	@kotlinx.coroutines.ObsoleteCoroutinesApi
-	fun acceptINTestWithStoppedTrolley(){
-		runBlocking{
-			clientactor!!.emit("decrease","decrease(V)")//in order to stop the functioning of fan/thermometer
-			delay(2000)
-			println("+++++++++ TROLLEY should be Stopped waiting for result1+++++++++")
-			val channelForObserver = Channel<String>()
-			testingObserver!!.addObserver(channelForObserver, "trolley")
-			println("+++++++++ TROLLEY should be Stopped waiting for result2+++++++++")
-			myactor!!.forward("trolleystop","trolleystop(ok)","trolley")
-			var result = channelForObserver.receive()
-			println("+++++++++ TROLLEY should be Stopped RESULT=$result +++++++++")
-			var trolleystatus = result.substringAfter("(",result).substringBefore(")",result)
-			assertEquals("STOPPED",trolleystatus)
-
-			delay(2000)
-			testingObserver!!.addObserver(channelForObserver, "wait")
-			clientactor!!.request("reqenter","reqenter(bob)","parkingmanagerservice")
-			println("+++++++++ testreqenter ")
-			result = channelForObserver.receive()
-			println("+++++++++ testreqenter RESULT=$result +++++++++")
-			slotnum = result.substringAfter("(",result).substringBefore(")",result).toInt()
-			assertTrue(slotnum > 0)
-
-
-
-		}
-	}
-
 }

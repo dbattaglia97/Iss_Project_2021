@@ -561,7 +561,7 @@ The <a href="https://github.com/noemival/ParkManagerService_2021/blob/main/it.un
 				</td>
 		<td style="width: 50%">
 
-		 <center><img src="./img/parkingArea2.png" alt="mappa" width="50%" ></center>
+		 <center><img src="./img/plant.png" alt="mappa" width="50%" ></center>
 				</td>
 			</tr>
 		</tbody>
@@ -1078,7 +1078,7 @@ State trolleyIsInOutdoor{
 	println("Car is in Outdoor area | SERVICE")
 	emit caroutdoorarrival : coa(car_outdoor)  //deve essere percepito dal sensore
 	forward client -m pickup:pickup(OK)
-}Transition t0 whenMsg withdrawn -> withdrawn
+}Transition t0 whenTime 3000 -> withdrawn
 							whenEvent timeout ->timeout
 </pre>
 					</td>
@@ -1524,7 +1524,7 @@ fun loadUnloadCar(): ArrayList<String> {
 			   </tr>
 
 
-
+</table></div>
           <div class=remark2>
           	<h3>Direction test</h3>
             This test has the goal of verifying that at the end of current travel, the <k>trolley</k> assumes the correct direction.
