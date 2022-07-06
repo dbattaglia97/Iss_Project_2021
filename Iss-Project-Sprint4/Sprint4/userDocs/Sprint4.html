@@ -1,0 +1,1545 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+<style type="text/css">
+	body {
+		margin-left: 30px;
+		margin-right: 30px;
+	}
+
+	;
+
+	P {
+		font-family: Tahoma;
+		font-size: 10pt;
+	}
+
+	;
+
+	a,
+	a:visited,
+	a:active,
+	a:link,
+	a:hover {
+		text-decoration: underline;
+		color: #545454;
+		background-color: transparent;
+		font-size: 93%;
+	}
+
+	a:hover {
+		background-color: #cccccc;
+	}
+
+
+	hr {
+		clear: both;
+		height: 1px;
+		color: #242424;
+		background-color: transparent;
+	}
+
+	h1,
+	h2,
+	h3 {
+		color: #242424;
+		clear: left;
+		font: 100% Tahoma, Helvetica, Arial, sans-serif;
+		margin-bottom: 0.5em;
+		padding-top: 0.5em;
+		border-radius: 10px;
+		padding: 5px;
+	}
+
+	top {
+		width: 100%;
+	}
+
+
+	#i {
+		color: #ff1010;
+	}
+
+	tt {
+		font-family: "Arial";
+		font-size: 90%;
+		color: #006600;
+	}
+
+	div.remark2 {
+		background-color: #F5F5DC;
+		border: 1.5px solid #d5f2ed;
+		padding: 15px;
+		margin: 10px;
+		border-radius: 25px;
+	}
+
+
+	em {
+		font-family: "Arial";
+		font-size: 80%;
+		font-weight: bold;
+		border-style: solid;
+		border-color: #abe876;
+		color: #1632cc;
+	}
+
+	bc {
+		font-family: "Arial";
+		font-size: 90%;
+		font-weight: bold;
+		color: #990000;
+		background-color: #fcf8c7;
+	}
+
+	ks {
+		font-family: "Arial";
+		font-weight: bold;
+		color: #0000CD;
+		font-size: 90%;
+	}
+
+	kc {
+		font-family: "Arial";
+		font-weight: bold;
+		color: #008000;
+		font-size: 90%;
+	}
+
+	pre {
+		font-family: "Consolas";
+		font-size: 85%;
+		background-color: #f5f5f5;
+		border: 1.5px solid silver;
+		padding: 5px;
+	}
+
+	m {
+		font-family: "Helvetica";
+		line-height: 100%;
+		font-size: 75%;
+	}
+
+	div.body {
+
+		font-size: 18px;
+	}
+
+	k {
+		color: #990000;
+		font-weight: bold;
+		font-size: 90%;
+	}
+
+	h1 {
+		font-size: 150%;
+		background-color: #b2c0ff;
+		padding: 10px;
+	}
+
+	h2 {
+		background-color: #9ed8ff;
+		font-size: 130%;
+	}
+
+	h3 {
+		background-color: #e6ccff;
+		font-size: 100%;
+	}
+
+	h4 {
+		background-color: #ccffcc;
+		font-size: 100%;
+		width: 95%;
+		border-radius: 5px;
+		padding: 2px;
+	}
+
+	h5 {
+		background-color: #faffb0;
+		font-size: 100%;
+		border-radius: 5px;
+		padding: 2px;
+		width: 90%;
+
+	}
+
+	div.req {
+		background-color: #d9ffb3;
+		font-size: 18px;
+		width: 700px;
+		border: 3px solid green;
+		padding: 15px;
+		margin: 10px;
+	}
+
+	div.remark {
+		background-color: #E3F2FD;
+		border: 1.5px solid #d5f2ed;
+		padding: 15px;
+		margin: 10px;
+		border-radius: 25px;
+	}
+
+	table,
+	th,
+	td {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+
+	ol,
+	ul,
+	li {
+		margin: 0;
+		margin-left: 10px;
+		padding: 0;
+		padding-bottom: 5px;
+	}
+
+	table,
+	th,
+	td {
+		border: 1px solid black;
+	}
+
+	img {
+		border: 1.5px solid #d5f2ed
+	}
+
+	a,
+	a:visited,
+	a:active,
+	a:link,
+	a:hover {
+		text-decoration: underline;
+		color: #545454;
+		background-color: transparent;
+	}
+
+	div.wrapdesc {
+		width: 90%;
+		margin: auto;
+	}
+
+	div.imagedesc {
+		width: 85%;
+		margin: auto;
+	}
+</style>
+
+<head>
+
+	<title>AutomatedCarParking</title>
+</head>
+
+<body>
+	<div id="top">
+		<h1>
+			<font size="5">Automated Car-Parking</font>
+		</h1>
+	</div>
+
+	<div class="body">
+		<h2><a name="introduction"></a>Introduction - SPRINT 4</h2>
+		<div class="remark">
+			<p>In this document it will be analysed the fourth and final SPRINT of the project.
+				In this phase we will extend previous SPRINT's model, adding the implementation of both Client GUI and
+				ParkingManager GUI and of a real Sonar to OUTDOOR.
+				The goal of this SPRINT, together with the previous ones, is to describe how and why the various
+				components of the system have been implemented.
+			</p>
+		</div>
+
+		<h2>Problem analysis</h2>
+		<div class="remark">
+			<p>As mentioned in the <a href="#introduction">Introduction</a> in this SPRINT, we will analyze the system
+				during
+				the last phase of prototyping. The goal
+				version (with less functionality) of the final system.</p>
+			<p>
+				<h3>Assumptions</h3>
+
+				In this version we define as definitive some assumptions made initially.
+				Therefore follow simplified features will characterize also the obtained prototype.
+				<br><br>
+				<ul>
+					<li>
+						<k>Thermometer</k> and <k>fan</k> are components simulated by a software.
+						<div class=remark2>These components are simulated because they are not yet physically
+							available.
+
+					<li>
+						<k>WeightSensor</k> is a component simulated by a software;
+						<div class=remark2>
+							This sensor are simulated because they are not yet physically available.
+						</div>
+
+					<li>
+						<k>Sonar</k> is a real component, but it could be simulated as needed.
+						<div class=remark2>
+							it will be simulated for testing purpose, to do they in agile way
+						</div>
+
+				</ul>
+			</p>
+
+			<h3>Model - SPRINT 4</h3>
+			<br>
+			<table style="width:100%; border:1px solid; font-family: Consolas; background-color:#f5f5f5;">
+				<tr>
+					<td>
+						<center>
+							<ks>parkingmanagerservice</ks>
+						</center>
+					</td>
+					<td>
+						<center>
+							<ks>client</ks>
+						</center>
+					</td>
+				</tr>
+				<tr>
+					<td colspan=3>
+						<center>
+							<bc>Parking Phase</bc>
+						</center>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 50%">
+						<br>
+						<ul style="font-family: Consolas; font-size: 15px">
+							<li>It checks if there is at least one <tt>parking-slot</tt> available.
+
+							<li>After this check it is determined if <tt>reqenter</tt> can be accepted.
+
+							<li>It's received the request <tt>reqenter</tt> sended by a <b>client</b>.
+
+							<li>
+								<ks>[acceptIN]</ks> It's generated <em>SLOTNUM</em> and the related slot is marked as
+								occupied.
+
+							<li>
+								<ks>[informIN]</ks> If <em>INDOOR-area</em> is <i>FREE</i> and trolley status is not
+								<i>STOPPED</i> the request is immediately elaborated sending to <b>client</b> the reply
+								<tt>slotsnum : slotsnum ($SLOTNUM)</tt>. Otherwise it's sended to <b>client</b> the
+								reply <tt>waitIndoor : slotsnum ($SLOTNUM)</tt>, and so <b>client</b>
+								waits until the <em>INDOOR-area</em> become FREE or trolley status is not STOPPED.
+
+							<li>It's received the request <tt>carenter</tt> sended by the <b>client</b>.
+
+							<li><b>parkingmanagerservive</b> emits an event <tt>carindoorarrival</tt>, to notify that
+								the client's car is in <em>INDOOR-area</em>.
+
+							<li>
+								<ks>[moveToIn]</ks> Commands are sent to the <b>trolley</b> so that it performs the
+								movements to go from the current position to <em>INDOOR</em>
+
+							<li>The <b>weightsensor</b> perceives <tt>carindoorarrival</tt>, and emits the event
+								<tt>weight(CARWEIGHT)</tt>.
+
+							<li><em>INDOOR</em> is marked as occupied.
+
+							<li> It's expected the event <tt>finished</tt> emitted by <b>trolley</b> at the end of his
+								path.
+
+							<li>
+								<ks>[receipt]</ks> It's generated the <em>TOKENID</em> related to <em>SLOTNUM</em>
+								assigned to <b>client</b> and reply to him with <tt>receipt(TOKENID)</tt>.
+
+							<li>
+								<ks>[moveToSlotIn]</ks> If <b>trolley</b> is in <em>INDOOR-area</em>, <b>Trolley</b>
+								takes the car and moves it to slot assigned to it.
+
+							<li>When event <tt>finished</tt> is perceived, <em>INDOOR</em> is marked as free.
+
+							<li>
+								<ks>[moveToHome]</ks> If for a while no requests are received, commands are sent to the
+								<b>trolley</b> for return to <em>HOME</em>.
+
+							<li> If a new request arrives during returnig to <em>HOME</em>, it must be immediately
+								handled.
+						</ul>
+
+					<td id = "client_parking" style="width: 50%">
+						<ul style="font-family: Consolas; font-size: 15px">
+							<li><b>client</b> opens <b>clientGUI</b> and clicks on <k>Enter request</k> to notify his interest in
+								entering his car in the <em>parking-area</em>. In this way it's sended to <b>parkingmanagerservice</b> a request <tt>reqenter</tt>.
+							<li>Then, on <b>clientGui</b>, it's displayed <em>SLOTNUM</em> assigned to him.
+							<li>If <em>SLOTNUM > 0</em> and <em>INDOOR-area</em> is FREE, <b>client</b> moves the car in
+								front of <em>INDOOR</em> and clicks on <em>CarEnter</em> button, so it's sended the request <tt>carenter</tt> to
+								<b>parkingmanagerservive</b>, otherwise	<b>client</b> waits for the <em>INDOOR-area</em> to become FREE.
+						</ul>
+
+					</td>
+				<tr>
+					<td colspan=2>
+						<center>
+							<bc>Car pick up phase</bc>
+						</center>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 50%">
+						<ul style="font-family: Consolas; font-size: 15px">
+
+							<li>It checks if <em>OUTDOOR</em> is FREE and if trolley status is not STOPPED.
+
+							<li>After the checks it is determined if <tt>pickup</tt> can be elaborated.
+
+							<li>
+								<ks>[acceptOUT]</ks> It's received the dispatch <tt>pickup(TOKENID)</tt> sended by a
+								<b>client</b>.
+
+							<li>
+								<ks>[findSlot]</ks> It's obtained the <em>CARSLOTNUM</em> from <tt>TOKENID</tt> sended
+								by <b>client</b>.
+
+							<li>
+								<ks>[moveToSlotOut]</ks> Commands are sent to the <b>trolley</b> so that it performs the
+								movements to go from the current position to <em>CARSLOTNUM</em>.
+
+							<li>The slot corrisponding to <em>CARSLOTNUM</em> is marked as free.
+
+							<li>
+								<ks>[moveToOut]</ks> When it's perceives event <tt>finished</tt> and it's verified that
+								<b>trolley</b> is in <em>CARSLOTNUM</em>, are sent commands to the <b>trolley</b>
+								so that it performs the movements to go from <em>CARSLOTNUM</em> to <em>OUTDOOR</em>.
+
+							<li><b>outsonar</b> detects the presence of car in <em>OUTDOOR-area</em>.
+
+							<li><em>OUTDOOR-area</em> status is marked as occupied and the countdown of the <b>timer</b>
+								it's actived.
+
+							<li>Countdown will be cancelled when <b>outsonar</b> detects that there is no car in
+								<em>OUTDOOR-area</em>.
+
+							<li>If timer (set to <tt>DTFREE</tt>) expires, it's emitted an event
+								<tt>timeout</tt>.
+
+							<li>
+								<ks>[moveToHome]</ks> If for a while no requests are received, commands are sent to the
+								<b>trolley</b> for return to <em>HOME</em>.
+
+							<li> If a new request arrives during returnig to <em>HOME</em>, it must be immediately
+								handled.
+
+						</ul>
+					</td>
+
+					<td style="width: 50%">
+						<ul style="font-family: Consolas; font-size: 15px">
+							<li><b>client</b> inserts his <em>TOKENID</em> in the related <i>text box</i>
+								and clicks on <k>Submit your TOKENID</k> button. So it's sended a dispatch to <b>parkingmanagerservice</b>
+								<tt>pickup(TOKENID)</tt> to notify his interest in in picking his car from parking-area.
+							<li>When the car is in <em>OUTDOOR-area</em>, the <b>client</b> takes his car away, in this way <b>outsonar</b> detects
+								that.
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td colspan=2>
+						<center>
+							<bc>Parking-manager</bc>
+						</center>
+					</td>
+				</tr>
+				<tr>
+					<td colspan=2>
+						<ul style="font-family: Consolas; font-size: 15px">
+							<li><b>Parking manager</b> opens <b>ManagerGUI</b> where are displayed many informations
+								about parking system and parking and picking operations.
+							<li>If detected temperature into the parking is over the limit, fan actives itself automatically.
+								While fan is active, <b>Parking Manager</b> can click on <k>STOP trolley</k> button to stop <b>trolley</b>.
+							<li>When the temperature comes back below the limits, <b>Parking Manager</b> can click on <k>RESUME trolley</k> to resume it.
+							<li>If it's emitted the alarm, caused by a car in <em>OUTDOOR-area</em> after time limit, <b>Parking Manager</b> is advised
+								about it on his GUI.
+						</ul>
+					</td>
+
+				</tr>
+			</table>
+			<br>
+			<div class="remark2">
+				In this SPRINT we have implemented the Client and the ParkingManager graphic interface. Therefore a real client can perform request from this GUI
+				and a real Manager can supervise the parking status and at the occurrence <k>STOPPING</k> or <k>RESUMING</k> the Trolley work.
+				<br>
+				<br>
+				We also want to implement a real HC-SR04 Sonar which will allow to detect the effective presence or absence of a real car during the pickup phase.
+			</div>
+
+			<h4>Client GUI</h4>
+			<p>
+				A graphical interface is required to allow the customer to make requests to the parking system.
+				This GUI will be a service, probably implemented using <a href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/sonarguispring/userDocs/LabSpringUsageIntro.html"></a>Spring Boot</a>.
+				<b>client</b> using this GUI will can:
+				<ul>
+					<li> forward to system a parking request.
+					<li> watch on inteface the value of assigned <em>SLOTNUM</em>
+					<li> forward a CarEnter request to notify system that the car is correctly positioning at <em>INDOOR-area</em>.
+					<li> watch on display <em>TOKENID</em> received by system.
+					<li> insert <em>TOKENID</em> in order to perform pickup request.
+				</ul>
+
+			</p>
+			<h4>Manager GUI</h4>
+			<p>
+				For ParkingManager is required an interface that shows status of any component that compose our system.
+				This GUI will be a service, probably implemented using <a href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/sonarguispring/userDocs/LabSpringUsageIntro.html"></a>Spring Boot</a>.
+				<br>
+				Component that compose the interface of this GUI are:
+				<h5>Regarding to Trolley</h5>
+				<ul>
+					<li><ks>Trolley status</ks>: the status of the Trolley (<k>IDLE</k>, <k>WORKING</k> or <k>STOPPED</k>)
+						<ul>
+							<li><ks>STOP Trolley</ks>: under certain conditions permit to ParkingManager to manually STOP work of Trolley.
+							<li><ks>RESUME Trolley</ks>: under certain conditions permit to ParkingManager to manually RESTART the Trolley. Trolley resumes its work from where it was interrupted.
+						</ul>
+				</ul>
+
+				<h5>Regarding to INDOOR and OUTDOOR</h5>
+				<ul>
+					<li><ks>INDOOR status</ks>: here is indicated if the INDOOR is <k>FREE</k> or if it is <k>BUSY</k>
+					<li><ks>OUTDOOR status</ks>: here is indicated if the OUTDOOR is <k>FREE</k> or if it is <k>BUSY</k>
+					<li><ks>Current weight</ks>: show the weight of the car placed on INDOOR
+					<li><ks>Alarm status</ks>: show if the alarm is activated or not
+				</ul>
+				<h5>Regarding to Environment</h5>
+				<ul>
+					<li><ks>Temperature</ks>: actual environment temperature
+					<li><ks>Fan status</ks>: indicates if the Fan is in <k>WORKING</k> status or in <k>STOPPED</k> status.
+					<li><ks>Environment Camera</ks>: there is also the possibility to have a camera that show the area of the parking.
+				</ul>
+			</p>
+			<!--stop trolley handling (trolleyStopper qak)-->
+			<h4>Real Sonar</h4>
+				At this final stage, we introduce a <b>real sonar</b> in order to perform the tasks previously made by simulated one.<br>
+				In particular, this sonar will be mounted on a physical device (e.g.: Raspberry, Arduino or similar) and its goal will be to
+				send to the <b>parkingmanagerservice</b> many and periodical messages containing the value of distance detected.
+				<b>sonar</b> will be distributed relative to the rest of the system, so to share the collected informations, we need to adopt a method
+				to send mesages towards a external context, for example it would be possible to use a  <k><a href="https://www.hivemq.com/mqtt-essentials/">MQTT broker</a></k>.
+				Regarding the involvement of this device, as mentioned above, we received some components and documentation for its use from the customer.
+
+
+			<h3>Logical Architecture</h3>
+			<p>
+				<table style="width:100%" border="1">
+					<tr>
+						<td style="width:50%;">
+							<p>Our system <tt>ParkingManagerService</tt> it's composed by eight <ks>actors</ks> in
+								the <tt>ctxcarparking</tt> context and one <ks>actor</ks> in the <tt>ctxsonaronrasp</tt> context.
+								Every <ks>actor</ks> provides a different service or simulating a certain component.
+								Two separated <ks>services</ks> that represent the GUIs.
+							</p>
+							<p>Actors that we implement, will be of <ks><a
+										href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">QActor</a>
+								</ks>
+								type.</p>
+							<ul>
+								<li><tt>ctxcarparking</tt>
+									<ul>
+												<li><b>parkingmanagerservice</b>
+												<li><b>weightsensor</b>
+												<li><b>outsonar</b> (mock-actor initialized only in case of not real sonar usage)
+												<li><b>weightsensorhandler</b>
+												<li><b>outsonarhandler</b>
+												<li><b>timer</b>
+												<li><b>basicRobot</b>
+												<li><b>trolley</b>
+												<li><b>thermometer</b>
+												<li><b>fan</b>
+												<li><b>fanautomatizer</b>
+												<li><b>trolleustopper</b>
+
+
+									</ul>
+								</li>
+								<li><tt>ctxSonaronrasp</tt>
+									<ul>
+										<li><b>sonar</b>
+									</ul>
+								</li>
+								<li><tt>services</tt>
+									<ul>
+										<li><b>clientGUI</b>
+										<li><b>managerGUI</b>
+									</ul>
+								</li>
+							</ul>
+
+						</td>
+						<td>
+							<center><img src="./img/actors.png"></center>
+
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							<center>
+								<ks>parkingmanagerservice: </ks>
+							</center>
+							This QActor represents the system. It handles all client's request: <tt>reqenter</tt>,
+							<tt>carenter</tt> and <tt>pickup</tt> and performs some check to verify is it's possible to accept and manage them.
+							It provides the clients the SLOTNUM and the TOKENID. It coordinates the movements of the
+							trolley, sending to it the positions to reach.. <br>
+							This actor also triggers the activation of <tt>weightsensor</tt> and
+							<tt>outsonar</tt>.<br><br>
+
+						</td>
+
+
+						<td>
+							<center>
+								<ks>trolleystopper: </ks>
+							</center>
+							<br>
+							This actor has the goal to stop or resume <b>trolley</b>, forwarding to it a command directly received from ManagerGUI.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<center>
+								<ks>weightsensor: </ks>
+							</center>
+							</center><br>
+							This mock-actor generates a random value that represents the
+							weight of car in entrance and propagates it by emitting an event
+							<tt>weight</tt>.<br>	It starts the simulation when perceives the <k>carindoorarrival</k> event.
+						</td>
+						<td>
+							<center>
+								<ks>weighsensorhandler: </ks>
+							</center>
+							This actor react to the <tt>weight</tt> event and has  the task to set <em>INDOOR-area</em> status, when he perceives the precense or absence of a car in this area.
+							Also at this final stage, this components remains a mock-actor, because a physical device is not yet available.
+							This actor has also the task to update some resources about <k>weight</k> and <k>indoorStatus</k>, this updating are
+							perceived by <b>ManagerGUI</b>.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<center>
+								<ks>outsonar: </ks>
+							</center>
+							</center><br>
+							This actor simulate a real sensor, it is instantiated only at the time when no real sonar is used. It start the
+							simulation when perceives <k>caroutdoorarrival</k> event emitting a certain distance smaller than a fixed threshold that means that the OUTDOOR-area is occupied. <br>
+							When the outsonar detects the <k>carwithdrawn</k> event,it emits a certain distance greater than a fixed threshold  indicating that the car has been taken
+							out	of the OUTDOOR-area.
+						</td>
+						<td>
+							<center>
+								<ks>sonarhandler: </ks>
+							</center>
+							It has tha aim to set <em>OUTDOOR-area</em> status when perceives the precense or absence of a car in the related area.
+							If it receives a distance value less than the threshold it will change the status of the outdoor to occupied and starts the timer sending a message to the Timer actor, otherwise it will make the outdoorarea free and will stop the timer sending a message to the Timer actor.
+							When the simulation stats, it's activated also an internal timer.
+						</td>
+					</tr>
+
+
+					<tr>
+						<td>
+							<center>
+								<ks>timer: </ks>
+							</center>
+							</center><br>
+							This actor is a simulator of a timer, it reacts to the startTimer and stopTimer messages sended by the sonarhandler and when the time will expire it updates <k>alarm</k> resource, this updating is
+							perceived by <b>ManagerGUI</b>, who will show an advice on his interface.</p>
+						</td>
+					<td>
+						<center>
+							<ks>sonar:</ks>
+						</center>
+						<br>
+						<p>
+							It's an actor in a different context and on a different device, probably (but not necessary) connected at same network of the system.
+							It is the last actor of a pipe, in which every mock.actor has a differt task, like removing wrong data and showing
+							in a log the detected measurements.
+							This component will use a <k></k>MQTT broker</k> in order to propagate the events (<tt>sonar:distance(V)</tt>) containing values obtained up to <b>sonarhandler</b> actor.
+						</p>
+					</td>
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							<center>
+								<ks>basicrobot: </ks>
+							</center>
+							</center><br>
+							The model of the DDR-robot is related to the basicrobot given by the costumer: 	<a href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qak21.basicrobot/userDocs/basicrobot2021.html" target="web"> basicrobot2021.html</a>. <br>
+								The DDR-robot could be a VirtualRobot, Mbot or Nanobo
+						</td>
+						<td>
+							<center>
+								<ks>trolley: </ks>
+							</center>
+							This QActor works as an intermediary between the system and the remote virtual robot.
+							It can receive from parkingmmanagerservice dispatch move:move(GOAL), where GOAL represents the location that must be reached by the Trolley inside the environment.
+							this actor uses some functions implemented in KBSupport.kt to obtain from the GOAL a set of moves that the robot must make to reach it. In particular, the GOAL is translated into the corresponding pair of coordinates, then they are passed as arguments to a method of a class into the package "itunibo.planner" inside the library IssActorKotlinRobotSupport-2.0.jar , provided by the client.
+						</td>
+					</tr>
+
+
+					<tr>
+						<td>
+							<center>
+								<ks>thermometer: </ks>
+							</center>
+							</center><br>
+							This actor is activated immediately at the start of application. It alternates between two states:
+							<li>increasing state: every TOT seconds increment the value of temperature, this to simulate the increasing of
+								environment temperature during his activity until the fan starts to work and it goes in the decreasing state</li>
+								<li>decreasing state: every TOT seconds decrement the value of temperature, this to simulate the decreasing of
+									environment temperature while the fan is on until the fan stops and it goes in the increasing state </li>
+							While it's in these states emit continuously an event, in which are the actual temperature of environment
+
+						</td>
+						<td>
+							<center>
+								<ks>fan: </ks>
+							</center>
+							This actor is strictly related with thermometer actor. This actor is responsible for causing the thermometer to change state so that the temperature is lowered at the time it is activated and to return to normal thermometer operation (cyclically increases the temperature) when deactivated .
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+
+							<center>
+								<ks>fanautomatizer: </ks>
+							</center>
+							</center><br>
+							This actor is responsible for automating the operation of the fan.
+								For it's coherence with requirements, we have fixed a constant value
+								<ks>maxTemp</ks> that indicates upper temperature limits of system operation. <br> It's
+								necessary to decide a value that represent the optimal temperature at which fan can be
+								stopped, we indicate this with constant value <k>minTemp</k>.
+								When temperature has reached the upper limit, fanautomatizer actor send to the fan a dispatch
+								message <tt>startfan(ON)</tt>, which has the function of starting the fan.
+								On the other hand, when the temperature has returned to the working values, this is
+								reported through an other dispatch <tt>stopfan(OFF)</tt> so that the fan stops working.
+
+					</tr>
+
+
+					<tr>
+						<td><center>
+							<ks>ClientGUI: </ks>
+						</center>
+						<br>
+						<p>
+							It's the graphic interface at client's disposal, with which he can perform all preliminary actions in order parking and picking operations.<br>
+							On it <b>client</b> can see <em>SLOTNUM</em> and <em>TOKENID</em> received from parking system. Using it <b>client</b> can also enter his <em>TOKENID</em>
+							in order to start picking operations.
+						</p>
+						</td>
+						<td><center>
+							<ks>ManagerGUI: </ks>
+						</center>
+						<br>
+						<p>
+							It's the graphic interface at ParkingManager's disposal. Using it He can monitor many values about <b>parking</b> and <b>trolley</b> status.<br>
+							On thi GUI there are also two buttons to STOP and RESUME, when necessary, <b>trolley</b> operations.
+
+						</p>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<center><img width="80%" src="img/logicalArchitecture.png"></center>
+						</td>
+					</tr>
+
+				</table>
+			</p>
+
+		</div>
+		<h2>Test plans</h2>
+				<p>
+					During this final SPRINT, it will be necessary perform also <k>distributed-tests</k>, in order to check the correct functioning of some
+					remote components like <b>clientGUI</b>, <b>managerGUI</b> and <b>sonar</b>.
+				</p>
+			<kc>TestPlans goals:</kc>
+			<div class="remark">
+
+			<ul>
+				<li>Ensure that new components work properly individually. <k><b>(unit testing)</b></k> <br>
+					<div class=remark2>
+						<h3>Client GUI</h3>
+						<p>
+							This test consists of checking if the <b>clientGUI</b> exchange messages with <b>parkingmanagerserive</b> correctly.
+						</p>
+					</div>
+					<div class=remark2>
+						<h3>ManagerGUI</h3>
+						<p>
+							We wanto to check if all target informations about parking system and trolley are correctly updated by <b>managerGUI</b> and if
+							<k>STOP/RESUME</k> buttons on it work properly.
+						</p>
+					</div>
+
+
+				<li>Ensure that the workflow of the system meets a set of requirements <k><b>(integration testing)</b>
+					</k>. <br> <br>
+
+					<div class=remark2>
+						<h3>Workflow</h3>
+						During this test, it's verified the correct behaviour of the system.<br>
+						In particular, it will be runned the entire system, including distributed components, and it will be checked if the system it's able
+						to perform all parking and picking operations in the correct way.
+					</div>
+			</ul>
+			</div>
+
+		<h2>Project</h2>
+		Now, we preoceed to the last project phase, during which it will be implemented the final version of all component, before releasing of prototype.<br>
+		In particular, we will implement some solutions proposed during <a>problem analysis</a> but may be possible we adopt others solution, if necessary.<br>
+		<div class=remark>
+			<h3>SONAR</h3>
+			<table>
+				<tr>
+					<td>
+						 <center><b><u>SONAR</u></b></center>
+						<center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/it.unibo.sonar/src/sonaronrasp.qak">sonaronrasp.qak</a></center>
+						<pre>QActor sonar context ctxsonaronrasp {
+[#
+   lateinit var firstActorInPipe : ActorBasic
+#]
+ 	State s0 initial {
+ 		println("sonar START")
+ 		discardMsg On
+
+ 		solve( consult("sysRules.pl")	 )
+ 		solve( consult("sonaronrasp.pl") )
+ 		solve( showSystemConfiguration   )
+
+		firstActorInPipe  = sysUtil.getActor("sonardatasource")!!
+ 			firstActorInPipe.
+				subscribeLocalActor("datacleaner").
+				subscribeLocalActor("datalogger").
+  				subscribeLocalActor("sonar").
+
+  				subscribeLocalActor( "sonar")
+		#]
+
+		forward sonardatasource -m sonarstart : sonarstart(ok) }
+
+	delay 5000
+  	}
+  	Transition t0  whenEvent sonar -> sendSonarData
+
+  	State sendSonarData{
+  		printCurrentMessage
+  		 onMsg( sonar : distance(D) ){
+  		 	[# val D = payloadArg(0) #]
+  		 	emit sonaroutdoor : distance($D)
+  		 	}
+  	}
+   	Transition t0 whenEvent sonar -> sendSonarData</pre>
+					</td>
+					<td>
+						This QAktor is in another context <tt>ctxsonaronrasp</tt> which runs on a remote device, a <b>Raspberry Pi</b> that is euipped with
+						a sonar <i>HCSR04</i>. The PORT of this contex is <b>8028</b>.<br>
+						The implementation of this component is obtained starting from another component already at our disposal, into the project <a>it.unibo.rasp2021</a>.<br><br>
+						Before emitting <tt>sonaroutdoor</tt> event, which will be perceives by <b>sonarhandler</b> QAktor on <tt>ctxcarparking</tt>, the data
+						collected by sonar are taken, cleaned and showed, respectively thanks to three mock-actor: <b>sonardatasource</b>, <b>datalogger</b> and <b>datacleaner</b>.
+						This kind of structure can be inteded as <i>Pipeline Design Pattern</i>.
+						<br>The emitted events can be perceived also in another context because this context is registred on a topic of a MTTQ Broker, in particular: <br>
+						<pre>mqttBroker "broker.hivemq.com" : 1883
+eventTopic "parkingArea/feedback"</pre>
+						<center><img src="./img/sonaronrasp.png" width='50%'></center>
+					</td>
+				</tr>
+			</table>
+			<h3>Manager GUI</h3>
+			This graphic inteface, like the client's one, is created using Spring Boot, referring to an existing project <i><a href="https://github.com/anatali/issLab2021/tree/main/sonarguispring">sonarguispring</a></i>.<br>
+			<br>
+			<table>
+				<tr>
+					<td >
+						<center><b><u>MANAGER GUI</u></b></center>
+						<center><a href="https://github.com/P-damicis/Automated_Car_Parking/tree/main/sprint_4/ParkManagerGui">ParkManagerGui</a></center>
+						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ParkManagerGui/src/main/kotlin/it/unibo/parkmanagergui/HIController.kt">HIController.kt</a>
+						<br>
+<pre>
+@Controller
+class HIController {
+	@Value("\${human.logo}")
+	var appName: String?    = null
+	var systemStarted = false
+	val url = "coap://localhost:5683"
+
+	var coapForGUI = CoapSupport(url, "ctxcarparking/guiupdater")
+
+	@Autowired
+	var simpMessagingTemplate : SimpMessagingTemplate? = null
+
+	init{
+		SenderToPark.start(this)
+		sysUtil.colorPrint("HumanInterfaceController | INIT", Color.GREEN)
+		coapForGUI.observeResource(ParkingCoapHandler(this) )
+	}
+
+	@GetMapping("/")
+	fun entry(model: Model): String {
+		model.addAttribute("arg", appName )
+		sysUtil.colorPrint("HIController | entry model=$model", Color.GREEN)
+			SenderToPark.send("start")
+			systemStarted = true
+		return  "ManagerGui"
+	}
+
+	@PostMapping("/stop")
+		fun sendStop(model: Model) : String {
+		SenderToPark.send("stop")
+	return  "ManagerGui"
+	}
+
+	@PostMapping("/resume")
+		fun sendResume(model: Model) : String {
+		SenderToPark.send("resume")
+		return  "ManagerGui"
+	}
+}
+</pre>
+					</td>
+					<td>
+						This class represents the controller of our Spring App for <b>ManagerGUI</b>, which follow <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC pattern</a>.<br>
+						Initially, it's created <b>coapForGUI</b>, which will observe the updating of <b>guiUpdater</b> in <tt>ctxParkigservice</tt>.<br>
+						After loading of View, it's sended to <b>parkingmanagerservice</b> a dispatch <tt>startManager</tt>, so the system starts updating resources.
+						<br><br>
+						There are also two <i>@PostMapping</i> that have the aim to send <tt>stop</tt>/<tt>resume</tt>
+						when the Manager presses on <k>STOP Trolley</k> or <k>RESUME Trolley</k> buttons. The messages that ManagerGUI sends to
+						<b>parkingmanagerservice</b> are sending via WS, opened and managed by object
+						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ParkManagerGui/src/main/kotlin/it/unibo/parkmanagergui/SenderToPark.kt">SenderToPark.kt</a>.
+
+					</td>
+				</tr>
+				<tr>
+					<td id="managerguicoap">
+						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ParkManagerGui/src/main/kotlin/it/unibo/parkmanagergui/ParkingCoapHandler.kt">ParkingCoapHandler.kt</a>
+						<br>
+<pre>
+class ParkingCoapHandler(val controller: HIController) : CoapHandler {
+override fun onLoad(response: CoapResponse) {
+	val content: String = response.getResponseText()
+	sysUtil.colorPrint("ParkingCoapHandler | response content=$content", Color.GREEN )
+	val resourceName = content.substringAfter("\"","-").substringBefore("\"","-")
+	try{
+	 val jsonContent = JSONObject(content)
+	 when(resourceName) {
+	 "indoorStatus" -> {
+	 	val indoorRep =
+			ResourceRep("indoorStatus" + HtmlUtils.htmlEscape(jsonContent.getString("indoorStatus")))
+		sysUtil.colorPrint("ParkingCoapHandler | indoor value=${indoorRep.content}", Color.BLUE)
+		ValuesForGui.indoor = indoorRep
+		controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, indoorRep)
+		}
+	 "outdoorStatus" -> {
+		val outdoorRep =
+			ResourceRep("outdoorStatus" + HtmlUtils.htmlEscape(jsonContent.getString("outdoorStatus")))
+		sysUtil.colorPrint("ParkingCoapHandler | outdoor value=${outdoorRep.content}", Color.BLUE)
+		ValuesForGui.outdoor = outdoorRep
+		controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, outdoorRep)
+	}
+	[...]
+</pre>
+					</td>
+					<td>
+						An instance of this class is passed as argument to the constructor of <k>coapForGUI</k> into the HIController.<br>
+						It has a method <i>onLoad</i>, in which are handled several type of updating perceived by CoapObserver.
+						In particular, for each kind of resouce updated, it's called a method <k>convertAndSend()</k> of a <i>simpMessagingTemplate</i>,
+						initialized into the controller, which sends to browser <a href="https://spring.io/guides/gs/messaging-stomp-websocket/">via WebSocket</a> the current resource value, on a specific topic <k>/topic/infodisplay</k>,
+						specified in <a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ParkManagerGui/src/main/kotlin/it/unibo/parkmanagergui/WebSocketConfig.kt">WebSocketConfig.kt</a>.
+						<br><br>
+						The updating of resources sending via WebSocket to browser are handled by <a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ParkManagerGui/src/main/resources/static/app.js">app.js</a>, in which is opened a socket on the same
+						STOMP end-point path (<i>/it-unibo-iss</i>) used in <i>WebSocketConfig</i>. Then the client are subscibed to same STOMP topic (<i>/topic/infodisplay</i>)
+						updated by the server.<br>
+						At the end, for each kind of messages sent on Socket is modified a different field of HTML file <a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ParkManagerGui/src/main/resources/templates/ManagerGui.html">ManagerGui.html</a>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<center><b><u>GUIUPDATER</u></b></center>
+						<center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/it.unibo.ParkManagerService_s4/codedqak/guiUpdater.kt">guiUpdater.kt</a></center>
+						<pre>
+class guiUpdater (name : String ) : ActorBasic( name ) {
+
+@kotlinx.coroutines.ObsoleteCoroutinesApi
+@kotlinx.coroutines.ExperimentalCoroutinesApi
+    override suspend fun actorBody(msg: ApplMessage) {
+		if( msg.msgId() == "updateGui" &&  msg.msgType() == "dispatch") {
+			update(msg.msgContent().replace("'",""))
+		}
+}
+
+	fun update(res : String){
+		val resourceName = res.substringBefore("(","-")
+		val resourceValue = res.substringAfter("(","-").substringBefore(")","-")
+		updateResourceRep( "${convertToJSON(resourceName, resourceValue)}")
+		}
+
+	fun convertToJSON(name: String, value: String) : String {
+		val jsonRes = "{\"$name\":\"$value\"}"
+		return jsonRes
+	}
+}</pre>
+					</td>
+					<td>
+						During the project phase, it has proved necessary to have only a QAktor with the goal of updating all resources, so that the <b>managerGUI</b> could detect them.<br>
+						So, whenever a component modifies any resource, a dispatch <tt>updateGui:resourceName(VALUE)</tt> is sent to <b>guiUpdater</b> mock-actor.<br>
+						Then, this actor elaborates received message, converting it in JSON format and use it to update the corresponding resource.<br>
+
+					</td>
+				</tr>
+				<tr>
+					<td colspan=2>
+						<img src="img/guiUpdater.png" width="40%" style="float:left ; padding-top:50px; padding-right:130px">
+						<img src="img/managerGUI.png" width="40%" >
+					</td>
+				</tr>
+					<td>
+						<center><b><u>TROLLEYSTOPPER</u></b></center>
+						<center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/it.unibo.ParkManagerService_s4/src/parkingservice.qak">parkingservice.qak</a></center>
+						<pre>QActor trolleystopper context ctxcarparking{
+
+	State s0 initial {
+	}Goto work
+
+	State work{
+	}Transition t0
+			whenMsg stopTrolley -> stopped
+
+	State stopped{
+		forward trolley -m stopTrolley : stop(manager)
+	} Transition t0
+		whenMsg resumeTrolley -> resumed
+
+    State resumed{
+    	forward trolley -m resumeTrolley : resume(manager)
+    }Goto work
+}</pre>
+					</td>
+					<td>
+						This is a QAktor which as an intermediary between <b>managerGUI</b> and <b>trolley</b>. Its task is to avoid that <b>managerGUI</b> sends <tt>stopTrolley</tt>
+						ans <tt>resumeTrolley</tt> messages directly to <b>Trolley</b>.<br> So, <b>trolleystopper</b> receives this kind of dispatches from <b>managerGUI</b> and
+						forward them to <b>trolley</b>.
+					</td>
+				</tr>
+			</table>
+			<h3>Client GUI</h3>
+			<table>
+				<tr>
+					<td>
+						<center><b><u>CLIENTGUI</u></b></center>
+						<center><a href="https://github.com/P-damicis/Automated_Car_Parking/tree/main/sprint_4/ClientGui">ClientGui</a></center>
+						<br>
+						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/HumanInterfaceController.kt">HumanInterfaceController.kt</a>
+<pre>
+@GetMapping("/")    //defines that the method handles GET requests.
+fun entry(model: Model): String {
+	model.addAttribute("arg", appName)
+	model.addAttribute("advise", "Welcome in the best automated parking ever, Click on \"Enter Request to start\"")
+	println("HumanInterfaceController | entry model=$model")
+	if(cnt > 5){
+		model.addAttribute("disableReqEnter", "false")
+		model.addAttribute("disableCarEnter", "true")
+		model.addAttribute("disablePickup", "true")
+	}else{
+		model.addAttribute("disableReqEnter", "false")
+		model.addAttribute("disableCarEnter", "true")
+		model.addAttribute("disablePickup", "false")
+	}
+
+
+	return "clientRobotGui"
+}
+
+@GetMapping("/model")
+@ResponseBody   //With this annotation, the String returned by the methods is sent to the browser as plain text.
+fun  homePage( model: Model) : String{
+	model.addAttribute("arg", appName)
+	sysUtil.colorPrint("HumanInterfaceController | homePage model=$model", Color.GREEN)
+	return String.format("HumanInterfaceController text normal state= $applicationModelRep"  );
+}
+
+@PostMapping("/reqenter")
+fun req_enter(viewmodel : Model) : String {
+	sysUtil.colorPrint("HumanInterfaceController | requestType: reqenter ", Color.GREEN)
+	ClientResource.send("reqenter")
+	var advise = "Please wait until your car is parked"
+	viewmodel.addAttribute("advise", advise)
+
+	viewmodel.addAttribute("disableReqEnter", "true")
+	viewmodel.addAttribute("disableCarEnter", "false")
+	viewmodel.addAttribute("disablePickup", "true")
+
+	return "clientRobotGui"
+}
+
+@PostMapping("/carenter")
+fun car_enter (model: Model) : String {
+	sysUtil.colorPrint("HumanInterfaceController | requestType: carenter ", Color.GREEN)
+	ClientResource.send("carenter")
+	var advise = "Please wait until your car is parked"
+	model.addAttribute("advise", advise)
+
+	model.addAttribute("disableReqEnter", "true")
+	model.addAttribute("disableCarEnter", "true")
+	model.addAttribute("disablePickup", "false")
+
+	return  "clientRobotGui"
+}
+
+@PostMapping("/pickup")
+fun pickup(model: Model, @RequestParam(name = "token") token : String) : String {
+	sysUtil.colorPrint("HumanInterfaceController | requestType: pickup ", Color.GREEN)
+	ClientResource.send("pickup", token)
+	//ClientResource.changeAdvise("Token sended: $token")
+	var advise = "Token sended: $token. Wait untill yout car is in OUTDOOR area.\nGoodbye"
+	model.addAttribute("advise", advise)
+
+	cnt++
+
+	if(cnt > 5){
+		model.addAttribute("disableReqEnter", "false")
+		model.addAttribute("disableCarEnter", "true")
+		model.addAttribute("disablePickup", "true")
+	}else{
+		model.addAttribute("disableReqEnter", "false")
+		model.addAttribute("disableCarEnter", "true")
+		model.addAttribute("disablePickup", "false")
+	}
+	return  "clientRobotGui"
+}
+</pre>
+					</td>
+					<td>
+						This <a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/HumanInterfaceController.kt">class</a>
+						represent controller of <b>ClientGUI</b>.
+						Initally a <a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/ClientResource.kt">ClientResource</a>
+						instance is created, and his goal is to prepare messages that has to be forwarded to <b>parkingManagerService</b>.<br><br>
+						For each phase of parking/picking process there are a @PostMapping with the aim to send request related to the button that the <b>Client</b> presses.
+						The messages that ClientGUI sends to <b>parkingmanagerservice</b> are sending via WS, opened and managed by object
+						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/Client.kt">Client</a>.<br><br>
+
+						On picking button a control has been inserted with the aim to check how many time a Client has pressed this button. This check is usefull to prevent a malicious use of the GUI.
+						In case of a client has pressed the pickup button more than 5 times with wrong <em>TOKENID</em> it will be disabled for this client.
+
+						Some check are also performed on the other button in order to avoid wrong behaviour from clients.
+
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/ClientResource.kt">ClientResource.kt</a>
+<pre>
+fun send(type: String) {
+	when (type) {
+		"reqenter" -> clientThread!!.forward(reqenter)
+		"carenter" -> clientThread!!.forward(carenter)
+	}
+}
+
+fun send(type: String, token: String) {
+	when (type) {
+		"reqenter" -> clientThread!!.forward(reqenter)
+		"carenter" -> clientThread!!.forward(carenter)
+		"pickup"   -> clientThread!!.forward(pickupmsg.replace("TOKENID", token))
+	}
+}
+</pre>
+					</td>
+					<td>
+						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/ClientResource.kt">ClientResource</a> is a <k>companion object</k>
+						with the goal to prepare messages that have to be sended by
+						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/Client.kt">Client</a> via WS.
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/Client.kt">Client.kt</a>
+<pre>
+while (!Thread.currentThread().isInterrupted) {
+
+	input = BufferedReader(InputStreamReader(socket!!.getInputStream()))
+	val message = input!!.readLine()
+
+	val content = message.substringAfter("(",message).substringBefore(")",message)
+	var lines = content.split(",").toTypedArray();
+	val id          = lines[0]
+	val type        = lines[1]
+	val sender      = lines[2];
+	val dest        = lines[3]
+	val msg         = lines[4]+")"
+	val msgArg      = msg?.substringAfter("(",msg)?.substringBefore(")",msg)
+	println("%%%%% Reveived: $message")
+
+	if(id == "slotsnum"){
+
+		val jsonMsg = "{\"slotnum\":\"$msgArg\"}"
+		var jsonContent = JSONObject(jsonMsg)
+		val slotRep = ResourceRep("" + HtmlUtils.htmlEscape( "s"+jsonContent.getString("slotnum")))
+		println("slot: $msgArg")
+		TimeUnit.MILLISECONDS.sleep(500L)
+		controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, slotRep)
+
+	}
+	else if(id == "receipt"){
+
+		println("token: $msgArg")
+		val jsonMsg : String = "{\"tokenid\":\"$msgArg\"}"
+		var jsonContent : JSONObject = JSONObject(jsonMsg)
+		val tokenRep = ResourceRep("" + HtmlUtils.htmlEscape( "t"+jsonContent.getString("tokenid")))
+		controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, tokenRep)
+
+	}
+	else if(id == "waitIndoor"){
+		val jsonMsg = "{\"waitIndoor\":\"$msgArg\"}"
+		var jsonContent = JSONObject(jsonMsg)
+		val waitIndoorRep =
+			ResourceRep("" + HtmlUtils.htmlEscape( "s"+jsonContent.getString("waitIndoor")))
+		println("waitIndoor: $msgArg")
+		TimeUnit.MILLISECONDS.sleep(500L)
+		controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, waitIndoorRep)
+	}
+}
+
+/*---------------------------------------------------------------------------------------------------*/
+
+fun forward(message: String?) {
+	Thread {
+		try {
+			if (null != socket) {
+				val out = PrintWriter(
+					BufferedWriter(
+						OutputStreamWriter(socket!!.getOutputStream())), true
+				)
+				out.println(message)
+				println(message)
+			}
+		} catch (e: Exception) {
+			e.printStackTrace()
+		}
+	}.start()
+}
+</pre>
+					</td>
+					<td>
+						In <a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/Client.kt">Client</a> class is created and handled
+						a WS connection, there are one function for send messages on this WS and one to receive and give informations from the reply.
+						<br><br>
+						When a reply is received, informations is extracted and depending on <k>id</k> value a different actions could be performed. For example when a <tt>slotnum</tt> reply is received,
+						it is used same tecnique of <a href="#managerguicoap"><b>ManagerGUI</b></a> to update the GUI with current value via <a href="https://spring.io/guides/gs/messaging-stomp-websocket/">WebSocket</a>.
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<center><img src="img/ClientGUI.png" width="40%"></center>
+					</td>
+				</tr>
+
+			</table>
+		</div>
+
+		<h2>Testing</h2>
+
+
+			<p>
+				For <b>ClientGUI</b> and <b>ManagerGUI</b> is used a tool for for web automation
+				and web testing based on JS, called <a href="https://playwright.dev/docs/intro"><ks>PlayWright</ks></a>.<br>
+				In particular this kind of test are runned with command below.
+				<pre>npx playwright test --config=my.config.js</pre>
+			</p>
+				<kc>TestPlans goals:</kc>
+
+					<div class=remark2>
+						<h3>Client GUI</h3>
+						<p>
+							This test consists of checking if the <b>clientGUI</b> exchange messages with <b>parkingmanagerserive</b> correctly.
+						</p>
+						<table>
+							<tr>
+								<td>
+									<pre>const { test, expect } = require('@playwright/test');
+test('CLIENT GUI test', async ({ page }) => {
+  await page.goto('http://localhost:8081/');
+  await page.waitForTimeout(3000)
+  await page.click('button:has-text("Enter Request")');
+
+  const slot = await page.locator('//*[@id="infoDisplay"]');
+await expect(slot).toContainText('SLOTNUM:');
+
+  await page.waitForTimeout(4000)
+  await page.click('button:has-text("CarEnter Request")'); //carenter
+  await page.waitForTimeout(8000)
+  const value = await page.evaluate(() => document.getElementById("infoDisplay").textContent)
+
+	token = value.slice(7)
+	const tok = await page.locator('//*[@id="infoDisplay"]');
+await expect(tok).toContainText('TOKEN:');
+
+	await page.fill('//*[@id="tokenid"]', token);
+
+  await page.waitForTimeout(3000)
+  await page.click('button:has-text("Submit your TOKENID")');
+
+	const after = await page.locator('//*[@id="adv"]');
+await expect(after).toContainText('Token sended');
+
+
+});
+</pre>
+								</td>
+								<td>
+									During this test, it's opened the page <i>https//:localhost:8081</i> of browser, then are automatically performed all the action
+									necessary to a parking and a picking operation.<br>
+									It's verified also if <b>clientGUI</b> receives and shows correctly <em>SLOTNUM</em> and <em>TOKENID</em> values.
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class=remark2>
+						<h3>ManagerGUI</h3>
+						<p>
+							We wanto to check if <k>STOP/RESUME</k> buttons work properly.
+						</p>
+						<table>
+							<tr>
+								<td>
+									<pre>const { test, expect } = require('@playwright/test');
+test('ManagerGUI test', async ({ page }) => {
+  await page.goto('http://localhost:8083');
+
+  await page.waitForTimeout(1000)
+
+  const stopbtn 		= await page.locator('button:has-text("STOP Trolley")');
+  const resumebtn 		= await page.locator('button:has-text("RESUME Trolley")');
+  const trolleystatus 	= await page.locator('//*[@id="statusDisplay"]') //trolleyStatus
+  const temp 			= await page.locator('//*[@id="tempDisplay"]')   //temperature
+
+  await page.waitForFunction(() => {
+	return document.querySelector('#stopbtn').hasAttribute('disabled')==false
+	});
+  await page.waitForTimeout(500)
+  stopbtn.click()
+  await page.waitForTimeout(1000)
+  await expect(trolleystatus).toContainText('STOPPED')
+
+  await page.waitForFunction(() => {
+	return document.querySelector('#resumebtn').hasAttribute('disabled')==false
+	});
+  await page.waitForTimeout(500)
+  await resumebtn.click()
+  await page.waitForTimeout(1000)
+  await expect(trolleystatus).not.toContainText('STOPPED')
+
+
+});</pre>
+								</td>
+								<td>
+									During this test, it's opened the page <i>https//:localhost:8081</i> of browser, then it's waited until <em>STOP</em> button is enabled, so
+									it is pressed. Then the value of Trolley status is verified: it has to be "STOPPED".<br>
+									As soon as the <em>RESUME</em> button becomes enabled, also it's pressed and verified if, after that, Trolley status is
+									different by "STOPPED" (IDLE or WORKING).
+								</td>
+							</tr>
+						</table>
+					</div>
+
+
+				<li>Ensure that the workflow of the system meets a set of requirements <k><b>(integration testing)</b>
+					</k>. <br> <br>
+
+					<div class=remark2>
+						<h3>Workflow</h3>
+						During this test, it's verified the correct behaviour of the system.<br>
+						In particular, it will be runned the entire system, including distributed components, and it will be checked if the system it's able
+						to perform all parking and picking operations in the correct way.
+						<table>
+							<tr>
+								<td>
+									<center><b><u>WORKFLOW TEST PLAN</u></b></center>
+									<center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/it.unibo.ParkManagerService_s4/test/it/unibo/parkingmanagerservicetest/TestPlan.kt">TestPlan.kt</a></center>
+<pre>
+	clientactor!!.forward("startManager","system(ready)","parkingmanagerservice")
+	delay(5000)
+
+	var indoorStatus = channelForObserver.receive().substringAfter("(","-").substringBefore(")","-")
+	println("TEST indoorAtStart: $indoorStatus")
+	assertTrue(indoorStatus.equals("FREE"))
+
+	var outdoorStatus = channelForObserver.receive().substringAfter("(","-").substringBefore(")","-")
+	println("TEST outdoorStatus: $outdoorStatus")
+	assertTrue(outdoorStatus.equals("FREE"))
+
+
+	var robotPosition = channelForObserver.receive().substringAfter("(","-").substringBefore(")","-")
+	println("TEST robotPosition: $robotPosition")
+	assertTrue(robotPosition.equals("0,0"))
+
+	delay(3000)
+
+	clientactor!!.request("reqenter","reqenter(bob)","parkingmanagerservice")
+
+
+	var slotnum 		= channelForObserver.receive().substringAfter("(","-").substringBefore(")","-").toInt()
+	println("TEST slotnum: $slotnum")
+	assertTrue(slotnum > 0 && slotnum < 7)
+
+	delay(3000)
+
+	clientactor!!.request("carenter","carenter(ok)","parkingmanagerservice")
+
+	var weight	= channelForObserver.receive().substringAfter("(","").substringBefore(")","").toInt()
+	println("TEST weight: $weight")
+	assertTrue(weight > 0)
+	println("TEST weight: SUCCESS")
+
+	indoorStatus 		= channelForObserver.receive().substringAfter("(","").substringBefore(")","")
+	println("TEST indoorStatus: $indoorStatus")
+	assertTrue(indoorStatus.equals("BUSY"))
+	println("TEST indoorStatus SUCCESS")
+
+	var result = channelForObserver.receive()
+	robotPosition = result.substringAfter("(","").substringBefore(")","")
+	println("TEST robotPosition: $robotPosition")
+	assertTrue(robotPosition.equals("6,0"))
+	println("TEST robotPosition SUCCESS")
+
+	result = channelForObserver.receive()
+	indoorStatus 		= result.substringAfter("(","").substringBefore(")","")
+	println("TEST indoorStatus: $indoorStatus")
+	assertTrue(indoorStatus.equals("FREE"))
+	println("TEST indoorStatus SUCCESS")
+
+	var receipt 		= channelForObserver.receive().substringAfter("(","-").substringBefore(")","-").toInt()
+	println("TEST receipt: $receipt")
+	assertTrue(receipt >= 11)
+
+	result = channelForObserver.receive()
+	robotPosition = result.substringAfter("(","").substringBefore(")","")
+	println("TEST robotPosition: $robotPosition")
+	assertTrue(robotPosition.equals("1,1"))
+
+
+
+	delay(2000)
+
+	var home 		= channelForObserver.receive().substringAfter("(","-").substringBefore(")","-")
+	println("TEST moving to HOME: $home")
+	assertTrue(home.equals("HOME"))
+
+	println("FINISH PARKING OP")
+
+	delay(4000)
+
+	clientactor!!.request("pickup","pickup($receipt)","parkingmanagerservice")
+
+	var carslotnum = channelForObserver.receive()
+	var carslot = carslotnum.substringAfter("(","-").substringBefore(")","-").toInt()
+	println("TEST carslotnum: $carslot")
+	assertTrue(carslot.equals(slotnum))
+	println("TEST carslotnum SUCCESS")
+
+	
+	result = channelForObserver.receive()
+	robotPosition = result.substringAfter("(","").substringBefore(")","")
+	println(""+ robotPosition)
+	assertTrue(robotPosition.equals("1,1"))
+	println("TEST robotPosition 1: $robotPosition")
+
+	result = channelForObserver.receive()
+	robotPosition = result.substringAfter("(","").substringBefore(")","")
+	assertTrue(robotPosition.equals("6,4"))
+	println("TEST robotPosition 2: $robotPosition")
+
+
+	outdoorStatus = channelForObserver.receive().substringAfter("(","").substringBefore(")","")
+	assertTrue(outdoorStatus.equals("BUSY"))
+	println("TEST outdoorStatus: $outdoorStatus")
+
+	outdoorStatus = channelForObserver.receive().substringAfter("(","").substringBefore(")","")
+	assertTrue(outdoorStatus.equals("FREE"))
+	println("TEST outdoorStatus: $outdoorStatus")
+
+
+	home = channelForObserver.receive().substringAfter("(","-").substringBefore(")","-")
+	assertTrue(home.equals("HOME"))
+	println("TEST moving to HOME: $home")
+
+	println("FINISH PICKING OP")
+	}
+	}
+
+
+</pre>
+								</td>
+								<td>
+									In this test it's checked, step by step, all values during parking and picking process. Values that it's checked are:
+									<ul>
+										<li><ks>indoorStatus</ks>: in different situations it is checked if the <em>INDOOR</em> status is <k>FREE</k> or <k>BUSY</k>
+										<li><ks>outdoorStatus</ks>: in different situations it is checked if the <em>OUTDOOR</em> status is <k>FREE</k> or <k>BUSY</k>
+										<li><ks>slotsFree</ks>: it is checked the actual free parking slots of the entire system
+										<li><ks>robotPosition</ks>: it is checked that the final position of the <b>Trolley</b> after a work is correct
+										<li><ks>slotnum</ks>: it is checked the <em>SLOTNUM</em> that which has been assigned to the current client
+										<li><ks>receipt</ks>: it is checked that its value is between <k>10000</k> and <k>69999</k>
+										<li><ks>home</ks>: it is checked that <b>Trolley</b> has effectively reached its <k>HOME</k>
+										<li><ks>carslotnum</ks>: it is checked if the <em>TOKEID</em> provide by client <tt>piking</tt> request is equal to the one assigned to he.
+										<li><ks>alarm</ks>: it is checket if after 10 seconds the <em>OUTDOOR</em> is not yet <k>FREE</k> that the <em>alarm</em> has been correctly activated.
+									</ul>
+								</td>
+							</tr>
+						</table>
+					</div>
+			</ul>
+			</div>
+
+			</p>
+
+		<h2>Deployment</h2>
+		The deployment of SPRINT 4 consists in a release on a <a
+			href="https://github.com/P-damicis/Automated_Car_Parking/tree/main/sprint_4">Github repository</a>.<br><br>
+
+		Every component are deployed with a runnable distribution in order to obtain a stand alone application.
+		<ul>
+			<li>
+				<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/launch_bat.vbs">launch_bat.vbs</a>
+				<ul>
+					<li>
+						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/starter.bat">starter.bat</a>
+						<ul>
+							<li><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/robot.bat">robot.bat</a></li>
+							<li>it.unibo.ParkManagerService_s4.bat</li>
+							<li><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/out/artifacts/ClientGui_main_jar/ClientGui.main.jar">ClientGui.main.jar</a></li>
+							<li><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ParkManagerGui/out/artifacts/ParkManagerGui_main_jar/ParkManagerGui.main.jar">ParkManagerGui.main.jar</a></li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+		<h2>Maintenance</h2>
+			This is the first complete working prototype release of the system. Every bug or problem will be resolved over time.
+		<br /><br />
+	</div>
+
+	<div style="background-color:rgba(42, 7, 241, 1.0); width:100%;text-align:center;color:white">
+		<table style="width:100%" border="1">
+			<tr>
+				By Mantovani Leonardo and Pier Domenico d'Amicis
+
+			</tr>
+		</table>
+	</div>
+</body>
+
+</html>

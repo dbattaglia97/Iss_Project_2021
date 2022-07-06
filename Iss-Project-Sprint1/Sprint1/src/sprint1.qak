@@ -4,9 +4,7 @@ Request reqenter : reqenter(X)
 Reply enter: enter(SLOTNUM)
 Request carenter: carenter(SLOTNUM)
 Reply receipt : receipt(TOKENID)
-Dispatch pickup:pickup(V)
-Request pickup : pickup(TOKENID)
-Reply pickupaccepted: pickupaccepted(TOKENID)
+Dispatch pickup : pickup(TOKENID)
 Reply waitIndoor: waitIndoor(TOKENID)
 Event caroutdoorarrival : coa(V)
 Event carwithdrawn : cw(X)
@@ -27,12 +25,12 @@ Dispatch updateForTesting: update(X)
 
 
 
-Context ctxCarParking ip[host="localhost" port=8092]
+Context ctxcarparking ip[host="localhost" port=8092]
 
-CodedQActor testupdater	context ctxCarParking className "testUpdater"
+CodedQActor testupdater	context ctxcarparking className "testUpdater"
 
 
-QActor client context ctxCarParking{
+QActor client context ctxcarparking{
 	[#
 		var CLIENTDONE  = 0
 		var SLOTNUM 	= 0 //slot assegnato
@@ -83,11 +81,8 @@ QActor client context ctxCarParking{
 
 	State reqpickup{
 		println("client notify his interest in picking his car | CLIENT")
-		request parkingmanagerservice -m pickup : pickup($TOKENID)
-	} Transition t0 whenReply pickupaccepted -> waitingForCar
-
-	State waitingForCar{
-	}Transition t0 whenMsg pickup -> pickupcar
+		forward parkingmanagerservice -m pickup : pickup($TOKENID)
+	} Transition t0 whenTime 2000->pickupcar
 
 	State pickupcar{
 		delay 3000 //in 2 secondi porta via l'auto da OUTDOOR
@@ -102,7 +97,7 @@ QActor client context ctxCarParking{
 
 
 
-QActor outsonar context ctxCarParking{
+QActor outsonar context ctxcarparking{
 	State s0 initial{
 	}Goto working
 
@@ -122,7 +117,7 @@ QActor outsonar context ctxCarParking{
 	}Goto working
 }
 
-QActor sonarhandler context ctxCarParking{
+QActor sonarhandler context ctxcarparking{
     [#var distance=2000
     	var outdoorfree=true#]
 
@@ -152,7 +147,7 @@ QActor sonarhandler context ctxCarParking{
             	outdoorfree=true
                 KBSupport.changeOutdoorToFree()#]
                 forward timer -m stoptimer:timer(OFF)
-                forward parkingmanagerservice -m withdrawn:withdrawn(OK)
+								forward parkingmanagerservice -m withdrawn:withdrawn(OK)
                 forward testupdater -m updateForTesting:outdoorStatus(FREE)
             [#}#]
         [#}#]
@@ -160,7 +155,7 @@ QActor sonarhandler context ctxCarParking{
 }
 
 
-QActor timer context ctxCarParking{
+QActor timer context ctxcarparking{
     State s0 initial{
 
     }Goto working
@@ -186,7 +181,7 @@ QActor timer context ctxCarParking{
 
 
 
-QActor weightsensor context ctxCarParking{
+QActor weightsensor context ctxcarparking{
 	[#var P = 0#]
 	State s0 initial{
 		println("Weightsensor starts | WEIGHTSENSOR")
@@ -204,7 +199,7 @@ QActor weightsensor context ctxCarParking{
 }
 
 
-QActor weightsensorhandler context ctxCarParking{
+QActor weightsensorhandler context ctxcarparking{
     [#var Www=1#]
     State s0 initial{
         println("WeightsensorHandler INIT | WEIGHTSENSORHANDLER")
@@ -233,7 +228,7 @@ QActor weightsensorhandler context ctxCarParking{
 }
 
 
-QActor parkingmanagerservice context ctxCarParking{
+QActor parkingmanagerservice context ctxcarparking{
 	[#lateinit var testUpdaterActor	: ActorBasic
 	var prog= 0
 	var SLOTNUM=-1
@@ -295,7 +290,7 @@ QActor parkingmanagerservice context ctxCarParking{
        [#boolOUT=false
         boolIN=false #]
 	}Transition t0 whenTime 10000-> moveToHome
-	                whenRequest pickup-> acceptout
+	                whenMsg pickup-> acceptout
 
 	State waiting{
         println("The system can't elaborate any request| SERVICE")
@@ -387,12 +382,10 @@ QActor parkingmanagerservice context ctxCarParking{
 	        println("Token provided by the customer for the pickup $TOKENIN | SERVICE")
 	        solve(token($TOKENIN))
             ifSolved{
-                replyTo pickup with pickupaccepted: pickupaccepted($TOKENIN)
                 [#CARSLOTNUM= TOKENIN%10#]
                 println("Token elaboration OK, token= $TOKENIN and corresponding slot= $CARSLOTNUM| SERVICE")
                 forward testupdater -m updateForTesting : pickup($CARSLOTNUM)
             }else{
-                replyTo pickup with pickupaccepted: pickupaccepted($TOKENIN)
                 [#TOKENIN=-1#]
                 println("TOKEN NOT OK | SERVICE")
 	    	}
@@ -412,7 +405,6 @@ QActor parkingmanagerservice context ctxCarParking{
 		solve(removeToken($TOKENIN))
 		println("Car is in Outdoor area | SERVICE")
 		emit caroutdoorarrival : coa(car_outdoor)  //deve essere percepito dal sensore
-		forward client -m pickup:pickup(OK)
 	}
 	Transition t0 	whenMsg withdrawn  -> withdrawn
 					whenEvent timeout -> timeout

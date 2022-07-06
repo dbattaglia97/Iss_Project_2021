@@ -1,5 +1,5 @@
 System carparking
- 
+  
 Request reqenter : reqenter(X)
 Reply enter: enter(SLOTNUM)
 Request carenter: carenter(SLOTNUM)
@@ -47,12 +47,12 @@ Dispatch end : end(e)
 Event  endall	   : endall( ARG )
 Event finishedPath:finishedPath(V)
 
-Context ctxCarParking ip[host="localhost" port=5683]
+Context ctxcarparking ip[host="localhost" port=5683]
 
-CodedQActor testupdater	context ctxCarParking className "testUpdater"
+CodedQActor testupdater	context ctxcarparking className "testUpdater"
 
  
-QActor client context ctxCarParking{
+QActor client context ctxcarparking{
 	[#
 		var CLIENTDONE  = 0
 		var SLOTNUM 	= 0 //slot assegnato
@@ -132,7 +132,7 @@ QActor client context ctxCarParking{
 }
 
 
-QActor outsonar context ctxCarParking{
+QActor outsonar context ctxcarparking{
 	State s0 initial{
 	}Goto working
 
@@ -152,7 +152,7 @@ QActor outsonar context ctxCarParking{
 	}Goto working
 }
 
-QActor sonarhandler context ctxCarParking{
+QActor sonarhandler context ctxcarparking{
     [#var distance=2000
     	var outdoorfree=true#]
 
@@ -190,7 +190,7 @@ QActor sonarhandler context ctxCarParking{
 }
 
 
-QActor timer context ctxCarParking{
+QActor timer context ctxcarparking{
     State s0 initial{
 
     }Goto working
@@ -216,7 +216,7 @@ QActor timer context ctxCarParking{
 
 
 
-QActor weightsensor context ctxCarParking{
+QActor weightsensor context ctxcarparking{
 	[#var P = 0#]
 	State s0 initial{
 		println("Weightsensor starts | WEIGHTSENSOR")
@@ -234,7 +234,7 @@ QActor weightsensor context ctxCarParking{
 }
 
 
-QActor weightsensorhandler context ctxCarParking{
+QActor weightsensorhandler context ctxcarparking{
     [#var Www=1#]
     State s0 initial{
         println("WeightsensorHandler INIT | WEIGHTSENSORHANDLER")
@@ -263,7 +263,7 @@ QActor weightsensorhandler context ctxCarParking{
 }
 
 
-QActor parkingmanagerservice context ctxCarParking{
+QActor parkingmanagerservice context ctxcarparking{
 	[#
 
 	lateinit var testUpdaterActor	: ActorBasic
@@ -521,7 +521,7 @@ QActor parkingmanagerservice context ctxCarParking{
 
 }
 
-QActor trolley context ctxCarParking{
+QActor trolley context ctxcarparking{
 [#  val mapname     = "parkingMap0"
   var Myself      = myself
   var CurrentPlannedMove = ""
@@ -631,7 +631,7 @@ QActor trolley context ctxCarParking{
 	}
 }
 
-QActor basicrobot context ctxCarParking{
+QActor basicrobot context ctxcarparking{
 	[#
 	  var StepTime      = 0L
 	  var StartTime     = 0L
@@ -808,7 +808,7 @@ QActor basicrobot context ctxCarParking{
 	}
  }
 
-QActor fan context ctxCarParking{
+QActor fan context ctxcarparking{
 	State s0 initial{
 		println("fan | start")
 	}Transition t0 whenMsg startfan -> working
@@ -828,7 +828,7 @@ QActor fan context ctxCarParking{
 	}Transition t0 whenMsg startfan ->working
 }
 
-QActor thermometer context ctxCarParking{
+QActor thermometer context ctxcarparking{
 	[#var Temp=20#]
 	State s0 initial{
 		println("thermometer | starting ")
@@ -855,7 +855,7 @@ QActor thermometer context ctxCarParking{
 		whenEvent increase -> increasing
 }
 
-QActor parkingmanager context ctxCarParking{
+QActor parkingmanager context ctxcarparking{
 	[#var fanIsStarted=0
 	var minTemp=20
 	var maxTemp=36#]

@@ -43,7 +43,7 @@ class TestPlan {
 		fun init() {
 
 			GlobalScope.launch{
-				it.unibo.ctxCarParking.main()
+				it.unibo.ctxcarparking.main()
 
 			}
 			GlobalScope.launch{
@@ -72,7 +72,7 @@ class TestPlan {
 
 	@Before
 	fun checkSystemStarted()  {
-		testingObserver 	= CoapObserverForTesting("testingobs","ctxCarParking","testupdater","5683")
+		testingObserver = CoapObserverForTesting("testingobs","ctxcarparking","testupdater","5683")
 		println("\n=================================================================== ")
 	    println("+++++++++ BEFOREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE testingObserver=$testingObserver")
 		if( ! systemStarted ) {

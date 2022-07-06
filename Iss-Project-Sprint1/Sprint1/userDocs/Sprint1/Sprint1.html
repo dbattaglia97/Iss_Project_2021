@@ -944,6 +944,12 @@
 
     				</p>
 
+
+
+
+
+
+
     				<h4>KBSupports</h4>
             <p>
             It was noted that it is not possible to edit the KnowledgeBase encoded by the .pl file because each time it is "opened" by a different actor, each actor creates its own copy and the changes remain local and not global. To overcome this problem, the following steps were considered:
@@ -1048,9 +1054,10 @@
 										<center>
 											<ks>sonarhandler: </ks>
 										</center>
-										It has tha aim to set <em>OUTDOOR-area</em> status when perceives the precense or absence of a car in the related area.
-	                  If it receives a distance value less than the threshold it will change the status of the outdoor to occupied and starts the timer sending a message to the Timer actor, otherwise it will make the outdoorarea free and will stop the timer sending a message to the Timer actor.
-	                  When the simulation stats, it's activated also an internal timer.
+										It perceives every <tt>sonaroutdoor</tt> event, in which is indicated the distance detected in <em>OUTDOOR</em> area by the sensor. If distance received is under certain limit and the
+										<em>OUTDOOR</em> is still <k>FREE</k>, it has the task to set <em>OUTDOOR</em> status to <k>BUSY</k> and to send a <tt>starttimer</tt> dispatch to <b>timer</b>.
+										If there is a change in a distance received and this value is higher than the limit and <em>OUTDOOR</em> status is still setted to <k>BUSY</k>, then it has the task to send a <tt>stoptimer</tt> dispatch and
+										to set <em>OUTDOOR</em> status to <k>FREE</k>.
 									</td>
 								</tr>
 
@@ -1098,7 +1105,7 @@
     					<div class=remark2>
     						<h3>1) At least a FREE SLOT, INDOOR-AREA FREE and OUTDOOR-AREA FREE</h3>
     						<p>In this test is initially checked if value of <em>SLOTNUM</em> is greater than 0</p>
-    						<p>Subsequently the simulation is continued and controls that the value of the <em>RECEIPT</em> given from the system is greater than 10000.</p>
+    						<p>Subsequently the simulation is continued and controls that the value of the <em>RECEIPT</em> given from the system is greater or equals  11.</p>
     						<p>
     							We want to check if, at the end of picking phase, the <em>CARSLOTNUM</em> value obtained from <tt>PICKUP</tt> request is greater than 0.
     						</p>
@@ -1168,7 +1175,7 @@
                         <center><b><u>CLIENT</u></b></center>
                         <center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/src/parkingservice.qak">parkingservive.qak</a></center>
                         <pre>
-QActor client context ctxCarParking{
+QActor client context ctxcarparking{
 	[#
 		var CLIENTDONE  = 0
 		var SLOTNUM 	= 0 //slot assegnato
@@ -1219,11 +1226,8 @@ QActor client context ctxCarParking{
 
 	State reqpickup{
 		println("client notify his interest in picking his car | CLIENT")
-		request parkingmanagerservice -m pickup : pickup($TOKENID)
-	} Transition t0 whenReply pickupaccepted -> waitingForCar
-
-	State waitingForCar{
-	}Transition t0 whenMsg pickup -> pickupcar
+		forward parkingmanagerservice -m pickup : pickup($TOKENID)
+	} Transition t0 whenTime 2000->pickupcar
 
 	State pickupcar{
 		delay 3000 //in 2 secondi porta via l'auto da OUTDOOR
@@ -1271,6 +1275,8 @@ QActor weightsensor context ctxCarParking{
 	}Goto ready
 }
     </pre>
+		In the absence of the real weightsensor, this qactor was implemented to precisely simulate the real operation of a physical weightsensor. At the time it receives a carindoorarrival event (issued by the parkingmanagerservice) it emits a weight more than the threshold set in the weightsensorhandler to simulate the presence of a car in the indoor-area.
+
 </tr>
 
 
@@ -1279,8 +1285,6 @@ QActor weightsensor context ctxCarParking{
     <hr><hr>
     		  <center><b><u>WEIGHTSENSORHANDLER</u></b></center>
     		  <center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/codedqak/weightsensorSimulator.kt">weightsensorSimulator.kt </a></center>
-
-
     <pre>
 QActor weightsensorhandler context ctxCarParking{
     [#var Www=1#]
@@ -1310,6 +1314,7 @@ QActor weightsensorhandler context ctxCarParking{
     }Goto working
 }
     </pre>
+		Qactor whose task is to handle the weight emitted by the weightsensor so that the parkingmanagerservice is aware that there is a machine in the indoor, also has the task of changing the state of the indoorarea.
 </tr>
 
 
@@ -1340,6 +1345,8 @@ QActor outsonar context ctxCarParking{
 	}Goto working
 }
     </pre>
+		In the absence of the real outsonar, this qactor was implemented to precisely simulate the real operation of a physical sonar. At the time it receives a caroutdoorarrival event (issued by the parkingmanagerservice) it emits a distance less than the threshold set in the sonarhandler to simulate the presence of a car in the outdoor-area, on the other hand, if it receives the carwithdrawn event (issued by the client) it emits a distance greater than the threshold set in the sonarhandler to simulate the departure of the car itself.
+
 </tr>
 
 
@@ -1387,6 +1394,17 @@ QActor sonarhandler context ctxCarParking{
     }Transition t0 whenEvent sonaroutdoor ->handleSonarData
 }
     </pre>
+
+		This QAktor, in the same context of <b>parkingmanagerserive</b> has the task to manage informations received by the <b>real sonar</b> , which it's deployed
+		on another device, a <i>Raspberry Pi</i> or by the mock <b>outsonar</b>. <br> The behaviour of thi actor is simple:
+		<ul>
+		<li>it starts his work when it receives a dispatch <tt>sonarstart</tt>
+		<li>then it keep in waiting for the event <tt>sonaroutdoor</tt>, that is emitted by <b>real sonar</b> o <b>outsonar</b>, and takes payload of perceives event
+		<li>perform a check to verify if the value of distance received by the event is less then the fixed threshold <k>distance</k>
+		<li>if distance is less it sets to FALSE the state of <em>OUTDOOR</em> area and send a dispatch <tt>starttimer</tt> to mock-actor <b>timer</b>, which actives
+		the countdown.
+		<li>when distance is greater the threshold, the status of <em>OUTDOOR</em> area is setted to TRUE and it sends to <b>outdoortimer</b> a dispatch <tt>stoptimer</tt>.
+		<li>then it returns in waiting for <tt>sonaroutdoor</tt> event.
 </tr>
 
 <tr>
@@ -1419,14 +1437,18 @@ QActor timer context ctxCarParking{
     }Goto working
 }
     </pre>
+		This is the mock-actor that has the goal to perform the countdown when a car is located in <em>OUTDOOR</em> area.<br>
+		It receives <t>startimer</t> or <tt>stoptimer</tt> dispatch in order to activating or stopping countdown from <k>DTFREE</k> (now imposed to 20000 milliseconds)  to zero.
+		If countdown expires, it momentarily emitted an <tt>alarm</tt> that will be perceived by the <b>parkingManagerService</b> (when the ParkingManagerGui will be implemented, it will be dispatched to it).
 </tr>
+<hr><hr>
         <tr>
 
                         <center><b><u>PARKINGMANAGERSERVICE</u></b></center>
                         <center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/src/parkingservice.qak">parkingservive.qak</a></center>
 
     <pre>
-QActor parkingmanagerservice context ctxCarParking{
+QActor parkingmanagerservice context ctxcarparking{
 	[#lateinit var testUpdaterActor	: ActorBasic
 	var prog= 0
 	var SLOTNUM=-1
@@ -1488,7 +1510,7 @@ QActor parkingmanagerservice context ctxCarParking{
        [#boolOUT=false
         boolIN=false #]
 	}Transition t0 whenTime 10000-> moveToHome
-	                whenRequest pickup-> acceptout
+	                whenMsg pickup-> acceptout
 
 	State waiting{
         println("The system can't elaborate any request| SERVICE")
@@ -1573,19 +1595,16 @@ QActor parkingmanagerservice context ctxCarParking{
 			whenTime 4000 -> checkAcceptIN //simuliamo lo spostamento del Trolley
 
 
-
 	State acceptout{
 	    onMsg (pickup : pickup(TOKENIN)){
 	        [# TOKENIN = payloadArg(0).toInt() #]
 	        println("Token provided by the customer for the pickup $TOKENIN | SERVICE")
 	        solve(token($TOKENIN))
             ifSolved{
-                replyTo pickup with pickupaccepted: pickupaccepted($TOKENIN)
                 [#CARSLOTNUM= TOKENIN%10#]
                 println("Token elaboration OK, token= $TOKENIN and corresponding slot= $CARSLOTNUM| SERVICE")
                 forward testupdater -m updateForTesting : pickup($CARSLOTNUM)
             }else{
-                replyTo pickup with pickupaccepted: pickupaccepted($TOKENIN)
                 [#TOKENIN=-1#]
                 println("TOKEN NOT OK | SERVICE")
 	    	}
@@ -1605,7 +1624,6 @@ QActor parkingmanagerservice context ctxCarParking{
 		solve(removeToken($TOKENIN))
 		println("Car is in Outdoor area | SERVICE")
 		emit caroutdoorarrival : coa(car_outdoor)  //deve essere percepito dal sensore
-		forward client -m pickup:pickup(OK)
 	}
 	Transition t0 	whenMsg withdrawn  -> withdrawn
 					whenEvent timeout -> timeout
@@ -1674,7 +1692,7 @@ QActor parkingmanagerservice context ctxCarParking{
 
                 </tr>
 
-            </table>
+            </table> <hr><hr>
             <br>
 <table>
                 <tr>
@@ -1729,6 +1747,7 @@ fun changeIndoorToOccupied(){
   }
 }
 </pre>
+
                 </tr>
             </table>
 
@@ -1753,7 +1772,7 @@ fun changeIndoorToOccupied(){
     					<div class=remark2>
     						<h3>1) At least a FREE SLOT, INDOOR-AREA FREE and OUTDOOR-AREA FREE</h3>
     						<p>In this test is initially checked if value of <em>SLOTNUM</em> is greater than 0.</p>
-    						<p>Subsequently the simulation is continued and controls that the value of the <em>RECEIPT</em> given from the system is greater than 10000.</p>
+    						<p>Subsequently the simulation is continued and controls that the value of the <em>RECEIPT</em> given from the system is greater than 11.</p>
     						<p>
     							We want to check if, at the end of picking phase, the <em>CARSLOTNUM</em> value obtained starting from <tt>pickup</tt> request is greater than 0.
     						</p>
@@ -1929,7 +1948,7 @@ runBlocking{
     							When a parking slot become free request is processed, but being <em>INDOOR-AREA NOT FREE</em>,
     							so we go to check that <em>SLOTNUM</em> obtained from <tt>waitIndoor</tt> is greater than 0.
     						</p>
-    						<p>After that, simulation continues without problem and we check if provided <em>TOKENID</em> is greater then 10000 and if <em>CARSLOTNUM</em> value is
+    						<p>After that, simulation continues without problem and we check if provided <em>TOKENID</em> is greater then 11 and if <em>CARSLOTNUM</em> value is
     						greater than 0.</p>
     						<table>
     						<tr>
@@ -2007,7 +2026,7 @@ runBlocking{
     				because there are no free slot. After some seconds a parking slot is setted to FREE and <tt>reqenter</tt> is elaborated by system, that reply to <b>client</b>
     				with a <tt>waitIndoor</tt>.<br>
     				After a certain period of time, <em>INDOOR</em> is setted to FREE and the operation of parking, and after, of picking proceed normally, checking ever if
-    				provided <em>TOKENID</em> is greater then 10000 and if <em>CARSLOTNUM</em> value is greater than 0.</p>
+    				provided <em>TOKENID</em> is greater then 11 and if <em>CARSLOTNUM</em> value is greater than 0.</p>
     			</p>
     		</td>
     	</tr>
@@ -2163,8 +2182,8 @@ fun testWorkflow5(){
     						</td>
     						<td>
     							<p>
-    								In this test are deploy two actors which simulate two <b>clients</b>, they sends a <tt>reqenter</tt> almost togheter.
-    								<br>[...]
+    								In this test are deploy two actors which simulate two <b>clients</b>, they sends a <tt>reqenter</tt> almost togheter and it is verified if they are correctly processed.
+    								<br>
     							</p>
     						</td>
     						</tr>
