@@ -599,11 +599,13 @@
           						sonarHCSR04Support2021.kt</ks>
 
                 <li>
-                    <k>Thermometer:</k> it's the component that sends data about evironment temperature to Fan.
+                    <k>Thermometer:</k> it's the component that sends data about evironment temperature to the Fanautomatizer.
                 <li>
-                    <k>Fan:</k> it's the component that receives temperature data from Termometer and actives a cooling
-                    system when temperature reaches the upper limit.
-                <li>
+                    <k>Fan:</k> it's the component that has the task of cooling the system when turned on.
+
+									<li>
+	                    <k>Fanautomatizer:</k> it's the component that has the task to automatize the usage of the fan
+	                <li>
                     <k>ClientGUI:</k> it's a graphic interface at the customer's disposal. It allows clients to submit a
                     parking or picking request to the ParkingSystem.
                 <li>
@@ -968,6 +970,7 @@
 
 
 						<h3>Logical Architecture</h3>
+
 						<p>
 							<table style="width:100%" border="1">
 								<tr>
@@ -987,7 +990,7 @@
     									<li><b>weightsensor</b>
     									<li><b>outsonar</b>
     									<li><b>weightsensorhandler</b>
-    									<li><b>outsonarhandler</b>
+    									<li><b>sonarhandler</b>
                     	<li><b>timer</b>
 										</ul>
 									</td>
@@ -1168,12 +1171,14 @@
     		</p>
 
     		<h2>Project</h2>
+				 <div class="remark">
+
     			We now proceed with the project phase, where we show the implementation of our system having only the features provided by this SPRINT. In particular we will see the implementation of 7 QAktors which living in the same context that is ctxCarParking :
     			<br><br>
     			    <table style="width:100%">
                 <tr>
                         <center><b><u>CLIENT</u></b></center>
-                        <center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/src/parkingservice.qak">parkingservive.qak</a></center>
+                        <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">parkingmanagerservice</a></center>
                         <pre>
 QActor client context ctxcarparking{
 	[#
@@ -1254,7 +1259,7 @@ QActor client context ctxcarparking{
 <tr>
     <hr><hr>
     		  <center><b><u>WEIGHTSENSOR</u></b></center>
-    		  <center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/codedqak/weightsensorSimulator.kt">weightsensorSimulator.kt </a></center>
+    		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">weightsensor </a></center>
 
 
     <pre>
@@ -1284,7 +1289,7 @@ QActor weightsensor context ctxCarParking{
 <tr>
     <hr><hr>
     		  <center><b><u>WEIGHTSENSORHANDLER</u></b></center>
-    		  <center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/codedqak/weightsensorSimulator.kt">weightsensorSimulator.kt </a></center>
+    		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">weightsensorhandler </a></center>
     <pre>
 QActor weightsensorhandler context ctxCarParking{
     [#var Www=1#]
@@ -1322,7 +1327,7 @@ QActor weightsensorhandler context ctxCarParking{
 <tr>
     <hr><hr>
     		  <center><b><u>OUTSONAR</u></b></center>
-    		  <center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/codedqak/weightsensorSimulator.kt">weightsensorSimulator.kt </a></center>
+    		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">outsonar </a></center>
 
     <pre>
 QActor outsonar context ctxCarParking{
@@ -1354,7 +1359,7 @@ QActor outsonar context ctxCarParking{
 <tr>
     <hr><hr>
     		  <center><b><u>SONARHANDLER</u></b></center>
-    		  <center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/codedqak/weightsensorSimulator.kt">weightsensorSimulator.kt </a></center>
+    		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">sonarhandler </a></center>
 
     <pre>
 QActor sonarhandler context ctxCarParking{
@@ -1410,7 +1415,7 @@ QActor sonarhandler context ctxCarParking{
 <tr>
     <hr><hr>
     		  <center><b><u>TIMER</u></b></center>
-    		  <center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/codedqak/weightsensorSimulator.kt">weightsensorSimulator.kt </a></center>
+    		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">timer </a></center>
 
     <pre>
 QActor timer context ctxCarParking{
@@ -1445,7 +1450,7 @@ QActor timer context ctxCarParking{
         <tr>
 
                         <center><b><u>PARKINGMANAGERSERVICE</u></b></center>
-                        <center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/src/parkingservice.qak">parkingservive.qak</a></center>
+                        <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">parkingmanagerservice</a></center>
 
     <pre>
 QActor parkingmanagerservice context ctxcarparking{
@@ -1698,7 +1703,7 @@ QActor parkingmanagerservice context ctxcarparking{
                 <tr>
                     <td style="vertical-align: text-top">
                         <center><b><u>KBSupport</u></b></center>
-                        <center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/ClientGUIsimulator.ipynb">KBSupport.kt</a></center>
+                        <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/utility/KBSupport.kt">KBSupport.kt</a></center>
 
 
     					<pre>
@@ -1750,13 +1755,13 @@ fun changeIndoorToOccupied(){
 
                 </tr>
             </table>
-
+</div>
 
     		<h2>Testing</h2>
-    		<a href="../test/it/unibo/parkingmanagerservicetest/TestPlan.kt">TestPlan.kt </a><br>
+    		<a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/test/it/unibo/parkingmanagerservicetest/testPlan1.kt">TestPlan1.kt </a><br>
     		<p>Tests is built using CoapObserver provided by the costumer in the project <ks>it.unibo.qak21.basicrobot
     				</ks> (<a
-    					href="../test/it/unibo/parkingmanagerservice/test/utils/CoapObserverForTesting.kt">CoapObserverForTesting.kt</a>).
+    					href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/test/it/unibo/parkingmanagerservice/test/utils/CoapObserverForTesting.kt">CoapObserverForTesting.kt</a>).
     				<br>
     		</p>
     		<br>

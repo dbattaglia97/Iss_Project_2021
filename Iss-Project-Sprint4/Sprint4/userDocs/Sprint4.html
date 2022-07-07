@@ -530,7 +530,7 @@
 				<table style="width:100%" border="1">
 					<tr>
 						<td style="width:50%;">
-							<p>Our system <tt>ParkingManagerService</tt> it's composed by eight <ks>actors</ks> in
+							<p>Our system <tt>ParkingManagerService</tt> it's composed by twelve <ks>actors</ks> in
 								the <tt>ctxcarparking</tt> context and one <ks>actor</ks> in the <tt>ctxsonaronrasp</tt> context.
 								Every <ks>actor</ks> provides a different service or simulating a certain component.
 								Two separated <ks>services</ks> that represent the GUIs.
@@ -553,9 +553,7 @@
 												<li><b>thermometer</b>
 												<li><b>fan</b>
 												<li><b>fanautomatizer</b>
-												<li><b>trolleustopper</b>
-
-
+												<li><b>trolleystopper</b>
 									</ul>
 								</li>
 								<li><tt>ctxSonaronrasp</tt>
@@ -857,6 +855,46 @@ eventTopic "parkingArea/feedback"</pre>
 						<center><img src="./img/sonaronrasp.png" width='50%'></center>
 					</td>
 				</tr>
+				<tr>
+					<td>
+						<center><b><u>OUTSONAR</u></b></center>
+						<center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/it.unibo.ParkManagerService_s4/src/parkingservice.qak">parkingservice.qak</a></center>
+						<pre>
+class outSonar (name : String ) : ActorBasic( name ) {
+
+	private var mainScope = CoroutineScope(Dispatchers.Default)
+
+	@kotlinx.coroutines.ObsoleteCoroutinesApi
+	@kotlinx.coroutines.ExperimentalCoroutinesApi
+	    override suspend fun actorBody(msg: ApplMessage) {
+	  		if( msg.msgId() == "caroutdoorarrival" &&  msg.msgType() == "event") distanceSimulationOccupied()
+	  		else if( msg.msgId() == "carwithdrawn" &&  msg.msgType() == "event") distanceSimulationFreed()
+	 	}
+
+	@kotlinx.coroutines.ObsoleteCoroutinesApi
+	@kotlinx.coroutines.ExperimentalCoroutinesApi
+		  suspend fun distanceSimulationOccupied(){
+			 //updategui
+				println("Emitting distance 15 -> car is in outdoor")
+				emit("sonaroutdoor", "distance(15)" )
+			}
+
+	@kotlinx.coroutines.ObsoleteCoroutinesApi
+	@kotlinx.coroutines.ExperimentalCoroutinesApi
+		  suspend fun distanceSimulationFreed(){
+				println("Emitting distance 50 -> car is NOT ANYMORE in outdoor")
+				emit("sonaroutdoor", "distance(50)" )
+			}
+
+}
+
+						</pre>
+					</td>
+					<td>
+						To ensure that the simulated outsonar is instantiated only at the time when the real sonar is not being used, the outsonar is now no longer a normal qActor (as in previous sprints) but has been implemented in the form of a coded-qactor.
+					</td>
+
+				</tr>
 			</table>
 			<h3>Manager GUI</h3>
 			This graphic inteface, like the client's one, is created using Spring Boot, referring to an existing project <i><a href="https://github.com/anatali/issLab2021/tree/main/sonarguispring">sonarguispring</a></i>.<br>
@@ -1033,6 +1071,19 @@ class guiUpdater (name : String ) : ActorBasic( name ) {
 						ans <tt>resumeTrolley</tt> messages directly to <b>Trolley</b>.<br> So, <b>trolleystopper</b> receives this kind of dispatches from <b>managerGUI</b> and
 						forward them to <b>trolley</b>.
 					</td>
+
+
+
+
+
+
+
+
+
+
+
+
+
 				</tr>
 			</table>
 			<h3>Client GUI</h3>
@@ -1450,7 +1501,7 @@ test('ManagerGUI test', async ({ page }) => {
 	assertTrue(carslot.equals(slotnum))
 	println("TEST carslotnum SUCCESS")
 
-	
+
 	result = channelForObserver.receive()
 	robotPosition = result.substringAfter("(","").substringBefore(")","")
 	println(""+ robotPosition)

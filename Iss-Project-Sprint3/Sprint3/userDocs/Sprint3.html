@@ -246,7 +246,7 @@
 			<p>In this document it will be analysed the third SPRINT of the project.
 				In this phase we will extend previous SPRINT's model, adding more features and removing some
 				semplifications,
-				introduced during <a href="https://htmlpreview.github.io/?https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_1/it.unibo.ParkManagerService_s1/userDocs/AutomatedCarParking.html">first SPRINT</a>.
+				introduced during the <a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint2/Sprint2/userDocs/Sprint2.html">second SPRINT</a>.
 			</p>
 		</div>
 
@@ -456,7 +456,7 @@
 								<p>Our system <tt>parkingmanagerservive</tt> it's composed by twelve <ks>actors</ks> in
 									the
 									same
-									context <tt>ctxCarParking</tt>, everyone of them
+									context <tt>ctxcarparking</tt>, everyone of them
 									providing a different service.</p>
 								<p>Actors that we implement, will be of <ks><a
 											href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">QActor</a>
@@ -640,6 +640,8 @@
 		</p>
 
 		<h2>Project</h2>
+		<div class="remark">
+
 			We proceed by showing how the added components that allow the new features to work properly are implemented.<br>
 			In particular we'll analyze the most relevant changes to existent QAktors, the new QAktor added to the system and
 			some other components developed during SPRINT 3.
@@ -655,10 +657,10 @@
             <tr>
                 <td style="vertical-align:top;">
                     <center><b><u>THERMOMETER</u></b></center>
-                    <center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/codedqak/thermometerSimulator.kt">thermometerSimulator.kt</a></center>
+                    <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint3/Sprint3/src/sprint3.qak">thermometer</a></center>
 
 <pre>
-QActor thermometer context ctxCarParking{
+QActor thermometer context ctxcarparking{
 	[#Temp=20#]
 	State s0 initial{
 		println("thermometer | starting ")
@@ -703,10 +705,10 @@ QActor thermometer context ctxCarParking{
 
                 <td style="vertical-align:top;">
                     <center><b><u>FAN</u></b></center>
-			<center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/codedqak/fanSimulator.kt">fanSimulator.kt</a></center>
+			<center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint3/Sprint3/src/sprint3.qak">fan</a></center>
 
 <pre>
-QActor fan context ctxCarParking{
+QActor fan context ctxcarparking{
 	State s0 initial{
 		println("fan | start")
 	}Transition t0 whenMsg startfan -> working
@@ -736,7 +738,7 @@ QActor fan context ctxCarParking{
             <tr>
                 <td style="width:50%">
                     <center><b><u>fanautomatizer</u></b></center>
-                    <center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_2/it.unibo.ParkManagerService_s2/resources/it/unibo/utils/ParkingSlotsKb.kt">ParkingSlotsKb.kt</a></center>
+                    <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint3/Sprint3/src/sprint3.qak">fanautomatizer</a></center>
                     <pre>
 QActor fanautomatizer{
 	[#var fanIsStarted=0
@@ -776,7 +778,7 @@ QActor fanautomatizer{
                 </td>
             </tr>
         </table>
-
+</div>
 
 		<h2>Testing</h2>
 		<a href="../test/it/unibo/parkingmanagerservivetest/TestPlan.kt">TestPlan.kt </a><br>
@@ -891,17 +893,18 @@ fun testParkingmanager(){
 
 		<h2>Deployment</h2>
 		The deployment of SPRINT 3 consists in a release on a <a
-			href="https://github.com/P-damicis/Automated_Car_Parking/tree/main/sprint_2">Github repository</a>.
+			href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint3/Sprint3">Github repository</a>.
 
 		<h2>Maintenance</h2>
-		This is the second SPRINT, more features will be released in the next (third) SPRINT.
+		This is the third SPRINT, more features will be released in the next and final SPRINT.
 		<br /><br />
 	</div>
 
 	<div style="background-color:rgba(42, 7, 241, 1.0); width:100%;text-align:center;color:white">
 		<table style="width:100%" border="1">
 			<tr>
-				By Mantovani Leonardo and Pier Domenico d'Amicis
+				By Dario Battaglia email: dario.battaglia2@studio.unibo.it
+				<img src="./img/darioBattaglia.jpg" alt="mbot" width="15%" height="15%">
 
 			</tr>
 		</table>
