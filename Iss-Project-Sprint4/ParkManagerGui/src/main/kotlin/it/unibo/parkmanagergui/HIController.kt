@@ -66,14 +66,14 @@ class HIController {
 
 
     @PostMapping("/stop")
-     fun sendStop(model: Model) : String {
+    fun sendStop(model: Model) : String {
         SenderToPark.send("stop")
-    return  "ManagerGui"
+        return  "ManagerGui"
     }
 
 
     @PostMapping("/resume")
-     fun sendResume(model: Model) : String {
+    fun sendResume(model: Model) : String {
         SenderToPark.send("resume")
         return  "ManagerGui"
     }

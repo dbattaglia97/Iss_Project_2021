@@ -25,18 +25,19 @@ class Trolleystopper ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( n
 				state("work") { //this:State
 					action { //it:State
 					}
-					 transition(edgeName="t050",targetState="stopped",cond=whenDispatch("stopTrolley"))
+					 transition(edgeName="t052",targetState="stopped",cond=whenDispatch("stopTrolley"))
 				}	 
 				state("stopped") { //this:State
 					action { //it:State
 						forward("trolleystop", "trolleystop(manager)" ,"trolley" ) 
 					}
-					 transition(edgeName="t051",targetState="resumed",cond=whenDispatch("resumeTrolley"))
+					 transition(edgeName="t053",targetState="resumed",cond=whenDispatch("resumeTrolley"))
 				}	 
 				state("resumed") { //this:State
 					action { //it:State
 						forward("trolleyresume", "trolleyresume(manager)" ,"trolley" ) 
 					}
+					 transition( edgeName="goto",targetState="work", cond=doswitch() )
 				}	 
 			}
 		}

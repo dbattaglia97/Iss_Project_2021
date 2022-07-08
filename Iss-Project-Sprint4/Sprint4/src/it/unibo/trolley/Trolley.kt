@@ -84,16 +84,17 @@ class Trolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sc
 					 transition(edgeName="t132",targetState="execPlannedMoves",cond=whenTimeout("local_tout_trolley_doMove"))   
 					transition(edgeName="t133",targetState="working",cond=whenDispatchGuarded("trolleycmd",{home == 1 && terminate == 0 
 					}))
+					transition(edgeName="t134",targetState="stopped",cond=whenDispatch("trolleystop"))
 				}	 
 				state("stopped") { //this:State
 					action { //it:State
 						KBSupport.changeTrolleyStatusToStopped() 
 						println("trolley stopped | TROLLEY")
+						delay(500) 
 						forward("cmd", "cmd(h)" ,"basicrobot" ) 
-						delay(2000) 
 						forward("updateGui", "status(STOPPED)" ,"guiupdater" ) 
 					}
-					 transition(edgeName="t034",targetState="resuming",cond=whenDispatch("trolleyresume"))
+					 transition(edgeName="t035",targetState="resuming",cond=whenDispatch("trolleyresume"))
 				}	 
 				state("resuming") { //this:State
 					action { //it:State

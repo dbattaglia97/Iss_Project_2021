@@ -22,12 +22,12 @@ class Thermometer ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name
 					action { //it:State
 						println("thermometer | starting ")
 					}
-					 transition( edgeName="goto",targetState="increasing", cond=doswitch() )
+					 transition(edgeName="t045",targetState="increasing",cond=whenDispatch("startthermometer"))
 				}	 
 				state("increasing") { //this:State
 					action { //it:State
 						println("temperature increasing, actual temperature: $Temp| THERMOMETER")
-						delay(3000) 
+						delay(6000) 
 						Temp=Temp+5 
 						forward("updateGui", "temp($Temp)" ,"guiupdater" ) 
 						delay(3000) 
@@ -35,8 +35,8 @@ class Thermometer ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name
 						stateTimer = TimerActor("timer_increasing", 
 							scope, context!!, "local_tout_thermometer_increasing", 100.toLong() )
 					}
-					 transition(edgeName="t044",targetState="increasing",cond=whenTimeout("local_tout_thermometer_increasing"))   
-					transition(edgeName="t045",targetState="decreasing",cond=whenEvent("decrease"))
+					 transition(edgeName="t046",targetState="increasing",cond=whenTimeout("local_tout_thermometer_increasing"))   
+					transition(edgeName="t047",targetState="decreasing",cond=whenEvent("decrease"))
 				}	 
 				state("decreasing") { //this:State
 					action { //it:State
@@ -49,8 +49,8 @@ class Thermometer ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name
 						stateTimer = TimerActor("timer_decreasing", 
 							scope, context!!, "local_tout_thermometer_decreasing", 100.toLong() )
 					}
-					 transition(edgeName="t046",targetState="decreasing",cond=whenTimeout("local_tout_thermometer_decreasing"))   
-					transition(edgeName="t047",targetState="increasing",cond=whenEvent("increase"))
+					 transition(edgeName="t048",targetState="decreasing",cond=whenTimeout("local_tout_thermometer_decreasing"))   
+					transition(edgeName="t049",targetState="increasing",cond=whenEvent("increase"))
 				}	 
 			}
 		}

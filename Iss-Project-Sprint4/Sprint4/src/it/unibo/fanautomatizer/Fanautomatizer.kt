@@ -18,7 +18,7 @@ class Fanautomatizer ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( n
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		var fanIsStarted=0
 			var minTemp=20
-			var maxTemp=40 
+			var maxTemp=45 
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
@@ -30,7 +30,7 @@ class Fanautomatizer ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( n
 					action { //it:State
 						println("fanautomatizer monitoring the situation | fanautomatizer")
 					}
-					 transition(edgeName="t048",targetState="handleTemp",cond=whenEvent("temperature"))
+					 transition(edgeName="t050",targetState="handleTemp",cond=whenEvent("temperature"))
 				}	 
 				state("handleTemp") { //this:State
 					action { //it:State
@@ -41,17 +41,15 @@ class Fanautomatizer ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( n
 													println("fanautomatizer [handleTemp]: send start command to fan  | fanautomatizer")
 													forward("startfan", "startfan(on)" ,"fan" )
 													fanIsStarted = 1
-													//forward("trolleystop", "trolleystop(OK)" ,"trolley" )
 											}
 											if(temp <= minTemp  && fanIsStarted == 1 ){
 												println("fanautomatizer [handleTemp]: send stop command to fan | fanautomatizer")
 												forward("stopfan", "stopfan(off)" ,"fan" )
 												fanIsStarted = 0
-												//forward("trolleyresume", "trolleyresume(OK)" ,"trolley" )
 												}	  
 						}
 					}
-					 transition(edgeName="t049",targetState="handleTemp",cond=whenEvent("temperature"))
+					 transition(edgeName="t051",targetState="handleTemp",cond=whenEvent("temperature"))
 				}	 
 			}
 		}

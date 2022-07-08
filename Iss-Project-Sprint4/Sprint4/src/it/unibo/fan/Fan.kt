@@ -21,7 +21,7 @@ class Fan ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 					action { //it:State
 						println("fan | start")
 					}
-					 transition(edgeName="t041",targetState="working",cond=whenDispatch("startfan"))
+					 transition(edgeName="t042",targetState="working",cond=whenDispatch("startfan"))
 				}	 
 				state("working") { //this:State
 					action { //it:State
@@ -30,7 +30,7 @@ class Fan ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						delay(1000) 
 						forward("updateGui", "fan(WORKING)" ,"guiupdater" ) 
 					}
-					 transition(edgeName="t042",targetState="stopped",cond=whenDispatch("stopfan"))
+					 transition(edgeName="t043",targetState="stopped",cond=whenDispatch("stopfan"))
 				}	 
 				state("stopped") { //this:State
 					action { //it:State
@@ -39,7 +39,7 @@ class Fan ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope 
 						delay(1000) 
 						forward("updateGui", "fan(OFF)" ,"guiupdater" ) 
 					}
-					 transition(edgeName="t043",targetState="working",cond=whenDispatch("startfan"))
+					 transition(edgeName="t044",targetState="working",cond=whenDispatch("startfan"))
 				}	 
 			}
 		}

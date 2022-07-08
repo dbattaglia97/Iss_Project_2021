@@ -65,15 +65,15 @@ console.log(message );
 function checkBtn(value){
     if(parseInt(curTemp) >= 40 && curStatus !== "STOPPED"){
         document.getElementById("stopbtn").disabled = false  //attivo
-        document.getElementById("resumebtn").disabled = true //non attivo
+        document.getElementById("resumebtn").disabled = false //non attivo aaaa
         }
     else if (parseInt(curTemp) < 40 && curStatus == "STOPPED" ){
         document.getElementById("resumebtn").disabled = false //attivo
-        document.getElementById("stopbtn").disabled = true   //non attivo
+        document.getElementById("stopbtn").disabled = false   //non attivo aaaa
         }
     else {
-        document.getElementById("resumebtn").disabled = true // nonattivo
-        document.getElementById("stopbtn").disabled = true   //non attivo
+        document.getElementById("resumebtn").disabled = false // nonattivoa aaa
+        document.getElementById("stopbtn").disabled = false   //non attivoaaaaa
     }
 }
 

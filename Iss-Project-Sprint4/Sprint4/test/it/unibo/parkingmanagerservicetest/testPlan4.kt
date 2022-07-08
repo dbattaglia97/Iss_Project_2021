@@ -126,7 +126,7 @@ class TestPlan {
 		
 			delay(3000)
 			
-			clientactor!!.forward("startManager","system(ready)","parkingmanagerservice")
+			//clientactor!!.forward("startManager","system(ready)","parkingmanagerservice")
 		
 			delay(5000)
 		
@@ -146,7 +146,7 @@ class TestPlan {
 		
 			delay(3000)
 		
-			clientactor!!.request("reqenter","reqenter(bob)","parkingmanagerservice")
+			//clientactor!!.request("reqenter","reqenter(bob)","parkingmanagerservice")
 		
 		
 			var slotnum 		= channelForObserver.receive().substringAfter("(","-").substringBefore(")","-").toInt()
@@ -155,7 +155,7 @@ class TestPlan {
 		
 			delay(3000)
 		
-			clientactor!!.request("carenter","carenter(ok)","parkingmanagerservice")
+			//clientactor!!.request("carenter","carenter(ok)","parkingmanagerservice")
 		
 			var weight	= channelForObserver.receive().substringAfter("(","").substringBefore(")","").toInt()
 			println("TEST weight: $weight")
@@ -200,7 +200,7 @@ class TestPlan {
 		
 			delay(4000)
 		
-			clientactor!!.request("pickup","pickup($receipt)","parkingmanagerservice")
+			//clientactor!!.request("pickup","pickup($receipt)","parkingmanagerservice")
 		
 			var carslotnum = channelForObserver.receive()
 			var carslot = carslotnum.substringAfter("(","-").substringBefore(")","-").toInt()

@@ -66,6 +66,7 @@ class Parkingmanagerservice ( name: String, scope: CoroutineScope  ) : ActorBasi
 						forward("updateForTesting", "posRobot(0,0)" ,"testupdater" ) 
 						forward("startsonar", "sonar(ON)" ,"sonarhandler" ) 
 						forward("startweightsensor", "sensor(ON)" ,"weightsensorhandler" ) 
+						forward("startthermometer", "startthermometer(X)" ,"thermometer" ) 
 						println("Park System START | SERVICE")
 						stateTimer = TimerActor("timer_setup", 
 							scope, context!!, "local_tout_parkingmanagerservice_setup", 1000.toLong() )
