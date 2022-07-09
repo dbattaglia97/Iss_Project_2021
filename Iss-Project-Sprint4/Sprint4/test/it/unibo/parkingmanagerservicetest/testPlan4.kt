@@ -55,7 +55,7 @@ class TestPlan {
 					println("+++++++++ waiting for system startup ...")
 					delay(500)
 					myactor=QakContext.getActor("parkingmanagerservice")
-					clientactor = QakContext.getActor("client")
+					clientactor = QakContext.getActor("client2")
 				}
 				channelSyncStart.send("starttesting")
 			}
@@ -124,7 +124,7 @@ class TestPlan {
 			testingObserver!!.addObserver(channelForObserver, "weight")
 			testingObserver!!.addObserver(channelForObserver, "outdoorS")
 		
-			delay(3000)
+			delay(3000) 
 			
 			//clientactor!!.forward("startManager","system(ready)","parkingmanagerservice")
 		

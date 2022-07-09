@@ -6,7 +6,6 @@ from selenium.webdriver.support import expected_conditions as EC
 
 # Per creare una sessione con Chrome
 driver = webdriver.Chrome()
-driver.implicitly_wait(30)
 driver.maximize_window()
 
 # Per aprire un’applicazione web
@@ -14,8 +13,8 @@ driver.get("http://localhost:8081/")
 
 
 #Button parking request
-l=driver.find_element_by_xpath("/html/body/div[2]/form[1]/center/div/button");
-l.click();
+l=driver.find_element(By.XPATH,"/html/body/div[2]/form[1]/center/div/button")
+l.click()
 
 driver.implicitly_wait(30)
 
@@ -24,8 +23,8 @@ WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element((By.ID, "infoDi
 
 
 #Carenter request
-l=driver.find_element_by_xpath("/html/body/div[2]/form[2]/center/div/button");
-l.click();
+l=driver.find_element(By.XPATH,"/html/body/div[2]/form[2]/center/div/button")
+l.click()
 
 driver.implicitly_wait(30)
 
@@ -41,7 +40,7 @@ driver.implicitly_wait(4000)
 
 
 #Pickup request
-element_enter.findElement(By.xpath("/html/body/div[2]/form[3]/input")).sendKeys(token);
+element_enter.findElement(By.xpath("/html/body/div[2]/form[3]/input")).sendKeys(token)
 
 WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element((By.ID, "adv"), 'Token sended'))
 
