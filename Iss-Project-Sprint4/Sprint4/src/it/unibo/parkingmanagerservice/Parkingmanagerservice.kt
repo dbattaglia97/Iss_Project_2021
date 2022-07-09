@@ -58,6 +58,7 @@ class Parkingmanagerservice ( name: String, scope: CoroutineScope  ) : ActorBasi
 						forward("updateGui", "outdoorStatus(FREE)" ,"guiupdater" ) 
 						forward("updateGui", "fan(OFF)" ,"guiupdater" ) 
 						forward("updateGui", "weight(0)" ,"guiupdater" ) 
+						forward("updateGui", "temperature(20)" ,"guiupdater" ) 
 						forward("updateGui", "alarm(OFF)" ,"guiupdater" ) 
 						forward("updateForTesting", "indoorAtStart(FREE)" ,"testupdater" ) 
 						delay(100) 

@@ -67,7 +67,7 @@ class Trolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sc
 				}	 
 				state("execPlannedMoves") { //this:State
 					action { //it:State
-						delay(400) 
+						delay(380) 
 						CurrentPlannedMove = TrolleyPlannerSupport.getNextMove()  
 					}
 					 transition( edgeName="goto",targetState="doMove", cond=doswitchGuarded({ CurrentPlannedMove.length>0   
@@ -77,6 +77,7 @@ class Trolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sc
 				}	 
 				state("doMove") { //this:State
 					action { //it:State
+						println(""  +CurrentPlannedMove) 
 						forward("cmd", "cmd($CurrentPlannedMove)" ,"basicrobot" ) 
 						stateTimer = TimerActor("timer_doMove", 
 							scope, context!!, "local_tout_trolley_doMove", 100.toLong() )
@@ -90,7 +91,7 @@ class Trolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sc
 					action { //it:State
 						KBSupport.changeTrolleyStatusToStopped() 
 						println("trolley stopped | TROLLEY")
-						delay(500) 
+						delay(380) 
 						forward("cmd", "cmd(h)" ,"basicrobot" ) 
 						forward("updateGui", "status(STOPPED)" ,"guiupdater" ) 
 					}
@@ -101,7 +102,16 @@ class Trolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sc
 						if (KBSupport.previousTrolleyStatus.equals(TrolleyStatus.WORKING)){
 										KBSupport.changeTrolleyStatusToWorking()
 										println("Trolley RESUMING and previously was working | TROLLEY")
-										//forward("updateForTesting", "trolley(WORKING)" ,"testupdater" )
+										
+										println(trolleyCmd)
+										TrolleyPlannerSupport.reset()
+										TrolleyPlannerSupport.setGoal(trolleyCmd)
+										if(trolleyCmd == "moveToHome"){
+											home =  1
+										}
+										if(trolleyCmd == "end"){
+											terminate =  1
+										}
 						forward("updateGui", "status(WORKING)" ,"guiupdater" ) 
 						
 									}

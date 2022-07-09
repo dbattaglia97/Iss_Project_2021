@@ -54,34 +54,42 @@ object TrolleyPlannerSupport{
 
 			"moveToIn" ->  {	itunibo.planner.plannerUtil.planForGoal("6","0")
 								moveToIn = true
+								println("moveToIn")
 							}
 			"moveToSlot1" -> {
 								itunibo.planner.plannerUtil.planForGoal("1","1")
 								slotColumn = 1
+				println("1")
 								}
 			"moveToSlot2" -> {
 								itunibo.planner.plannerUtil.planForGoal("4","1")
 								slotColumn = 4
+				println("2")
 								}
 			"moveToSlot3" -> {
 								itunibo.planner.plannerUtil.planForGoal("1","2")
 								slotColumn = 1
+				println("3")
 								}
 			"moveToSlot4" -> {
 								itunibo.planner.plannerUtil.planForGoal("4","2")
 								slotColumn = 4
+				println("4")
 							}
 			"moveToSlot5" -> {
 								itunibo.planner.plannerUtil.planForGoal("1","3")
 								slotColumn = 1
+				println("5")
 								}
 			"moveToSlot6" -> {
 								itunibo.planner.plannerUtil.planForGoal("4","3")
 								slotColumn = 4
+				println("6")
 								}
 
 			"moveToOut"  -> {   itunibo.planner.plannerUtil.planForGoal("6","4")
 								moveToOut = true
+				println("moveToOut")
 							}
 			"moveToHome" -> itunibo.planner.plannerUtil.planForGoal("0","0")
 			"end" -> itunibo.planner.plannerUtil.planForGoal("0","0")
@@ -95,8 +103,14 @@ object TrolleyPlannerSupport{
 			itunibo.planner.plannerUtil.showCurrentRobotState(  )
 	}
 
+	
+	fun reset(){
+		itunibo.planner.plannerUtil.resetActions()
+	}
+	
 	fun getNextMove(): String{
 		var move = itunibo.planner.plannerUtil.getNextPlannedMove()
+		println("getNextMove: "+ move)
 		if(move.length>0){
 			itunibo.planner.plannerUtil.updateMap(  "$move" )
 			//itunibo.planner.plannerUtil.showCurrentRobotState( )

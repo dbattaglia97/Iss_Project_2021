@@ -346,6 +346,7 @@ QActor parkingmanagerservice context ctxcarparking{
 		forward guiupdater -m updateGui : outdoorStatus(FREE)
 		forward guiupdater -m updateGui : fan(OFF)
 		forward guiupdater -m updateGui : weight(0)
+		forward guiupdater -m updateGui : temperature(20)
 		[#forward("updateGui", "alarm(OFF)" ,"guiupdater" )#]
 		
 		forward testupdater -m updateForTesting: indoorAtStart(FREE)
@@ -446,7 +447,7 @@ QActor parkingmanagerservice context ctxcarparking{
 			    forward testupdater -m updateForTesting: waitIndoor($SLOTNUM)
 			    [#notAllowed=true#]
           		println("Reply to reqenter with waitIndoor($SLOTNUM)  | SERVICE")
-         		replyTo reqenter with enter : waitIndoor($SLOTNUM)
+         		replyTo reqenter with waitIndoor : waitIndoor($SLOTNUM)
 			}
 	}Goto carenterCanBeAccepted if [#notAllowed==false#] else moveToHome
 
@@ -655,12 +656,13 @@ QActor trolley context ctxcarparking{
 	Goto execPlannedMoves
 
   	State execPlannedMoves{
-  		delay 400
+  		delay 380
  		[#CurrentPlannedMove = TrolleyPlannerSupport.getNextMove() #]
 	}
 	Goto doMove if [# CurrentPlannedMove.length>0  #] else finishPlannedMoves
 
 	State doMove{
+		[#println(""  +CurrentPlannedMove)#]
 		forward basicrobot -m cmd : cmd($CurrentPlannedMove)
   	}Transition t1   whenTime 100 -> execPlannedMoves
  					whenMsg  trolleycmd  and [#home == 1 && terminate == 0#]-> working
@@ -669,22 +671,35 @@ QActor trolley context ctxcarparking{
 	State stopped{
 		[#KBSupport.changeTrolleyStatusToStopped()#]
 		println("trolley stopped | TROLLEY")
-		delay 500
+		delay 380
 		forward basicrobot -m cmd:cmd(h)
 		forward guiupdater -m updateGui : status(STOPPED) 
 		//forward testupdater -m updateForTesting:trolley(STOPPED)
 	}Transition t0 whenMsg trolleyresume ->resuming
+		
+ 
 
 	State resuming{
 		[#if (KBSupport.previousTrolleyStatus.equals(TrolleyStatus.WORKING)){
 				KBSupport.changeTrolleyStatusToWorking()
 				println("Trolley RESUMING and previously was working | TROLLEY")
-				//forward("updateForTesting", "trolley(WORKING)" ,"testupdater" )
+				
+				println(trolleyCmd)
+				TrolleyPlannerSupport.reset()
+				TrolleyPlannerSupport.setGoal(trolleyCmd)
+				if(trolleyCmd == "moveToHome"){
+					home =  1
+				}
+				if(trolleyCmd == "end"){
+					terminate =  1
+				}
 				#]forward guiupdater -m updateGui : status(WORKING)[#
 			}
 		#]
 	}Goto idle if [#KBSupport.previousTrolleyStatus.equals(TrolleyStatus.IDLE)#] else execPlannedMoves
 
+
+	
 
  	State finishPlannedMoves{
  		println("trolley | finishPlannedMoves")
@@ -728,9 +743,8 @@ QActor basicrobot context ctxcarparking{
 		println("basicrobot | START")	 
  		//[# sysUtil.trace = true #]		//Equivalent to the -trace flag
  		 
- 		//[# sysUtil.waitUser("hello", 3000) #]
- 		qrun unibo.robot.robotSupport.create(myself,"basicrobotConfig.json")
- 		/* 
+ 		[# sysUtil.waitUser("hello", 3000) #]
+ 		qrun unibo.robot.robotSupport.create(myself,"basicrobotConfig.json")	
  		[# RobotType = unibo.robot.robotSupport.robotKind #]
         if[# RobotType != "virtual" #]{
 	 		println("basicrobot | type=$RobotType attempts to activate the sonar pipe")	
@@ -769,7 +783,7 @@ QActor basicrobot context ctxcarparking{
 	 			}
  
  			#] 
- 		}*/
+ 		}
  		
 	//	updateResource [# "basicrobot(start)" #]
  
@@ -786,12 +800,12 @@ QActor basicrobot context ctxcarparking{
 					whenRequest step	-> doStep			
 					whenMsg		obstacle	-> handleObstacle  //in virtualrobot caused by the move w/s
 				  	whenMsg    	end	-> endwork			   
-	State exec{ 
+	State exec{
 		printCurrentMessage
 		onMsg( cmd : cmd(MOVE) ){ 
   			//activate the motors  
 			[# CurrentMove =  "${payloadArg(0)}" #] 
-			//println("CurrentMove = $CurrentMove")
+			println("CurrentMove = $CurrentMove")
 		 	if [# CurrentMove == "w" #] {
 				//delay 1000
 				run unibo.robot.robotSupport.move( "w" ) 
@@ -803,17 +817,17 @@ QActor basicrobot context ctxcarparking{
 				
 			}
 			if [# CurrentMove != "h" #] { 
-				//updateResource [# "$CurrentMove" #]
+				updateResource [# "$CurrentMove" #]
 			}
 		}
 	 }  
 	 
-	Goto work       
+	Goto work      
 	        
 	State handleObstacle{   
 	    run unibo.robot.robotSupport.move( "h" )
 		println("basicrobot | handleObstacle CurrentMove=$CurrentMove")	
-		//printCurrentMessage
+		printCurrentMessage
 			//msg(obstacle,dispatch,distancefilter,basicrobot,obstacle(5),18)
 		if[# CurrentMove == "w" #]{
  			
@@ -841,10 +855,10 @@ QActor basicrobot context ctxcarparking{
  		printCurrentMessage  
 		onMsg( step : step( T ) ){  
 			[#	StepTime = payloadArg(0).toLong() 	#]  
-			//updateResource [# "step(${StepTime})" #]
+			updateResource [# "step(${StepTime})" #]
   		}  
         memoCurrentTime StartTime  
-        //println("basicrobot | doStep StepTime =$StepTime ")        
+        println("basicrobot | doStep StepTime =$StepTime ")        
         run unibo.robot.robotSupport.move( "w" )  //moves a real robot forever
         
 	}  
@@ -854,7 +868,7 @@ QActor basicrobot context ctxcarparking{
   	 
 	State stepDone{   
  		run unibo.robot.robotSupport.move( "h" )  //stop the real robot already done
-		//println("basicrobot | stepDone")
+		println("basicrobot | stepDone")
 		updateResource [# "stepDone($StepTime)" #]
    		//emit info : info( stepdone($StepTime) )
    		replyTo step with stepdone : stepdone(ok)

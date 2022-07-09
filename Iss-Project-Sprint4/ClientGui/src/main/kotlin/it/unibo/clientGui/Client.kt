@@ -35,9 +35,9 @@ class Client : Runnable {
                 val msgArg      = msg?.substringAfter("(",msg)?.substringBefore(")",msg)
                 println("%%%%% Reveived: $message")
 
-                if(id == "slotsnum"){
+                if(id == "enter"){
 
-                    val jsonMsg = "{\"slotnum\":\"$msgArg\"}"
+                    val jsonMsg = "{\"enter\":\"$msgArg\"}"
                     var jsonContent = JSONObject(jsonMsg)
                     val slotRep = ResourceRep("" + HtmlUtils.htmlEscape( "ss"+jsonContent.getString("slotnum")) )
                     println("slot: $msgArg")
