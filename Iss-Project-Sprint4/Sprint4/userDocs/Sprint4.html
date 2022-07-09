@@ -775,13 +775,7 @@
 							This test consists of checking if the <b>clientGUI</b> exchange messages with <b>parkingmanagerserive</b> correctly.
 						</p>
 					</div>
-					<div class=remark2>
-						<h3>ManagerGUI</h3>
-						<p>
-							We wanto to check if all target informations about parking system and trolley are correctly updated by <b>managerGUI</b> and if
-							<k>STOP/RESUME</k> buttons on it work properly.
-						</p>
-					</div>
+
 
 
 				<li>Ensure that the workflow of the system meets a set of requirements <k><b>(integration testing)</b>
@@ -1074,7 +1068,52 @@ class guiUpdater (name : String ) : ActorBasic( name ) {
 
 
 
+					<td>
+						<center><b><u>TROLLEY</u></b></center>
+						<center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/it.unibo.ParkManagerService_s4/src/parkingservice.qak">sprint4.qak</a></center>
+						<pre>
+QActor trolley context ctxcarparking{
+	...
+	State stopped{
+		[#KBSupport.changeTrolleyStatusToStopped()#]
+		println("trolley stopped | TROLLEY")
+		delay 380
+		forward basicrobot -m cmd:cmd(h)
+		forward guiupdater -m updateGui : status(STOPPED)
+		//forward testupdater -m updateForTesting:trolley(STOPPED)
+	}Transition t0 whenMsg trolleyresume ->resuming
 
+
+
+	State resuming{
+		[#if (KBSupport.previousTrolleyStatus.equals(TrolleyStatus.WORKING)){
+				KBSupport.changeTrolleyStatusToWorking()
+				println("Trolley RESUMING and previously was working | TROLLEY")
+
+				TrolleyPlannerSupport.reset()
+				TrolleyPlannerSupport.setGoal(trolleyCmd)
+				if(trolleyCmd == "moveToHome"){
+					home =  1
+				}
+				if(trolleyCmd == "end"){
+					terminate =  1
+				}
+				#]forward guiupdater -m updateGui : status(WORKING)[#
+			}
+		#]
+	}Goto idle if [#KBSupport.previousTrolleyStatus.equals(TrolleyStatus.IDLE)#] else execPlannedMoves
+}
+
+
+
+						</pre>
+					</td>
+<td>
+It was necessary to modify the Trolley QActor since, from requirements, through the <b>ParkingManagerGui</b> must be given the ability to do stop/resume of the trolley.
+Therefore, two states were added:
+<li>stopped: a halt command is sent to the basicrobot, the state of the Trolley is updated and the Gui is also updated with the new state.
+<li>resuming: if the trolley was previously in the working state, the path needed to get to the requested location is recalculated.
+</td>
 
 
 
@@ -1091,9 +1130,9 @@ class guiUpdater (name : String ) : ActorBasic( name ) {
 				<tr>
 					<td>
 						<center><b><u>CLIENTGUI</u></b></center>
-						<center><a href="https://github.com/P-damicis/Automated_Car_Parking/tree/main/sprint_4/ClientGui">ClientGui</a></center>
+						<center><a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/ClientGui/">ClientGui</a></center>
 						<br>
-						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/HumanInterfaceController.kt">HumanInterfaceController.kt</a>
+						<a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/ClientGui/src/main/kotlin/it/unibo/clientGui/HumanInterfaceController.kt">HumanInterfaceController.kt</a>
 <pre>
 @GetMapping("/")    //defines that the method handles GET requests.
 fun entry(model: Model): String {
@@ -1174,13 +1213,13 @@ fun pickup(model: Model, @RequestParam(name = "token") token : String) : String 
 </pre>
 					</td>
 					<td>
-						This <a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/HumanInterfaceController.kt">class</a>
+						This <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/ClientGui/src/main/kotlin/it/unibo/clientGui/HumanInterfaceController.kt">class</a>
 						represent controller of <b>ClientGUI</b>.
-						Initally a <a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/ClientResource.kt">ClientResource</a>
+						Initally a <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/ClientGui/src/main/kotlin/it/unibo/clientGui/ClientResource.kt">ClientResource</a>
 						instance is created, and his goal is to prepare messages that has to be forwarded to <b>parkingManagerService</b>.<br><br>
 						For each phase of parking/picking process there are a @PostMapping with the aim to send request related to the button that the <b>Client</b> presses.
 						The messages that ClientGUI sends to <b>parkingmanagerservice</b> are sending via WS, opened and managed by object
-						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/Client.kt">Client</a>.<br><br>
+						<a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4//ClientGui/src/main/kotlin/it/unibo/clientGui/Client.kt">Client</a>.<br><br>
 
 						On picking button a control has been inserted with the aim to check how many time a Client has pressed this button. This check is usefull to prevent a malicious use of the GUI.
 						In case of a client has pressed the pickup button more than 5 times with wrong <em>TOKENID</em> it will be disabled for this client.
@@ -1191,7 +1230,7 @@ fun pickup(model: Model, @RequestParam(name = "token") token : String) : String 
 				</tr>
 				<tr>
 					<td>
-						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/ClientResource.kt">ClientResource.kt</a>
+						<a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4//ClientGui/src/main/kotlin/it/unibo/clientGui/ClientResource.kt">ClientResource.kt</a>
 <pre>
 fun send(type: String) {
 	when (type) {
@@ -1210,14 +1249,14 @@ fun send(type: String, token: String) {
 </pre>
 					</td>
 					<td>
-						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/ClientResource.kt">ClientResource</a> is a <k>companion object</k>
+						<a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/ClientGui/src/main/kotlin/it/unibo/clientGui/ClientResource.kt">ClientResource</a> is a <k>companion object</k>
 						with the goal to prepare messages that have to be sended by
 						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/Client.kt">Client</a> via WS.
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/Client.kt">Client.kt</a>
+						<a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4//ClientGui/src/main/kotlin/it/unibo/clientGui/Client.kt">Client.kt</a>
 <pre>
 while (!Thread.currentThread().isInterrupted) {
 
@@ -1234,11 +1273,11 @@ while (!Thread.currentThread().isInterrupted) {
 	val msgArg      = msg?.substringAfter("(",msg)?.substringBefore(")",msg)
 	println("%%%%% Reveived: $message")
 
-	if(id == "slotsnum"){
+	if(id == "enter"){
 
 		val jsonMsg = "{\"slotnum\":\"$msgArg\"}"
 		var jsonContent = JSONObject(jsonMsg)
-		val slotRep = ResourceRep("" + HtmlUtils.htmlEscape( "s"+jsonContent.getString("slotnum")))
+		val slotRep = ResourceRep("" + HtmlUtils.htmlEscape( "s"+jsonContent.getString("enter")))
 		println("slot: $msgArg")
 		TimeUnit.MILLISECONDS.sleep(500L)
 		controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, slotRep)
@@ -1285,7 +1324,7 @@ fun forward(message: String?) {
 </pre>
 					</td>
 					<td>
-						In <a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/Client.kt">Client</a> class is created and handled
+						In <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4//ClientGui/src/main/kotlin/it/unibo/clientGui/Client.kt">Client</a> class is created and handled
 						a WS connection, there are one function for send messages on this WS and one to receive and give informations from the reply.
 						<br><br>
 						When a reply is received, informations is extracted and depending on <k>id</k> value a different actions could be performed. For example when a <tt>slotnum</tt> reply is received,
@@ -1305,10 +1344,7 @@ fun forward(message: String?) {
 
 
 			<p>
-				For <b>ClientGUI</b> and <b>ManagerGUI</b> is used a tool for for web automation
-				and web testing based on JS, called <a href="https://playwright.dev/docs/intro"><ks>PlayWright</ks></a>.<br>
-				In particular this kind of test are runned with command below.
-				<pre>npx playwright test --config=my.config.js</pre>
+				For <b>ClientGUI</b> is used Selenium which is an umbrella project for a range of tools and libraries that enable and support the automation of web browsers, called <a href="https://www.selenium.dev/documentation/"><ks>Selenium</ks></a>.<br>
 			</p>
 				<kc>TestPlans goals:</kc>
 
@@ -1320,87 +1356,72 @@ fun forward(message: String?) {
 						<table>
 							<tr>
 								<td>
-									<pre>const { test, expect } = require('@playwright/test');
-test('CLIENT GUI test', async ({ page }) => {
-  await page.goto('http://localhost:8081/');
-  await page.waitForTimeout(3000)
-  await page.click('button:has-text("Enter Request")');
+									<pre>from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
 
-  const slot = await page.locator('//*[@id="infoDisplay"]');
-await expect(slot).toContainText('SLOTNUM:');
+# Per creare una sessione con Chrome
+driver = webdriver.Chrome()
+driver.maximize_window()
 
-  await page.waitForTimeout(4000)
-  await page.click('button:has-text("CarEnter Request")'); //carenter
-  await page.waitForTimeout(8000)
-  const value = await page.evaluate(() => document.getElementById("infoDisplay").textContent)
-
-	token = value.slice(7)
-	const tok = await page.locator('//*[@id="infoDisplay"]');
-await expect(tok).toContainText('TOKEN:');
-
-	await page.fill('//*[@id="tokenid"]', token);
-
-  await page.waitForTimeout(3000)
-  await page.click('button:has-text("Submit your TOKENID")');
-
-	const after = await page.locator('//*[@id="adv"]');
-await expect(after).toContainText('Token sended');
+# Per aprire un’applicazione web
+driver.get("http://localhost:8081/")
 
 
-});
+#Button parking request
+time.sleep(5)
+
+l=driver.find_element(By.XPATH,"/html/body/div[2]/form[1]/center/div/button")
+l.click()
+
+
+#Wait until slotnum appears
+WebDriverWait(driver, 60).until(EC.text_to_be_present_in_element((By.ID, "infoDisplay"), 'SLOTNUM:'))
+
+
+time.sleep(4)
+
+#Carenter request
+l=driver.find_element(By.XPATH,"/html/body/div[2]/form[2]/center/div/button")
+l.click()
+
+
+
+#Wait until slotnum appears
+WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element((By.ID, "infoDisplay"), 'TOKEN:'))
+
+token= str(driver.find_element(By.ID, "infoDisplay").text)
+token = token.replace("TOKEN: ","")
+
+
+time.sleep(20)
+
+
+#Pickup request
+txt_input = driver.find_element(By.XPATH, "/html/body/div[2]/form[3]/input")
+txt_input.clear()
+
+#Pickup request
+txt_input.send_keys(token)
+
+l=driver.find_element(By.XPATH,"/html/body/div[2]/form[3]/center/div/button")
+l.click()
+
+WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element((By.ID, "adv"), 'Token sended'))
+
+
+# Per chiudere la finestra del browser
+#driver.quit()
+
 </pre>
 								</td>
 								<td>
 									During this test, it's opened the page <i>https//:localhost:8081</i> of browser, then are automatically performed all the action
 									necessary to a parking and a picking operation.<br>
 									It's verified also if <b>clientGUI</b> receives and shows correctly <em>SLOTNUM</em> and <em>TOKENID</em> values.
-								</td>
-							</tr>
-						</table>
-					</div>
-					<div class=remark2>
-						<h3>ManagerGUI</h3>
-						<p>
-							We wanto to check if <k>STOP/RESUME</k> buttons work properly.
-						</p>
-						<table>
-							<tr>
-								<td>
-									<pre>const { test, expect } = require('@playwright/test');
-test('ManagerGUI test', async ({ page }) => {
-  await page.goto('http://localhost:8083');
-
-  await page.waitForTimeout(1000)
-
-  const stopbtn 		= await page.locator('button:has-text("STOP Trolley")');
-  const resumebtn 		= await page.locator('button:has-text("RESUME Trolley")');
-  const trolleystatus 	= await page.locator('//*[@id="statusDisplay"]') //trolleyStatus
-  const temp 			= await page.locator('//*[@id="tempDisplay"]')   //temperature
-
-  await page.waitForFunction(() => {
-	return document.querySelector('#stopbtn').hasAttribute('disabled')==false
-	});
-  await page.waitForTimeout(500)
-  stopbtn.click()
-  await page.waitForTimeout(1000)
-  await expect(trolleystatus).toContainText('STOPPED')
-
-  await page.waitForFunction(() => {
-	return document.querySelector('#resumebtn').hasAttribute('disabled')==false
-	});
-  await page.waitForTimeout(500)
-  await resumebtn.click()
-  await page.waitForTimeout(1000)
-  await expect(trolleystatus).not.toContainText('STOPPED')
-
-
-});</pre>
-								</td>
-								<td>
-									During this test, it's opened the page <i>https//:localhost:8081</i> of browser, then it's waited until <em>STOP</em> button is enabled, so
-									it is pressed. Then the value of Trolley status is verified: it has to be "STOPPED".<br>
-									As soon as the <em>RESUME</em> button becomes enabled, also it's pressed and verified if, after that, Trolley status is
-									different by "STOPPED" (IDLE or WORKING).
 								</td>
 							</tr>
 						</table>
@@ -1419,7 +1440,7 @@ test('ManagerGUI test', async ({ page }) => {
 							<tr>
 								<td>
 									<center><b><u>WORKFLOW TEST PLAN</u></b></center>
-									<center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/it.unibo.ParkManagerService_s4/test/it/unibo/parkingmanagerservicetest/TestPlan.kt">TestPlan.kt</a></center>
+									<center><a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/Sprint4/test/it/unibo/parkingmanagerservicetest/TestPlan4.kt">TestPlan4.kt</a></center>
 <pre>
 	clientactor!!.forward("startManager","system(ready)","parkingmanagerservice")
 	delay(5000)
@@ -1558,7 +1579,7 @@ test('ManagerGUI test', async ({ page }) => {
 
 		<h2>Deployment</h2>
 		The deployment of SPRINT 4 consists in a release on a <a
-			href="https://github.com/P-damicis/Automated_Car_Parking/tree/main/sprint_4">Github repository</a>.<br><br>
+			href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4">Github repository</a>.<br><br>
 
 		Every component are deployed with a runnable distribution in order to obtain a stand alone application.
 		<ul>
