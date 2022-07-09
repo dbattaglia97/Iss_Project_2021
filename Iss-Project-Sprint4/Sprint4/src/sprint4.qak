@@ -64,7 +64,7 @@ CodedQActor testupdater	context ctxcarparking className "testUpdater"
 CodedQActor guiupdater	context ctxcarparking className "guiUpdater"
 CodedQActor outsonar	context ctxcarparking className "outSonar"
  
-QActor client context ctxcarparking{ 
+QActor client2 context ctxcarparking{ 
 		State s0 initial{
 		
 		}Transition t0
@@ -342,11 +342,17 @@ QActor parkingmanagerservice context ctxcarparking{
 	State setup{
 		delay 2000
 		forward trolley -m systemready:systemready(X)
+		delay 50
 		forward guiupdater -m updateGui : indoorStatus(FREE)
+		delay 50
 		forward guiupdater -m updateGui : outdoorStatus(FREE)
+		delay 50
 		forward guiupdater -m updateGui : fan(OFF)
+		delay 50
 		forward guiupdater -m updateGui : weight(0)
+		delay 50
 		forward guiupdater -m updateGui : temperature(20)
+		delay 50
 		[#forward("updateGui", "alarm(OFF)" ,"guiupdater" )#]
 		
 		forward testupdater -m updateForTesting: indoorAtStart(FREE)
@@ -470,7 +476,6 @@ QActor parkingmanagerservice context ctxcarparking{
 			[#weightCheck = payloadArg(0).toString()#]
 			println("Weight check: $weightCheck")
 	 	}
-	 	
 	}Goto moveToIn if [#weightCheck.equals("OK")#] else weightNotOK
 
 	State weightNotOK{
@@ -498,6 +503,7 @@ QActor parkingmanagerservice context ctxcarparking{
 		delay 1000
 		solve(freedindoor)
 		forward guiupdater -m updateGui : indoorStatus(FREE)
+		delay 50
 		forward testupdater -m updateForTesting : indoorStatus(FREE)
 		forward guiupdater -m updateGui : weight(0)
 		[# var TOKENID = "$prog$SLOTNUM"#]

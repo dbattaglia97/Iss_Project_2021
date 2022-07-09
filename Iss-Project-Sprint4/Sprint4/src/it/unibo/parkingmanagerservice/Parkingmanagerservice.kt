@@ -54,11 +54,17 @@ class Parkingmanagerservice ( name: String, scope: CoroutineScope  ) : ActorBasi
 					action { //it:State
 						delay(2000) 
 						forward("systemready", "systemready(X)" ,"trolley" ) 
+						delay(50) 
 						forward("updateGui", "indoorStatus(FREE)" ,"guiupdater" ) 
+						delay(50) 
 						forward("updateGui", "outdoorStatus(FREE)" ,"guiupdater" ) 
+						delay(50) 
 						forward("updateGui", "fan(OFF)" ,"guiupdater" ) 
+						delay(50) 
 						forward("updateGui", "weight(0)" ,"guiupdater" ) 
+						delay(50) 
 						forward("updateGui", "temperature(20)" ,"guiupdater" ) 
+						delay(50) 
 						forward("updateGui", "alarm(OFF)" ,"guiupdater" ) 
 						forward("updateForTesting", "indoorAtStart(FREE)" ,"testupdater" ) 
 						delay(100) 
@@ -191,7 +197,7 @@ class Parkingmanagerservice ( name: String, scope: CoroutineScope  ) : ActorBasi
 						{forward("updateForTesting", "waitIndoor($SLOTNUM)" ,"testupdater" ) 
 						notAllowed=true 
 						println("Reply to reqenter with waitIndoor($SLOTNUM)  | SERVICE")
-						answer("reqenter", "enter", "waitIndoor($SLOTNUM)"   )  
+						answer("reqenter", "waitIndoor", "waitIndoor($SLOTNUM)"   )  
 						}
 					}
 					 transition( edgeName="goto",targetState="carenterCanBeAccepted", cond=doswitchGuarded({notAllowed==false 
@@ -257,6 +263,7 @@ class Parkingmanagerservice ( name: String, scope: CoroutineScope  ) : ActorBasi
 						delay(1000) 
 						solve("freedindoor","") //set resVar	
 						forward("updateGui", "indoorStatus(FREE)" ,"guiupdater" ) 
+						delay(50) 
 						forward("updateForTesting", "indoorStatus(FREE)" ,"testupdater" ) 
 						forward("updateGui", "weight(0)" ,"guiupdater" ) 
 						 var TOKENID = "$prog$SLOTNUM" 

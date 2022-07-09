@@ -33,13 +33,12 @@ class Client : Runnable {
                 val dest        = lines[3]
                 val msg         = lines[4]+")"
                 val msgArg      = msg?.substringAfter("(",msg)?.substringBefore(")",msg)
-                println("%%%%% Reveived: $message")
+                println("%%%%% Received: $message")
 
                 if(id == "enter"){
-
                     val jsonMsg = "{\"enter\":\"$msgArg\"}"
                     var jsonContent = JSONObject(jsonMsg)
-                    val slotRep = ResourceRep("" + HtmlUtils.htmlEscape( "ss"+jsonContent.getString("slotnum")) )
+                    val slotRep = ResourceRep("" + HtmlUtils.htmlEscape( "ss"+jsonContent.getString("enter")) )
                     println("slot: $msgArg")
                     TimeUnit.MILLISECONDS.sleep(500L)
                     controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, slotRep)

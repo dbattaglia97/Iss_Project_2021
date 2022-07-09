@@ -5,7 +5,7 @@ context(ctxcarparking, "localhost",  "TCP", "5683").
  qactor( testupdater, ctxcarparking, "testUpdater").
   qactor( guiupdater, ctxcarparking, "guiUpdater").
   qactor( outsonar, ctxcarparking, "outSonar").
-  qactor( client, ctxcarparking, "it.unibo.client.Client").
+  qactor( client2, ctxcarparking, "it.unibo.client2.Client2").
   qactor( sonarhandler, ctxcarparking, "it.unibo.sonarhandler.Sonarhandler").
   qactor( timer, ctxcarparking, "it.unibo.timer.Timer").
   qactor( weightsensor, ctxcarparking, "it.unibo.weightsensor.Weightsensor").
