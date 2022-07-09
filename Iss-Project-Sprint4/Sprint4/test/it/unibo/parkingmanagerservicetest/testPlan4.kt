@@ -189,13 +189,12 @@ class TestPlan {
 			assertTrue(robotPosition.equals("1,1"))
 		
 		
-		
 			delay(2000)
 		
 			var home 		= channelForObserver.receive().substringAfter("(","-").substringBefore(")","-")
 			println("TEST moving to HOME: $home")
 			assertTrue(home.equals("HOME"))
-		
+			
 			println("FINISH PARKING OP")
 		
 			delay(4000)
@@ -238,6 +237,8 @@ class TestPlan {
 			println("TEST moving to HOME: $home")
 		
 			println("FINISH PICKING OP")
+			
+			delay(8000)
 		}
 		}
 		
