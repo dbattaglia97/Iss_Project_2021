@@ -897,8 +897,8 @@ class outSonar (name : String ) : ActorBasic( name ) {
 				<tr>
 					<td >
 						<center><b><u>MANAGER GUI</u></b></center>
-						<center><a href="https://github.com/P-damicis/Automated_Car_Parking/tree/main/sprint_4/ParkManagerGui">ParkManagerGui</a></center>
-						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ParkManagerGui/src/main/kotlin/it/unibo/parkmanagergui/HIController.kt">HIController.kt</a>
+						<center><a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/ParkManagerGui">ParkManagerGui</a></center>
+						<a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/ParkManagerGui/src/main/kotlin/it/unibo/parkmanagergui/HIController.kt">HIController.kt</a>
 						<br>
 <pre>
 @Controller
@@ -950,13 +950,13 @@ class HIController {
 						There are also two <i>@PostMapping</i> that have the aim to send <tt>stop</tt>/<tt>resume</tt>
 						when the Manager presses on <k>STOP Trolley</k> or <k>RESUME Trolley</k> buttons. The messages that ManagerGUI sends to
 						<b>parkingmanagerservice</b> are sending via WS, opened and managed by object
-						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ParkManagerGui/src/main/kotlin/it/unibo/parkmanagergui/SenderToPark.kt">SenderToPark.kt</a>.
+						<a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/ParkManagerGui/src/main/kotlin/it/unibo/parkmanagergui/SenderToPark.kt">SenderToPark.kt</a>.
 
 					</td>
 				</tr>
 				<tr>
 					<td id="managerguicoap">
-						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ParkManagerGui/src/main/kotlin/it/unibo/parkmanagergui/ParkingCoapHandler.kt">ParkingCoapHandler.kt</a>
+						<a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/ParkManagerGui/src/main/kotlin/it/unibo/parkmanagergui/ParkingCoapHandler.kt">ParkingCoapHandler.kt</a>
 						<br>
 <pre>
 class ParkingCoapHandler(val controller: HIController) : CoapHandler {
@@ -989,19 +989,19 @@ override fun onLoad(response: CoapResponse) {
 						It has a method <i>onLoad</i>, in which are handled several type of updating perceived by CoapObserver.
 						In particular, for each kind of resouce updated, it's called a method <k>convertAndSend()</k> of a <i>simpMessagingTemplate</i>,
 						initialized into the controller, which sends to browser <a href="https://spring.io/guides/gs/messaging-stomp-websocket/">via WebSocket</a> the current resource value, on a specific topic <k>/topic/infodisplay</k>,
-						specified in <a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ParkManagerGui/src/main/kotlin/it/unibo/parkmanagergui/WebSocketConfig.kt">WebSocketConfig.kt</a>.
+						specified in <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/ParkManagerGui/src/main/kotlin/it/unibo/parkmanagergui/WebSocketConfig.kt">WebSocketConfig.kt</a>.
 						<br><br>
-						The updating of resources sending via WebSocket to browser are handled by <a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ParkManagerGui/src/main/resources/static/app.js">app.js</a>, in which is opened a socket on the same
+						The updating of resources sending via WebSocket to browser are handled by <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/ParkManagerGui/src/main/resources/static/app.js">app.js</a>, in which is opened a socket on the same
 						STOMP end-point path (<i>/it-unibo-iss</i>) used in <i>WebSocketConfig</i>. Then the client are subscibed to same STOMP topic (<i>/topic/infodisplay</i>)
 						updated by the server.<br>
-						At the end, for each kind of messages sent on Socket is modified a different field of HTML file <a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ParkManagerGui/src/main/resources/templates/ManagerGui.html">ManagerGui.html</a>
+						At the end, for each kind of messages sent on Socket is modified a different field of HTML file <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/ParkManagerGui/src/main/resources/templates/ManagerGui.html">ManagerGui.html</a>
 					</td>
 				</tr>
 
 				<tr>
 					<td>
 						<center><b><u>GUIUPDATER</u></b></center>
-						<center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/it.unibo.ParkManagerService_s4/codedqak/guiUpdater.kt">guiUpdater.kt</a></center>
+						<center><a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/Sprint4/codedqak/guiUpdater.kt">guiUpdater.kt</a></center>
 						<pre>
 class guiUpdater (name : String ) : ActorBasic( name ) {
 
@@ -1040,7 +1040,7 @@ class guiUpdater (name : String ) : ActorBasic( name ) {
 				</tr>
 					<td>
 						<center><b><u>TROLLEYSTOPPER</u></b></center>
-						<center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/it.unibo.ParkManagerService_s4/src/parkingservice.qak">parkingservice.qak</a></center>
+						<center><a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/Sprint4/src/sprint4.qak">sprint4.qak</a></center>
 						<pre>QActor trolleystopper context ctxcarparking{
 
 	State s0 initial {
@@ -1070,7 +1070,7 @@ class guiUpdater (name : String ) : ActorBasic( name ) {
 
 					<td>
 						<center><b><u>TROLLEY</u></b></center>
-						<center><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/it.unibo.ParkManagerService_s4/src/parkingservice.qak">sprint4.qak</a></center>
+						<center><a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/Sprint4/src/sprint4.qak">sprint4.qak</a></center>
 						<pre>
 QActor trolley context ctxcarparking{
 	...
@@ -1251,7 +1251,7 @@ fun send(type: String, token: String) {
 					<td>
 						<a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/ClientGui/src/main/kotlin/it/unibo/clientGui/ClientResource.kt">ClientResource</a> is a <k>companion object</k>
 						with the goal to prepare messages that have to be sended by
-						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/src/main/kotlin/it/unibo/clientGui/Client.kt">Client</a> via WS.
+						<a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/ClientGui/src/main/kotlin/it/unibo/clientGui/Client.kt">Client</a> via WS.
 					</td>
 				</tr>
 				<tr>
@@ -1581,23 +1581,6 @@ WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element((By.ID, "adv"),
 		The deployment of SPRINT 4 consists in a release on a <a
 			href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4">Github repository</a>.<br><br>
 
-		Every component are deployed with a runnable distribution in order to obtain a stand alone application.
-		<ul>
-			<li>
-				<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/launch_bat.vbs">launch_bat.vbs</a>
-				<ul>
-					<li>
-						<a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/starter.bat">starter.bat</a>
-						<ul>
-							<li><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/robot.bat">robot.bat</a></li>
-							<li>it.unibo.ParkManagerService_s4.bat</li>
-							<li><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ClientGui/out/artifacts/ClientGui_main_jar/ClientGui.main.jar">ClientGui.main.jar</a></li>
-							<li><a href="https://github.com/P-damicis/Automated_Car_Parking/blob/main/sprint_4/ParkManagerGui/out/artifacts/ParkManagerGui_main_jar/ParkManagerGui.main.jar">ParkManagerGui.main.jar</a></li>
-						</ul>
-					</li>
-				</ul>
-			</li>
-		</ul>
 
 		<h2>Maintenance</h2>
 			This is the first complete working prototype release of the system. Every bug or problem will be resolved over time.
@@ -1607,7 +1590,7 @@ WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element((By.ID, "adv"),
 	<div style="background-color:rgba(42, 7, 241, 1.0); width:100%;text-align:center;color:white">
 		<table style="width:100%" border="1">
 			<tr>
-				By Mantovani Leonardo and Pier Domenico d'Amicis
+				By Dario Battaglia
 
 			</tr>
 		</table>
