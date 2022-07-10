@@ -35,7 +35,7 @@ class HumanInterfaceController {
     @GetMapping("/")    //defines that the method handles GET requests.
     fun entry(model: Model): String {
         model.addAttribute("arg", appName)
-        model.addAttribute("advise", "Welcome in the best automated parking ever, Click on \"Enter Request to start\"")
+        model.addAttribute("advise", "Welcome in AUTOMATED CAR PARKING, Click on \"Enter Request to start\"")
         println("HumanInterfaceController | entry model=$model")
         if(cnt > 5){
             model.addAttribute("disableReqEnter", "false")

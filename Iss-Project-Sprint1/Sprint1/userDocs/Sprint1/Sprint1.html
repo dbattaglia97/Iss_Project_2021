@@ -548,23 +548,28 @@
                 </li>
             </ul>
 
-            <p>Regarding to actions (verbs):</p>
+            <p>Regarding to verbs:</p>
             <ul>
+                <li><ks>stop (of the robot)</ks>: when the temperature detected by thermometer is higher then TMAX, the parking manager disables robot operations. If the robot was moving, it will have to stop immediately. </li>
+                <li><ks>start (of the fan)</ks>: when the robot has stopped, the parking manager must turn on the fan.  </li>
+                <li><ks>stop (of the fan)</ks>: when the temperature detected by thermometer is lower then TMAX, the parking manager can turn off the fan.  </li>
+                <li><ks>start (of the robot)</ks>: when the temperature detected by thermometer is lower then TMAX and the fan is turned off, the parking manager can turn on the robot.  </li>
+            </ul>
+						<p>Regarding to actions:</p>
+						<ul>
                 <li>
                     When a client notify system that he wants to enter in the parking-area, receives an answer containing
                     the <k>SLOTNUM</k> assigned to him, which can be <k>0</k> or <k>> 0</k>.
                     His request will be processed when the <k>INDOOR</k> area is free.
                 </li>
                 <li>
-                    When a client make request for withdraw his car from parking-area have to enter manually his <k>
-                        TOKENID</k> on <b>ParkServiceGUI</b>.
+                    When a client make request for withdraw his car from parking-area have to enter manually his <k>TOKENID</k> on <b>ParkServiceGUI</b>.
                 </li>
-                <li><ks>stop (of the robot)</ks>: when the temperature detected by thermometer is higher then TMAX, the parking manager disables robot operations. If the robot was moving, it will have to stop immediately. </li>
-                <li><ks>start (of the fan)</ks>: when the robot has stopped, the parking manager must turn on the fan.  </li>
-                <li><ks>stop (of the fan)</ks>: when the temperature detected by thermometer is lower then TMAX, the parking manager can turn off the fan.  </li>
-                <li><ks>start (of the robot)</ks>: when the temperature detected by thermometer is lower then TMAX and the fan is turned off, the parking manager can turn on the robot.  </li>
+							</ul>
 
-            </ul>
+
+
+
             <h3>First Naive Macro Architecture</h3>
             <p>
                 The goal of this section is to show a naive architecture of our system in order to have a better
@@ -978,7 +983,7 @@
 										<p>Our system <tt>ParkingManagerService</tt> it's composed by seven <ks>actors</ks> in
 											the
 											same
-											context <tt>ctxCarParking</tt>, everyone of them
+											context <tt>ctxcarparking</tt>, everyone of them
 											providing a different service.</p>
 										<p>Actors that we implement, will be of <ks><a
 													href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">QActor</a>
@@ -1173,7 +1178,7 @@
     		<h2>Project</h2>
 				 <div class="remark">
 
-    			We now proceed with the project phase, where we show the implementation of our system having only the features provided by this SPRINT. In particular we will see the implementation of 7 QAktors which living in the same context that is ctxCarParking :
+    			We now proceed with the project phase, where we show the implementation of our system having only the features provided by this SPRINT. In particular we will see the implementation of 7 QAktors which living in the same context that is ctxcarparking :
     			<br><br>
     			    <table style="width:100%">
                 <tr>
@@ -1263,7 +1268,7 @@ QActor client context ctxcarparking{
 
 
     <pre>
-QActor weightsensor context ctxCarParking{
+QActor weightsensor context ctxcarparking{
 	[#var P = 0#]
 	State s0 initial{
 		println("Weightsensor starts | WEIGHTSENSOR")
@@ -1291,7 +1296,7 @@ QActor weightsensor context ctxCarParking{
     		  <center><b><u>WEIGHTSENSORHANDLER</u></b></center>
     		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">weightsensorhandler </a></center>
     <pre>
-QActor weightsensorhandler context ctxCarParking{
+QActor weightsensorhandler context ctxcarparking{
     [#var Www=1#]
     State s0 initial{
         println("WeightsensorHandler INIT | WEIGHTSENSORHANDLER")
@@ -1330,7 +1335,7 @@ QActor weightsensorhandler context ctxCarParking{
     		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">outsonar </a></center>
 
     <pre>
-QActor outsonar context ctxCarParking{
+QActor outsonar context ctxcarparking{
 	State s0 initial{
 	}Goto working
 
@@ -1362,7 +1367,7 @@ QActor outsonar context ctxCarParking{
     		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">sonarhandler </a></center>
 
     <pre>
-QActor sonarhandler context ctxCarParking{
+QActor sonarhandler context ctxcarparking{
     [#var distance=2000
     	var outdoorfree=true#]
 
@@ -1418,7 +1423,7 @@ QActor sonarhandler context ctxCarParking{
     		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">timer </a></center>
 
     <pre>
-QActor timer context ctxCarParking{
+QActor timer context ctxcarparking{
     State s0 initial{
 
     }Goto working
@@ -1699,7 +1704,7 @@ QActor parkingmanagerservice context ctxcarparking{
 
             </table> <hr><hr>
             <br>
-<table>
+
                 <tr>
                     <td style="vertical-align: text-top">
                         <center><b><u>KBSupport</u></b></center>
@@ -1754,7 +1759,43 @@ fun changeIndoorToOccupied(){
 </pre>
 
                 </tr>
-            </table>
+
+
+
+								<tr>
+									<td>
+										<center><b><u>TESTUPDATER</u></b></center>
+										<center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/utility/testUpdater.kt">testUpdater.kt</a></center>
+										<pre>
+class testUpdater (name : String ) : ActorBasic( name ) {
+
+@kotlinx.coroutines.ObsoleteCoroutinesApi
+@kotlinx.coroutines.ExperimentalCoroutinesApi
+    override suspend fun actorBody(msg: ApplMessage) {
+		if( msg.msgId() == "updateGui" &&  msg.msgType() == "dispatch") {
+			update(msg.msgContent().replace("'",""))
+		}
+}
+
+	fun update(res : String){
+		val resourceName = res.substringBefore("(","-")
+		val resourceValue = res.substringAfter("(","-").substringBefore(")","-")
+		updateResourceRep( "${convert(resourceName, resourceValue)}")
+		}
+
+	fun convert(name: String, value: String) : String {
+		val res = name.plus("(").plus(value).plus(")")
+		return res
+	}
+}
+</pre>
+									</td>
+									<td>
+									<img src="img/testUpdater.png" width="40%" >
+									</td>
+								</tr>
+
+
 </div>
 
     		<h2>Testing</h2>

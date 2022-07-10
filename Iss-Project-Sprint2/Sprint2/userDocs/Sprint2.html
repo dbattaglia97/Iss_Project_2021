@@ -443,7 +443,7 @@ port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR
     the already implemented components that have not been modified.
 
 
-	<h2>Problem analysis</h2>
+
 
 		The list of requirements for this sprint is:
 				<li>the <tt>trolley</tt> carries the car to the parking space assigned by the ParkerManagerService;</li>
@@ -475,12 +475,49 @@ port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR
 	whose position is fixed and cannot change over time. However, through one of the available tool, it is given the possibility
 	to modify a specific cell of the map in case occurs.</p>
 
-<h4>BasicRobot</h4>
-<h4>The DDRrobot</h4>
-<table>
-<tbody>
-	<tr>
-		<td>
+	The <a href="https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.planner20/resources/itunibo/planner/plannerUtil.kt" target="web"> plannerUtil.kt</a> is the support of the transport-rolley that is able to generate a plan of basic actions.
+	<br>
+	The <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/parkingMap0.bin" target="web"> parkingMap0.bin</a> is the a binary file that represents the parking-area. It will be used by the planner to plan the path.
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						Because the trolley shoud moves in a organizzed way the slots could be ordered in the following way so the first numbers will be near the INDOORarea and the transport troley will be faster to park the car.
+						The plannerUtil.kt consider the following pair of number the respective places:
+						<ul>
+						<li>("6","0") -> INDOORarea</li>
+						<li>("6","4") -> OUTDOORarea</li>
+						<li>("0","0") -> Home</li>
+						</ul>
+					</td>
+			<td style="width: 50%">
+
+			 <center><img src="./img/plant.png" alt="mappa" width="50%" ></center>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+				<pre>
+	run itunibo.planner.plannerUtil.initAI()
+	println("&&&  trolley loads the parking map from the given file ...")
+	run itunibo.planner.plannerUtil.loadRoomMap("parkingMap0.bin")
+	<kc>//Set the parking area ...</kc>
+	run itunibo.planner.plannerUtil.showMap()
+	run itunibo.planner.plannerUtil.showCurrentRobotState()
+				</pre>
+
+
+				After initializating the support the trasport trolley will generate the sequence of actions setting the cells goal with
+
+				<pre>
+	<kc>//for example</kc> run itunibo.planner.plannerUtil.planForGoal("6","0")
+
+</pre>
+
+
+<h4>BasicRobot/DDRrobot</h4>
+
 			The model of the DDR-robot is related to the basicrobot given by the costumer: 	<a href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qak21.basicrobot/userDocs/basicrobot2021.html" target="web"> basicrobot2021.html</a>. <br>
 			The DDR-robot could be a VirtualRobot, Mbot or Nanobot:
 			<li><bc>virtual</bc>: <br/><m>the virtual robot described in
@@ -498,11 +535,7 @@ The support is: <a href="https://raw.githubusercontent.com/anatali/issLab2021/ma
 The support is: <a href="https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.qak21.basicrobot/resources/robotMbot/mbotSupport.kt" target="code">mbotSupport</a>
 </li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
-<h6>The basicrobot</h6>
+
 <table>
 <tbody>
 <tr>
@@ -520,12 +553,29 @@ The support is: <a href="https://raw.githubusercontent.com/anatali/issLab2021/ma
 	</tr>
 </tbody>
 </table>
+<table>
+	<tbody>
+		<tr>
+			<td style="width:50%" >
+				 The basicrobot, as saied in analysis requirements phase, interacts with the real robot throught the object  <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/resources/unibo/robot/robotSupport.kt"target="web">robotSupport.kt.</a>
+				<br>It is the adatper for the devices described in the configuration file : <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/basicrobotConfig.json"target="web">basicrobotConfig.json</a>
+				<br>In this project it is used a virtual robot that is inside the vitual evirorment WEnv.
+				<br>The messages will be sent to the websoket (port:8091).
+
+			</td>
+			<td>
+				<center><img src="img/basic_robot_project.png" alt="mappa" width="50%" ></center>
+			</td>
+
+	</tr>
+</tbody>
+</table>
 
 <h4>The trolley</h4>
 <div class="remark">
 The trolley will use the DDRrobot to execute its opertation that comes from the requirements of the application. In fact it should be able to generate a sequence of actions to reach the commands given by the ParkManagerService and exceute them sending the basic moves to the <kn>DDRrobot</kn> through the basic robot.
 It is a computational entity with a own autonomous flow of control so it will be modelled as QActor.
-<br>The trasport trolley should reach the goal place in a organizzed way, as the costumer required, so it will represent the buisness logic of the DDR Robot.
+<br>The trasport trolley should reach the goal place in a organizzed way, as the costumer required.
 </div>
 <table>
 <tbody>
@@ -540,84 +590,34 @@ It is a computational entity with a own autonomous flow of control so it will be
 	</tr>
 </tbody>
 </table>
-
-<k>trolley/Planner </k>
 <br>
+<ks>Further remarks: </ks>
 
-The <a href="https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.planner20/resources/itunibo/planner/plannerUtil.kt" target="web"> plannerUtil.kt</a> is the support of the transport-rolley that is able to generate a plan of basic actions.
-<br>
-The <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/parkingMap0.bin" target="web"> parkingMap0.bin</a> is the a binary file that represents the parking-area. It will be used by the planner to plan the path.
-	<table>
-		<tbody>
-			<tr>
-				<td>
-					Because the trolley shoud moves in a organizzed way the slots could be ordered in the following way so the first numbers will be near the INDOORarea and the transport troley will be faster to park the car.
-					The plannerUtil.kt consider the following pair of number the respective places:
-					<ul>
-					<li>("6","0") -> INDOORarea</li>
-					<li>("6","4") -> OUTDOORarea</li>
-					<li>("0","0") -> Home</li>
-					</ul>
-				</td>
-		<td style="width: 50%">
+<li><ks>MoveToHome: </ks>The transport trolley when receives the command moveToHome should be able to excecute the command but also it shouldn't complete it if there is another reqeust from the ParkManagerService.
 
-		 <center><img src="./img/PlantDir.png" alt="mappa" width="50%" ></center>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-
-			<pre>
-run itunibo.planner.plannerUtil.initAI()
-println("&&&  trolley loads the parking map from the given file ...")
-run itunibo.planner.plannerUtil.loadRoomMap("parkingMap0.bin")
-<kc>//Set the parking area ...</kc>
-run itunibo.planner.plannerUtil.showMap()
-run itunibo.planner.plannerUtil.showCurrentRobotState()
-			</pre>
-
-
-			After initializating the support the trasport trolley will generate the sequence of actions setting the cells goal with
-
-			<pre>
-<kc>//for example</kc> run itunibo.planner.plannerUtil.planForGoal("6","0")
-
-			</pre>
-			<h3>Comunication</h3>
-<k>trolley/Basicrobot </k>
+<li><ks>Load/Unload the car:</ks> The transport trolley when arrives near a SLOT/INDOORAREA/OUTDOORAREA it should load/unload the car so it should simulate the correct direction and the time to do this operation.
 
 <table>
-<tbody>
-	<tr>
-		<td style="width:50%" >
-			<br> The trolley will send the command to the basicrobot using the asynchronous fire-forget pattern to reduce the quantity of messeges and prevent the application from waiting for a response.
-		</td>
-		<td><pre>
-Dispatch cmd : cmd(MOVE)
-Context ctxcarparking ip [host="localhost" port=8092]
-QActor trolley context ctxcarparking{
-...
-forward basicrobot -m cmd : cmd(w)
-...
-} </pre>
-		</td>
+		<tbody>
+			<tr>
+				<td style="width:50%" >
+					To satisfy the single responsibility principle (SRP) it was decided to create a support for the transpor trolley.
+					<br>The tasks of the <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/utility/TrolleyPlannerSupport.kt"target="web">TrolleyPlannerSupport.kt</a> are to plan the greatest path and update the map, thus the transporttrolley will have the only responsibility of sending the commands to the basicrobot.
 
-	</tr>
-</tbody>
+				</td>
+				<td>
+					<center><img src="img/transport_trolley_project_sprint2.png" alt="mappa" width="50%" ></center>
+				</td>
+
+		</tr>
+	</tbody>
 </table>
-</div>
 
-<h4>The trolley</h4>
 
-					<ks>MoveToHome </ks>
 
-					<br>
-					The transport trolley when recives the command moveToHome should be able to excecute the command but also it shouldn't complete it if there is another reqeust from the ParkManagerService.
-<br><br>
-	<ks>Load/Unload the car</ks>
 
-					<br>
-					The transport trolley when arrives near a SLOT/INDOORAREA/OUTDOORAREA it should load/unload the car so it should simulate the correct direction and the time to do this operation.
+
+
 
 
 <h3>Components comunication</h3>
@@ -625,74 +625,14 @@ forward basicrobot -m cmd : cmd(w)
 	<td style="width:50%" >
 			<center><img src="img/comunications1.png" alt="mappa" width="50%" ></center>
 	</td>
+<li>	The ParkManagerService will send the command to the trolley in a asynchronous way to reduce the quantity of messeges and prevent the application from waiting for a response.
+<li>	The trolley will send the command to the basicrobot using the asynchronous fire-forget pattern to reduce the quantity of messeges and prevent the application from waiting for a response.
 </table>
 <br></br>
 
 
-	<k>ParkManagerService/Trolley </k>
-		<table>
-			<tbody>
-				<tr>
-					<td style="width:50%" >
-
-					<br> The ParkManagerService will send the command to the trolley in a asynchronous way to reduce the quantity of messeges and prevent the application from waiting for a response.
-					</td>
-
-					<td>
-						<pre>
-
-Dispatch cmd : cmd(MOVE)
-Context ctxcarparking ip [host="localhost" port=8092]
-QActor parkmnagerservice context ctxcarparking{
-...
-forward trolley -m trolleycmd : trolleycmd($DesiredPosition)
-...
-} </pre>
-				</td>
-
-			</tr>
-		</tbody>
-	</table>
-	<br>
 
 
-
-
-<h2>Project</h2>
-<h6>The transport-trolley</h6>
-		<table>
-				<tbody>
-					<tr>
-						<td style="width:50%" >
-							To satisfy the single responsibility principle (SRP) it was decided to create a support for the transpor trolley.
-							<br>The tasks of the <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/utility/TrolleyPlannerSupport.kt"target="web">TrolleyPlannerSupport.kt</a> are to plan the greatest path and update the map, thus the transporttrolley will have the only responsibility of sending the commands to the basicrobot.
-
-						</td>
-						<td>
-							<center><img src="img/transport_trolley_project_sprint2.png" alt="mappa" width="50%" ></center>
-						</td>
-
-				</tr>
-			</tbody>
-		</table>
-<h6>The basicrobot</h6>
-			<table>
-				<tbody>
-					<tr>
-						<td style="width:50%" >
-							 The basicrobot, as saied in analysis requirements phase, interacts with the real robot throught the object  <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/resources/unibo/robot/robotSupport.kt"target="web">robotSupport.kt.</a>
-							<br>It is the adatper for the devices described in the configuration file : <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/basicrobotConfig.json"target="web">basicrobotConfig.json</a>
-							<br>In this project it is used a virtual robot that is inside the vitual evirorment WEnv.
-							<br>The messages will be sent to the websoket (port:8091).
-
-						</td>
-						<td>
-							<center><img src="img/basic_robot_project.png" alt="mappa" width="50%" ></center>
-						</td>
-
-				</tr>
-			</tbody>
-		</table>
 
 
 				<h3>Logical Architecture</h3>
@@ -1093,7 +1033,7 @@ State trolleyIsInOutdoor{
 				</tr>
 				<tr >
 					<td colspan=2 style="border-left-color: transparent; border-right-color: transparent;">
-						<p><h3>TrolleyCmd - <a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint2/Sprint2/src/sprint2.qak">parkingservice.qak: </a></h3></p>
+						<p><h3>Trolley - <a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint2/Sprint2/src/sprint2.qak">parkingservice.qak: </a></h3></p>
 					</td>
 				</tr>
 				<tr>

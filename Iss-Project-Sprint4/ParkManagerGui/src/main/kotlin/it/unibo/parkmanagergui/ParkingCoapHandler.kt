@@ -55,33 +55,14 @@ An object of this class is registered as observer of the resource
                 sysUtil.colorPrint("ParkingCoapHandler | alarm value=${alarmRep.content}", Color.BLUE)
                 controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, alarmRep)
             }
-            /*else if (jsonContent.has("slotLiberi")){
-                val slotLiberiRep = ResourceRep("slotLiberi" + HtmlUtils.htmlEscape( jsonContent.getString("slotLiberi"))  )
-                sysUtil.colorPrint("ParkingCoapHandler | path value=${slotLiberiRep.content}", Color.BLUE)
-                controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, slotLiberiRep)
-            }*/
+          
             else if (jsonContent.has("status")){
                 val statusRep = ResourceRep("status" + HtmlUtils.htmlEscape( jsonContent.getString("status"))  )
                 sysUtil.colorPrint("ParkingCoapHandler | status value=${statusRep.content}", Color.BLUE)
                 println("statusRes: $statusRep" )
                 println("contentStusa: ${statusRep.content}" )
                 controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, statusRep)
-            }/*
-            else if (jsonContent.has("curDest")){
-                val curDestRep = ResourceRep("curDest" + HtmlUtils.htmlEscape( jsonContent.getString("curDest"))  )
-                sysUtil.colorPrint("ParkingCoapHandler | curDest value=${curDestRep.content}", Color.BLUE)
-                controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, curDestRep)
             }
-            else if (jsonContent.has("robotPos")){
-                val robotPosRep = ResourceRep("robotPos" + HtmlUtils.htmlEscape( jsonContent.getString("robotPos"))  )
-                sysUtil.colorPrint("ParkingCoapHandler | path value=${robotPosRep.content}", Color.BLUE)
-                controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, robotPosRep)
-            }
-            else if (jsonContent.has("direction")){
-                val directionRep = ResourceRep("direction" + HtmlUtils.htmlEscape( jsonContent.getString("direction"))  )
-                sysUtil.colorPrint("ParkingCoapHandler | direction value=${directionRep.content}", Color.BLUE)
-                controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, directionRep)
-            }*/
 
         }catch(e:Exception){
             sysUtil.colorPrint("ParkingCoapHandler | ERROR=${content}", Color.RED)
