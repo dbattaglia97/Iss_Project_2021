@@ -274,7 +274,7 @@ port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR
 							<div class=remark2>These sensors are simulated because they are not yet physically available.
 								It is possible that real <b>outsonar</b> will be used in future SPRINTs.</div>
 
-
+<li>
 							<k>Thermometer</k> and <k>fan</k> are components simulated by a software. Reaching the
 							maximum temperature does not allow the Parking Manager (which is not yet considered) to stop
 							the Trolley
@@ -327,7 +327,7 @@ port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR
                 <li><ks>[acceptIN]</ks> It's generated <em>SLOTNUM</em> and the related slot is marked as occupied.
 
                 <li><ks>[informIN]</ks> If <em>INDOOR-area</em> is <i>FREE</i> and trolley status is not <i>STOPPED</i> the request is immediately elaborated sending to <b>client</b> the reply
-                  <tt>slotsnum : slotsnum ($SLOTNUM)</tt>. Otherwise it's sended to <b>client</b> the reply <tt>waitIndoor : slotsnum ($SLOTNUM)</tt>, and so <b>client</b>
+                  <tt>enter : enter ($SLOTNUM)</tt>. Otherwise it's sended to <b>client</b> the reply <tt>waitIndoor : enter ($SLOTNUM)</tt>, and so <b>client</b>
                   waits until the <em>INDOOR-area</em> become FREE or trolley status is not STOPPED.
 
 								<li>It's received the request <tt>carenter</tt> sended by the <b>client</b>.
@@ -458,7 +458,6 @@ port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR
 				<li>planning the <tt>trolley's</tt> movements to move it in an organized way;</li>
 				<li>communicate with the <tt> trolley</tt>.</li>
 
-		<div class="remark"> To destroy the abstraction gap is possible to use QACTOR which is a modelling language and defines a work model of the system based on actors behavior.
 </div>
 
 <h4>Map - Configuration own map</h4>
@@ -489,10 +488,11 @@ port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR
 						<li>("6","4") -> OUTDOORarea</li>
 						<li>("0","0") -> Home</li>
 						</ul>
+						In addition, the trolley must be facing certain sides at the time it is in the "special" positions as shown in the side image.
 					</td>
 			<td style="width: 50%">
 
-			 <center><img src="./img/plant.png" alt="mappa" width="50%" ></center>
+			 <center><img src="./img/PlantDir.png" alt="mappa" width="50%" ></center>
 					</td>
 				</tr>
 			</tbody>
