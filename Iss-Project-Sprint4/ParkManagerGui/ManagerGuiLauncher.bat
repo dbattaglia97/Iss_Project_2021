@@ -1,1 +1,0 @@
-start cmd.exe /k "cd .\out\artifacts\ParkManagerGui_main_jar & java -Dserver.port=8083 -jar ParkManagerGui.main.jar"
