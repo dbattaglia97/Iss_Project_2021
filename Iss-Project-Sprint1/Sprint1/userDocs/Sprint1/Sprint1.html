@@ -653,6 +653,7 @@
                 <li>
                     <ks>BasicRobot: </ks>The model of the DDR-robot is related to the basicrobot given by the costumer: 	<a href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qak21.basicrobot/userDocs/basicrobot2021.html" target="web"> basicrobot2021.html</a>. <br>
           						The DDR-robot could be a VirtualRobot, Mbot or Nanobot:
+											<ul>
           						<li><bc>virtual</bc>: <br/><m>the virtual robot described in
                       <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.virtualRobot2020/userDocs/VirtualRobot2021.html" target="robot">Virtual robot 2021</a>,
                       that can be launched by using the docker-compose file
@@ -666,7 +667,7 @@
                       <li> <bc>mbot</bc>: <br/><m>the  robot described in
                       <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.qak21.basicrobot/userDocs/Mbot3030.html" target="robot">Mbot3030 | The reference ddr robot</a> </m>
                       The support is: <a href="https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.qak21.basicrobot/resources/robotMbot/mbotSupport.kt" target="code">mbotSupport</a>
-
+</ul>
                 <li>
                     <ks>weightsensor: </ks>about this component, we don't have at our disposal any component to start with and so it could be
                     simulated by QAktor that sends messages to <b>parkingmanagerservice</b> about the weight of car that
@@ -733,7 +734,7 @@
                 <li>Neither virtual nor real <k>Trolley</k> is expected
                     <div class="remark2">We want to show how the system works at logical level, without perform any
                         Trolley movements. </div>
-                    <p> <i> The components that are ignored or simplified are fully implemented during future
+                    <p> <i> The components that are ignored or simplified will be fully implemented during future
                             SPRINTs.</i> </p>
 
                             <h3>Relevant aspects</h3>
@@ -936,7 +937,7 @@
 
 
 
-    				<h4>ParkingSlotKb</h4>
+    				<h4>ParkingAreaKb</h4>
     				<p>
     					It's necessary to introduce a knowledge base, to permit the system to know and modify the status of
     					<em>parking slots</em> and <em>INDOOR</em> and
@@ -947,7 +948,7 @@
       					<li>TokenID management</li>
 
       					A possible way of implementing this knowledge base can be seen in the file <a
-      						href="..\ParkingAreaKb.pl">ParkingAreaKb.pl</a>.
+      						href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint1/Sprint1\ParkingAreaKb.pl">ParkingAreaKb.pl</a>.
 
     				</p>
 
@@ -959,9 +960,9 @@
 
     				<h4>KBSupports</h4>
             <p>
-            It was noted that it is not possible to edit the KnowledgeBase encoded by the .pl file because each time it is "opened" by a different actor, each actor creates its own copy and the changes remain local and not global. To overcome this problem, the following steps were considered:
-<li> Choose a single actor to manage changes to the knowledge base(ParkingManagerService).</li>
-<li>Create an intermediary that also allows other actors to modify the knowledge base by leveraging the ParkingManagerService actor </li>
+            It was noted that it is not possible to edit the KnowledgeBase(encoded by the .pl file ) simultaneously by different actor because each time it is "opened" by a different actor, each actor creates its own copy and the changes remain local and not global. To overcome this problem, the following steps were considered:
+<li> Choose a single actor to manage changes to the knowledge base (it is chosen then ParkingManagerService actor).</li>
+<li>Create an intermediary that also allows other actors to modify the knowledge base by leveraging the ParkingManagerService actor (KBSupports.kt explained later) </li>
 </p>
 
             <h4>testUpdater</h4><p>
@@ -1256,7 +1257,7 @@ QActor client context ctxcarparking{
     </pre>
     <p>
     	To <ks>requestToEnter</ks> state it's added a random delay in order to
-    	simulate clients arriving. This state, now, is able to handle also <tt>waitIndoor</tt>.
+    	simulate clients arriving. This state  is able to handle also <tt>waitIndoor</tt>.
     	In particular, if received, <b>client</b> performs a delay of 3 second to simulate the
     	waiting before <em>INDOOR-area</em> become free and the move itself to <ks>cartoindoor</ks> state.
     </p>
@@ -1669,7 +1670,7 @@ QActor parkingmanagerservice context ctxcarparking{
 
     	<p>
     		When it's received a <tt>pickup</tt> request, it's immediately performed a checking
-    		of inserted token, in order to verify its authenticity and also to compute a parsing to
+    		of inserted token, in order to verify its authenticity (through the usage of the prolog clause token($TOKENIN)) and also to compute a parsing to
     		obtain <em>CARSLOTNUM</em>.
     	</p>
 
@@ -1677,7 +1678,7 @@ QActor parkingmanagerservice context ctxcarparking{
     	<center><b><i>STATUS SETTING OF PARKING SLOTS</i></b></center>
     	<p>
     		In states <ks>acceptin</ks> and <ks>picking</ks> are setted the value which represent
-    		the status of a certain <em>parking-slot</em> through the usage of the prolog clause occupySlot($SLOTNUM and vacateSlot($SLOTNUM)).
+    		the status of a certain <em>parking-slot</em> through the usage of the prolog clause occupySlot($SLOTNUM) and vacateSlot($SLOTNUM)).
     	</p>
 
 			<center><b><i>CHECK STATE</i></b></center>
@@ -1694,15 +1695,6 @@ QActor parkingmanagerservice context ctxcarparking{
 				</ul>
 			</p>
 
-			<center><b><i>ELABORATION OF REQENTER</i></b></center>
-			<p>
-			Since the moment in which a <tt>reqenter</tt> is accepted, it's computed the
-			<em>SLOTNUM</em> assigned to that <b>client</b>. Then if <em>INDOOR</em> area
-			is free, the request is normally elaborated, otherwise it's sensend to <b>client</b>
-			a reply <tt>waitIndoor</tt> with related assigned <em>SLOTNUM</em>, in order to notify him
-			that it's necessary waiting that <em>INDOOR</em> area becomes available.<br>
-			In any case, <b>parkingmanagerservice</b> expects to receive from <b>client</b>, sooner or later,
-			a request <tt>carenter</tt> that notify its presence at <em>INDOOR</em>.
 
                 </tr>
 
@@ -1795,7 +1787,7 @@ class testUpdater (name : String ) : ActorBasic( name ) {
 </pre>
 									</td>
 									<td>
-									<img src="img/testUpdater.png" width="40%" >
+									<img src="img/testUpdater.png" >
 									</td>
 								</tr>
 							</table>
