@@ -379,7 +379,7 @@ port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR
 
 								<li>After the checks it is determined if <tt>pickup</tt> can be elaborated.
 
-								<li> <ks>[acceptOUT]</ks> It's received the dispatch <tt>pickup(TOKENID)</tt> sended by a <b>client</b>.
+								<li> <ks>[acceptOUT]</ks> It's received the request <tt>pickup(TOKENID)</tt> sended by a <b>client</b>.
 
 								<li> <ks>[findSlot]</ks> It's obtained the <em>CARSLOTNUM</em> from <tt>TOKENID</tt> sended by <b>client</b>.
 
@@ -406,7 +406,7 @@ port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR
 						</td>
 						<td>
 							<ul style="font-family: Consolas; font-size: 15px">
-								<li><b>client</b> send a dispatch to <b>parkingmanagerservice</b>
+								<li><b>client</b> send a request to <b>parkingmanagerservice</b>
 									<tt>pickup(TOKENID)</tt>
 									to notify his interest in
 									in picking his car from parking-area.
@@ -686,7 +686,7 @@ It is a computational entity with a own autonomous flow of control so it will be
 								</center>
 								It's the QActor that sends the requests (<tt>reqenter</tt> and <tt>carenter</tt>) to the
 								system during the parking phase
-								and sends dispatch (<tt>pickup</tt>) during the picking phase.<br>
+								and sends request (<tt>pickup</tt>) during the picking phase.<br>
 								It replaces, in this version, the role of the <ks>ParkServiceGUI</ks>.
 
 							</td>

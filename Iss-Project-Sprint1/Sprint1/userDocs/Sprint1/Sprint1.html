@@ -1244,7 +1244,7 @@ QActor client context ctxcarparking{
 	State reqpickup{
 		println("client notify his interest in picking his car | CLIENT")
 		request parkingmanagerservice -m pickup : pickup($TOKENID)
-	} Transition t0 whenMsg pickupelaborated ->pickupcar
+	} Transition t0 whenReply pickupelaborated ->pickupcar
 
 	State pickupcar{
 		delay 3000 //in 2 secondi porta via l'auto da OUTDOOR
@@ -1527,7 +1527,7 @@ QActor parkingmanagerservice context ctxcarparking{
        [#boolOUT=false
         boolIN=false #]
 	}Transition t0 whenTime 10000-> moveToHome
-	                whenMsg pickup-> acceptout
+	                whenRequest pickup-> acceptout
 
 	State waiting{
         println("The system can't elaborate any request| SERVICE")
