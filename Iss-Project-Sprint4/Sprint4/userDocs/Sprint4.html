@@ -837,10 +837,10 @@
    	Transition t0 whenEvent sonar -> sendSonarData</pre>
 					</td>
 					<td>
-						This QAktor is in another context <tt>ctxsonaronrasp</tt> which runs on a remote device, a <b>Raspberry Pi</b> that is euipped with
+						This Qactor is in another context <tt>ctxsonaronrasp</tt> which runs on a remote device, a <b>Raspberry Pi</b> that is equipped with
 						a sonar <i>HCSR04</i>. The PORT of this contex is <b>8028</b>.<br>
 						The implementation of this component is obtained starting from another component already at our disposal, into the project <a>it.unibo.rasp2021</a>.<br><br>
-						Before emitting <tt>sonaroutdoor</tt> event, which will be perceives by <b>sonarhandler</b> QAktor on <tt>ctxcarparking</tt>, the data
+						Before emitting <tt>sonaroutdoor</tt> event, which will be perceives by <b>sonarhandler</b> Qactor on <tt>ctxcarparking</tt>, the data
 						collected by sonar are taken, cleaned and showed, respectively thanks to three mock-actor: <b>sonardatasource</b>, <b>datalogger</b> and <b>datacleaner</b>.
 						This kind of structure can be inteded as <i>Pipeline Design Pattern</i>.
 						<br>The emitted events can be perceived also in another context because this context is registred on a topic of a MTTQ Broker, in particular: <br>
@@ -944,7 +944,7 @@ class HIController {
 					</td>
 					<td>
 						This class represents the controller of our Spring App for <b>ManagerGUI</b>, which follow <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC pattern</a>.<br>
-						Initially, it's created <b>coapForGUI</b>, which will observe the updating of <b>guiUpdater</b> in <tt>ctxParkigservice</tt>.<br>
+						Initially, it's created <b>coapForGUI</b>, which will observe the updating of <b>guiUpdater</b> in <tt>ctxcarparking</tt>.<br>
 						After loading of View, it's sended to <b>parkingmanagerservice</b> a dispatch <tt>startManager</tt>, so the system starts updating resources.
 						<br><br>
 						There are also two <i>@PostMapping</i> that have the aim to send <tt>stop</tt>/<tt>resume</tt>
@@ -1026,7 +1026,7 @@ class guiUpdater (name : String ) : ActorBasic( name ) {
 }</pre>
 					</td>
 					<td>
-						During the project phase, it has proved necessary to have only a QAktor with the goal of updating all resources, so that the <b>managerGUI</b> could detect them.<br>
+						During the project phase, it has proved necessary to have only a Qactor with the goal of updating all resources, so that the <b>managerGUI</b> could detect them.<br>
 						So, whenever a component modifies any resource, a dispatch <tt>updateGui:resourceName(VALUE)</tt> is sent to <b>guiUpdater</b> mock-actor.<br>
 						Then, this actor elaborates received message, converting it in JSON format and use it to update the corresponding resource.<br>
 
@@ -1061,12 +1061,13 @@ class guiUpdater (name : String ) : ActorBasic( name ) {
 }</pre>
 					</td>
 					<td>
-						This is a QAktor which as an intermediary between <b>managerGUI</b> and <b>trolley</b>. Its task is to avoid that <b>managerGUI</b> sends <tt>stopTrolley</tt>
+						This is a Qactor which as an intermediary between <b>managerGUI</b> and <b>trolley</b>. Its task is to avoid that <b>managerGUI</b> sends <tt>stopTrolley</tt>
 						ans <tt>resumeTrolley</tt> messages directly to <b>Trolley</b>.<br> So, <b>trolleystopper</b> receives this kind of dispatches from <b>managerGUI</b> and
 						forward them to <b>trolley</b>.
 					</td>
 
-
+</tr>
+<tr>
 
 					<td>
 						<center><b><u>TROLLEY</u></b></center>
@@ -1115,6 +1116,7 @@ Therefore, two states were added:
 <li>resuming: if the trolley was previously in the working state, the path needed to get to the requested location is recalculated.
 </td>
 
+</tr>
 
 
 
@@ -1139,15 +1141,11 @@ fun entry(model: Model): String {
 	model.addAttribute("arg", appName)
 	model.addAttribute("advise", "Welcome in the best automated parking ever, Click on \"Enter Request to start\"")
 	println("HumanInterfaceController | entry model=$model")
-	if(cnt > 5){
-		model.addAttribute("disableReqEnter", "false")
-		model.addAttribute("disableCarEnter", "true")
-		model.addAttribute("disablePickup", "true")
-	}else{
-		model.addAttribute("disableReqEnter", "false")
-		model.addAttribute("disableCarEnter", "true")
-		model.addAttribute("disablePickup", "false")
-	}
+
+	model.addAttribute("disableReqEnter", "false")
+	model.addAttribute("disableCarEnter", "true")
+	model.addAttribute("disablePickup", "false")
+
 
 
 	return "clientRobotGui"
@@ -1197,17 +1195,11 @@ fun pickup(model: Model, @RequestParam(name = "token") token : String) : String 
 	var advise = "Token sended: $token. Wait untill yout car is in OUTDOOR area.\nGoodbye"
 	model.addAttribute("advise", advise)
 
-	cnt++
 
-	if(cnt > 5){
-		model.addAttribute("disableReqEnter", "false")
-		model.addAttribute("disableCarEnter", "true")
-		model.addAttribute("disablePickup", "true")
-	}else{
-		model.addAttribute("disableReqEnter", "false")
-		model.addAttribute("disableCarEnter", "true")
-		model.addAttribute("disablePickup", "false")
-	}
+	model.addAttribute("disableReqEnter", "false")
+	model.addAttribute("disableCarEnter", "true")
+	model.addAttribute("disablePickup", "false")
+
 	return  "clientRobotGui"
 }
 </pre>
@@ -1219,12 +1211,7 @@ fun pickup(model: Model, @RequestParam(name = "token") token : String) : String 
 						instance is created, and his goal is to prepare messages that has to be forwarded to <b>parkingManagerService</b>.<br><br>
 						For each phase of parking/picking process there are a @PostMapping with the aim to send request related to the button that the <b>Client</b> presses.
 						The messages that ClientGUI sends to <b>parkingmanagerservice</b> are sending via WS, opened and managed by object
-						<a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4//ClientGui/src/main/kotlin/it/unibo/clientGui/Client.kt">Client</a>.<br><br>
-
-						On picking button a control has been inserted with the aim to check how many time a Client has pressed this button. This check is usefull to prevent a malicious use of the GUI.
-						In case of a client has pressed the pickup button more than 5 times with wrong <em>TOKENID</em> it will be disabled for this client.
-
-						Some check are also performed on the other button in order to avoid wrong behaviour from clients.
+					<a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4//ClientGui/src/main/kotlin/it/unibo/clientGui/Client.kt">Client</a>.<br><br>
 
 					</td>
 				</tr>
@@ -1274,34 +1261,34 @@ while (!Thread.currentThread().isInterrupted) {
 	println("%%%%% Reveived: $message")
 
 	if(id == "enter"){
-
-		val jsonMsg = "{\"slotnum\":\"$msgArg\"}"
-		var jsonContent = JSONObject(jsonMsg)
-		val slotRep = ResourceRep("" + HtmlUtils.htmlEscape( "s"+jsonContent.getString("enter")))
-		println("slot: $msgArg")
-		TimeUnit.MILLISECONDS.sleep(500L)
-		controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, slotRep)
-
+	    val jsonMsg = "{\"enter\":\"$msgArg\"}"
+	    var jsonContent = JSONObject(jsonMsg)
+	    val slotRep = ResourceRep("" + HtmlUtils.htmlEscape( "ss"+jsonContent.getString("enter")) )
+	    println("slot: $msgArg")
+	    TimeUnit.MILLISECONDS.sleep(500L)
+	    controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, slotRep)
 	}
 	else if(id == "receipt"){
-
-		println("token: $msgArg")
-		val jsonMsg : String = "{\"tokenid\":\"$msgArg\"}"
-		var jsonContent : JSONObject = JSONObject(jsonMsg)
-		val tokenRep = ResourceRep("" + HtmlUtils.htmlEscape( "t"+jsonContent.getString("tokenid")))
-		controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, tokenRep)
+	    println("token: $msgArg")
+	    val jsonMsg : String = "{\"tokenid\":\"$msgArg\"}"
+	    var jsonContent : JSONObject = JSONObject(jsonMsg)
+	    val tokenRep = ResourceRep("" + HtmlUtils.htmlEscape( "tt"+jsonContent.getString("tokenid")) )
+	    controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, tokenRep)
 
 	}
 	else if(id == "waitIndoor"){
-		val jsonMsg = "{\"waitIndoor\":\"$msgArg\"}"
-		var jsonContent = JSONObject(jsonMsg)
-		val waitIndoorRep =
-			ResourceRep("" + HtmlUtils.htmlEscape( "s"+jsonContent.getString("waitIndoor")))
-		println("waitIndoor: $msgArg")
-		TimeUnit.MILLISECONDS.sleep(500L)
-		controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, waitIndoorRep)
+	    val jsonMsg = "{\"waitIndoor\":\"$msgArg\"}"
+	    var jsonContent = JSONObject(jsonMsg)
+	    val waitIndoorRep = ResourceRep("" + HtmlUtils.htmlEscape( "ww"+jsonContent.getString("waitIndoor")) )
+	    controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, waitIndoorRep)
 	}
-}
+	else if(id == "pickupelaborated"){
+	    val jsonMsg = "{\"pickupelaborated\":\"$msgArg\"}"
+	    var jsonContent = JSONObject(jsonMsg)
+	    val pickupRep = ResourceRep("" + HtmlUtils.htmlEscape( "pe"+jsonContent.getString("pickupelaborated")) )
+	    controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, pickupRep)
+	}
+
 
 /*---------------------------------------------------------------------------------------------------*/
 

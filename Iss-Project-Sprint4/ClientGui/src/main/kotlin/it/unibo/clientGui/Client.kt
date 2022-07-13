@@ -42,10 +42,8 @@ class Client : Runnable {
                     println("slot: $msgArg")
                     TimeUnit.MILLISECONDS.sleep(500L)
                     controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, slotRep)
-
                 }
                 else if(id == "receipt"){
-
                     println("token: $msgArg")
                     val jsonMsg : String = "{\"tokenid\":\"$msgArg\"}"
                     var jsonContent : JSONObject = JSONObject(jsonMsg)
@@ -58,6 +56,12 @@ class Client : Runnable {
                     var jsonContent = JSONObject(jsonMsg)
                     val waitIndoorRep = ResourceRep("" + HtmlUtils.htmlEscape( "ww"+jsonContent.getString("waitIndoor")) )
                     controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, waitIndoorRep)
+                }
+                else if(id == "pickupelaborated"){
+                    val jsonMsg = "{\"pickupelaborated\":\"$msgArg\"}"
+                    var jsonContent = JSONObject(jsonMsg)
+                    val pickupRep = ResourceRep("" + HtmlUtils.htmlEscape( "pe"+jsonContent.getString("pickupelaborated")) )
+                    controller.simpMessagingTemplate?.convertAndSend(WebSocketConfig.topicForClient, pickupRep)
                 }
             }
         } catch (e1: UnknownHostException) {

@@ -37,15 +37,11 @@ class HumanInterfaceController {
         model.addAttribute("arg", appName)
         model.addAttribute("advise", "Welcome in AUTOMATED CAR PARKING, Click on \"Enter Request to start\"")
         println("HumanInterfaceController | entry model=$model")
-        if(cnt > 5){
-            model.addAttribute("disableReqEnter", "false")
-            model.addAttribute("disableCarEnter", "true")
-            model.addAttribute("disablePickup", "true")
-        }else{
-            model.addAttribute("disableReqEnter", "false")
-            model.addAttribute("disableCarEnter", "true")
-            model.addAttribute("disablePickup", "false")
-        }
+
+        model.addAttribute("disableReqEnter", "false")
+        model.addAttribute("disableCarEnter", "true")
+        model.addAttribute("disablePickup", "false")
+
 
 
         return "clientRobotGui"
@@ -95,17 +91,10 @@ class HumanInterfaceController {
         var advise = "Token sended: $token. Wait untill yout car is in OUTDOOR area.\nGoodbye"
         model.addAttribute("advise", advise)
 
-        cnt++
+        model.addAttribute("disableReqEnter", "false")
+        model.addAttribute("disableCarEnter", "true")
+        model.addAttribute("disablePickup", "false")
 
-        if(cnt > 5){
-            model.addAttribute("disableReqEnter", "false")
-            model.addAttribute("disableCarEnter", "true")
-            model.addAttribute("disablePickup", "true")
-        }else{
-            model.addAttribute("disableReqEnter", "false")
-            model.addAttribute("disableCarEnter", "true")
-            model.addAttribute("disablePickup", "false")
-        }
         return  "clientRobotGui"
     }
 }

@@ -306,14 +306,14 @@ class Parkingmanagerservice ( name: String, scope: CoroutineScope  ) : ActorBasi
 								 TOKENIN = payloadArg(0).toInt()  
 								println("Token provided by the customer for the pickup $TOKENIN | SERVICE")
 								solve("token($TOKENIN)","") //set resVar	
-								if( currentSolution.isSuccess() ) {answer("pickup", "pickupaccepted", "pickupaccepted($TOKENIN)"   )  
+								if( currentSolution.isSuccess() ) {answer("pickup", "pickupelaborated", "pickupelaborated($TOKENIN)"   )  
 								CARSLOTNUM= TOKENIN%10 
 								println("Token elaboration OK, token= $TOKENIN and corresponding slot= $CARSLOTNUM| SERVICE")
 								forward("updateForTesting", "carslotnum($CARSLOTNUM)" ,"testupdater" ) 
 								}
 								else
-								{answer("pickup", "pickupaccepted", "pickupaccepted($TOKENIN)"   )  
-								TOKENIN=-1 
+								{TOKENIN=-1 
+								answer("pickup", "pickupelaborated", "pickupelaborated($TOKENIN)"   )  
 								println("TOKEN NOT OK | SERVICE")
 								forward("updateForTesting", "pickupNotAccepted($TOKENIN)" ,"testupdater" ) 
 								}

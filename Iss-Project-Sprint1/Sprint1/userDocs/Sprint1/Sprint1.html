@@ -604,12 +604,11 @@
           						sonarHCSR04Support2021.kt</ks>
 
                 <li>
-                    <k>Thermometer:</k> it's the component that sends data about evironment temperature to the Fanautomatizer.
+                    <k>Thermometer:</k> it's the component that sends data about evironment temperature.
                 <li>
                     <k>Fan:</k> it's the component that has the task of cooling the system when turned on.
 
-									<li>
-	                    <k>Fanautomatizer:</k> it's the component that has the task to automatize the usage of the fan
+
 	                <li>
                     <k>ClientGUI:</k> it's a graphic interface at the customer's disposal. It allows clients to submit a
                     parking or picking request to the ParkingSystem.
@@ -680,11 +679,14 @@
                 <li>
                     <ks>fan:</ks> goal of this component is to manage a cooling system in order to lower the
                     temperature. We don't have at our disposal any component to start with,
-                    so it could be a QAktor that receives information about temperature and actives a fan.
+                    so it could be a QAktor that somehow lower the temperature
                 <li>
                     <ks>thermometer:</ks> to manage thermometer informations, we don't have at our disposal any component to start with, so
-                    it could be a QAktor. This Actor has to comunicate directly with <b>fan</b> about environment
+                    it could be a QAktor. This Actor comunicates emitting a value of the temperature of the environment that will be handled by the <b>fanautomatizer</b>
                     temperature.
+								<li>
+									<ks>fanautomatizer:</ks>  This Actor handles the problem relative to temperature/fan. It receives the temperature and communicates directly with <b>fan</b> starting and stopping it when necessary.
+									temperature.
                 <li>
                     <ks>clientGUI:</ks> it will create a graphic interface which implements a service that allows the
                     clients to start parking or picking operations, and to obtain informations about them.<br>
@@ -835,7 +837,7 @@
     								<li>It checks if <em>OUTDOOR</em> is free.
     								<li>After the checks it is determined if <tt>pickup</tt> can be elaborated.
     								<li>
-    									<ks>[acceptOUT]</ks> It's received the dispatch <tt>pickup(TOKENID)</tt> sended by a
+    									<ks>[acceptOUT]</ks> It's received the request <tt>pickup(TOKENID)</tt> sended by a
     									<b>client</b>.
     								<li>
     									<ks>[findSlot]</ks> It's obtained the <em>CARSLOTNUM</em> from <tt>TOKENID</tt>
@@ -865,7 +867,7 @@
     						</td>
     						<td>
     							<ul style="font-family: Consolas; font-size: 15px">
-    								<li><b>client</b> send a dispatch to <b>parkingmanagerservice</b>
+    								<li><b>client</b> send a request to <b>parkingmanagerservice</b>
     									<tt>pickup(TOKENID)</tt>
     									to notify his interest in
     									in picking his car from parking-area.
@@ -1025,7 +1027,7 @@
 										</center>
 										It's the QActor that sends the requests (<tt>reqenter</tt> and <tt>carenter</tt>) to the
 										system during the parking phase
-										and sends dispatch (<tt>pickup</tt>) during the picking phase.<br>
+										and sends a request (<tt>pickup</tt>) during the picking phase.<br>
 										It replaces, in this version, the role of the <ks>ParkServiceGUI</ks>.
 
 									</td>
@@ -1241,8 +1243,8 @@ QActor client context ctxcarparking{
 
 	State reqpickup{
 		println("client notify his interest in picking his car | CLIENT")
-		forward parkingmanagerservice -m pickup : pickup($TOKENID)
-	} Transition t0 whenTime 2000->pickupcar
+		request parkingmanagerservice -m pickup : pickup($TOKENID)
+	} Transition t0 whenMsg pickupelaborated ->pickupcar
 
 	State pickupcar{
 		delay 3000 //in 2 secondi porta via l'auto da OUTDOOR
@@ -1615,14 +1617,16 @@ QActor parkingmanagerservice context ctxcarparking{
 	        [# TOKENIN = payloadArg(0).toInt() #]
 	        println("Token provided by the customer for the pickup $TOKENIN | SERVICE")
 	        solve(token($TOKENIN))
-            ifSolved{
-                [#CARSLOTNUM= TOKENIN%10#]
-                println("Token elaboration OK, token= $TOKENIN and corresponding slot= $CARSLOTNUM| SERVICE")
-                forward testupdater -m updateForTesting : pickup($CARSLOTNUM)
-            }else{
-                [#TOKENIN=-1#]
-                println("TOKEN NOT OK | SERVICE")
-	    	}
+					ifSolved{
+				    forward testupdater -m updateForTesting: slotnum($SLOTNUM)
+				    println("Reply to reqenter with $SLOTNUM  | SERVICE")
+				    replyTo reqenter with enter : enter ($SLOTNUM)
+					}else{
+					    forward testupdater -m updateForTesting: waitIndoor($SLOTNUM)
+					    [#notAllowed=true#]
+		          		println("Reply to reqenter with waitIndoor($SLOTNUM)  | SERVICE")
+		         		replyTo reqenter with waitIndoor : waitIndoor($SLOTNUM)
+					}
 	    }
 	   }Goto picking if [#TOKENIN>0#] else tokenError
 
@@ -1688,7 +1692,7 @@ QActor parkingmanagerservice context ctxcarparking{
 				According to which conditions are favorable, the FSM that describes the behavior of this actor,
 				moves itself to a different state and accepts different kind of requests:
 				<ul>
-				<li><ks>allReady</ks>: It accepts both <tt>reqenter</tt> and <tt>reqpickup</tt>
+				<li><ks>allReady</ks>: It accepts both <tt>reqenter</tt> and <tt>pickup</tt>
 				<li><ks>indoorOnlyReadyr</ks>: It accepts only <tt>reqenter</tt>
 				<li><ks>outdoorOnlyReady</ks>: It accepts only <tt>pickup</tt> request.
 				<li><ks>notReady</ks>: It cannot accept any kind of request, so it moves to <ks>moveToHome</ks> state after 5 seconds.
@@ -1909,7 +1913,7 @@ fun testWorkflow(){
     							After that, <b>client</b> sends a <tt>carenter</tt> request because now <em>INDOOR</em> is FREE, and he receives his <em>TOKENID</em>.
     						</p>
     						<p>
-    							After a certain period of time, <b>client</b> wants to pickup his car and so send <tt>pickup(TOKENID)</tt> dispatch while <em>OUTDOOR</em>
+    							After a certain period of time, <b>client</b> wants to pickup his car and so send <tt>pickup(TOKENID)</tt> request while <em>OUTDOOR</em>
     							is OCCUPIED. After 3 seconds <em>OUTDOOR</em> is setted to FREE, and, if the system works well, client's pickup request is elaborated.
     						</p>
 

@@ -28,12 +28,25 @@ function connect() {
             //var mss = JSON.stringify(jsonMsg)
              if( jsonMsg.includes("ss")) {
                 showMsg(  "SLOTNUM: "+jsonMsg.replace("ss",""), "infoDisplay" );
-
+                console.log("slotnum"+jsonMsg);
              }else if ( jsonMsg.includes("tt")) {
                 showMsg( "TOKEN: "+jsonMsg.replace("tt",""), "infoDisplay" );
+                console.log("token"+jsonMsg);
 
              }else if ( jsonMsg.includes("ww")) showMsg( "WAIT UNTIL INDOOR BE FREE!! SLOTNUM: "+jsonMsg.replace("ww",""), "infoDisplay" );
-        });
+
+             else if ( jsonMsg.includes("pe")) {
+                var tokenreply=jsonMsg.replace("pe","");
+                console.log("pickup"+jsonMsg);
+                if(parseInt(tokenreply)==-1){
+                    showMsg( "Token entered incorrectly, please re-enter token!! ", "infoDisplay" );
+                }else{
+                    showMsg( "Token entered is correct!! ", "infoDisplay" );
+                }
+             }
+             }
+
+        );
 
     });
 }

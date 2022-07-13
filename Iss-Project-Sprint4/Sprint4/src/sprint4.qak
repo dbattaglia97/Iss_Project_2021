@@ -16,7 +16,7 @@ Reply enter: enter(SLOTNUM)
 Request carenter: carenter(SLOTNUM)
 Reply receipt : receipt(TOKENID)
 Request pickup : pickup(TOKENID)
-Reply pickupaccepted: pickupaccepted(TOKENID)
+Reply pickupelaborated: pickupelaborated(TOKENID)
 Reply waitIndoor: waitIndoor(TOKENID)
 Event caroutdoorarrival : coa(V)
 Event carwithdrawn : cw(X)
@@ -132,7 +132,7 @@ QActor client2 context ctxcarparking{
 	State reqpickup{
 		println("client notify his interest in picking his car | CLIENT")
 		request parkingmanagerservice -m pickup : pickup($TOKENID)
-	} Transition t0 whenReply pickupaccepted -> waitingForCar
+	} Transition t0 whenReply pickupelaborated -> waitingForCar
 
 	State waitingForCar{
 	}Transition t0 whenEvent caroutdoorarrival -> pickupcar
@@ -351,7 +351,7 @@ QActor parkingmanagerservice context ctxcarparking{
 		delay 50
 		forward guiupdater -m updateGui : weight(0)
 		delay 50
-		forward guiupdater -m updateGui : temperature(20)
+		forward guiupdater -m updateGui : temp(20)
 		delay 50
 		[#forward("updateGui", "alarm(OFF)" ,"guiupdater" )#]
 		
@@ -544,13 +544,13 @@ QActor parkingmanagerservice context ctxcarparking{
 	        println("Token provided by the customer for the pickup $TOKENIN | SERVICE")
 	        solve(token($TOKENIN))
             ifSolved{
-                replyTo pickup with pickupaccepted: pickupaccepted($TOKENIN)
+                replyTo pickup with pickupelaborated: pickupelaborated($TOKENIN)
                 [#CARSLOTNUM= TOKENIN%10#]
                 println("Token elaboration OK, token= $TOKENIN and corresponding slot= $CARSLOTNUM| SERVICE")
                 forward testupdater -m updateForTesting : carslotnum($CARSLOTNUM)
             }else{
-                replyTo pickup with pickupaccepted: pickupaccepted($TOKENIN)
-                [#TOKENIN=-1#]
+            	[#TOKENIN=-1#]
+                replyTo pickup with pickupelaborated: pickupelaborated($TOKENIN)
                 println("TOKEN NOT OK | SERVICE")
 				forward testupdater -m updateForTesting : pickupNotAccepted($TOKENIN)
 	    	}
