@@ -315,43 +315,60 @@ port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR
 						</td>
 					</tr>
 					<tr>
-						<td style="width:50%">
+						<td style="width: 50%">
 							<br>
 							<ul style="font-family: Consolas; font-size: 15px">
 								<li>It checks if there is at least one <tt>parking-slot</tt> available.
 
 								<li>After this check it is determined if <tt>reqenter</tt> can be accepted.
 
-								<li>It's received the request <tt>reqenter</tt> sended by a <b>client</b>.</li>
+								<li>It's received the request <tt>reqenter</tt> sended by a <b>client</b>.
 
-                <li><ks>[acceptIN]</ks> It's generated <em>SLOTNUM</em> and the related slot is marked as occupied.
+								<li>
+									<ks>[acceptIN]</ks> It's generated <em>SLOTNUM</em> and the related slot is marked as
+									occupied.
 
-                <li><ks>[informIN]</ks> If <em>INDOOR-area</em> is <i>FREE</i> and trolley status is not <i>STOPPED</i> the request is immediately elaborated sending to <b>client</b> the reply
-                  <tt>enter : enter ($SLOTNUM)</tt>. Otherwise it's sended to <b>client</b> the reply <tt>waitIndoor : enter ($SLOTNUM)</tt>, and so <b>client</b>
-                  waits until the <em>INDOOR-area</em> become FREE or trolley status is not STOPPED.
+								<li>
+									<ks>[informIN]</ks> If <em>INDOOR-area</em> is <i>FREE</i> and trolley status is not
+									<i>STOPPED</i> the request is immediately elaborated sending to <b>client</b> the reply
+									<tt>enter : enter ($SLOTNUM)</tt>. Otherwise it's sended to <b>client</b> the
+									reply <tt>waitIndoor : slotsnum ($SLOTNUM)</tt>, and so <b>client</b>
+									waits until the <em>INDOOR-area</em> become FREE or trolley status is not STOPPED.
 
 								<li>It's received the request <tt>carenter</tt> sended by the <b>client</b>.
 
-                <li><b>parkingmanagerservive</b> emits an event <tt>carindoorarrival</tt>, to notify that	the client's car is in <em>INDOOR-area</em>.
+								<li><b>parkingmanagerservive</b> emits an event <tt>carindoorarrival</tt>, to notify that
+									the client's car is in <em>INDOOR-area</em>.
 
-                <li><ks>[moveToIn]</ks> Commands are sent to the <b>trolley</b> so that it performs the movements to go from its current position to <em>INDOOR</em>
+									<li>The <b>weightsensor</b> perceives <tt>carindoorarrival</tt>, and emits the event
+										<tt>weight(CARWEIGHT)</tt>.
 
-                <li>The <b>weightsensor</b> perceives <tt>carindoorarrival</tt> and emit the event <tt>weight(CARWEIGHT)</tt>.
+									<li><em>INDOOR</em> is marked as occupied.
 
-                <li><em>INDOOR</em> is marked as occupied.
+								<li>
+									<ks>[moveToIn]</ks> Commands are sent to the <b>trolley</b> so that it performs the
+									movements to go from the current position to <em>INDOOR</em>
 
-                <li> It's expected the event <tt>finished</tt> emitted by <b>trolley</b> at the end of his path.
+								<li> It's expected the event <tt>finishedPath</tt> emitted by <b>trolley</b> at the end of his
+									path.
 
-								<li> <ks>[receipt]</ks> It's generated the <em>TOKENID</em> related to <em>SLOTNUM</em> assigned to <b>client</b> and reply to him with <tt>receipt(TOKENID)</tt>.
+								<li>
+									<ks>[receipt]</ks> It's generated the <em>TOKENID</em> related to <em>SLOTNUM</em>
+									assigned to <b>client</b> and reply to him with <tt>receipt(TOKENID)</tt> and <em>INDOOR</em> is marked as free.
 
-                <li> <ks>[moveToSlotIn]</ks> If <b>trolley</b> is in <em>INDOOR-area</em>, <b>Trolley</b> takes the car and moves it to slot assigned to it.
+								<li>
+									<ks>[moveToSlotIn]</ks> If <b>trolley</b> is in <em>INDOOR-area</em>, <b>Trolley</b>
+									takes the car and moves it to slot assigned to it.
 
-                <li>When event <tt>finished</tt> is perceived, <em>INDOOR</em> is marked as free.
+									<li> It's expected the event <tt>finishedPath</tt> emitted by <b>trolley</b> at the end of his
+										path.
 
-                <li><ks>[moveToHome]</ks> If for a while no requests are received, commands are sent to the <b>trolley</b> for return to <em>HOME</em>.
+								<li>
+									<ks>[moveToHome]</ks> If for a while no requests are received, commands are sent to the
+									<b>trolley</b> for return to <em>HOME</em>.
 
-                <li> If a new request arrives during returnig to <em>HOME</em>, it must be immediately handled.
-
+								<li> If a new request arrives during returnig to <em>HOME</em>, it must be immediately
+									handled.
 							</ul>
 
 						<td>

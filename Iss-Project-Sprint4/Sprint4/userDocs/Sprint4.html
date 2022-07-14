@@ -326,7 +326,7 @@
 							<li>
 								<ks>[informIN]</ks> If <em>INDOOR-area</em> is <i>FREE</i> and trolley status is not
 								<i>STOPPED</i> the request is immediately elaborated sending to <b>client</b> the reply
-								<tt>slotsnum : slotsnum ($SLOTNUM)</tt>. Otherwise it's sended to <b>client</b> the
+								<tt>enter : enter ($SLOTNUM)</tt>. Otherwise it's sended to <b>client</b> the
 								reply <tt>waitIndoor : slotsnum ($SLOTNUM)</tt>, and so <b>client</b>
 								waits until the <em>INDOOR-area</em> become FREE or trolley status is not STOPPED.
 
@@ -335,27 +335,28 @@
 							<li><b>parkingmanagerservive</b> emits an event <tt>carindoorarrival</tt>, to notify that
 								the client's car is in <em>INDOOR-area</em>.
 
+								<li>The <b>weightsensor</b> perceives <tt>carindoorarrival</tt>, and emits the event
+									<tt>weight(CARWEIGHT)</tt>.
+
+								<li><em>INDOOR</em> is marked as occupied.
+
 							<li>
 								<ks>[moveToIn]</ks> Commands are sent to the <b>trolley</b> so that it performs the
 								movements to go from the current position to <em>INDOOR</em>
 
-							<li>The <b>weightsensor</b> perceives <tt>carindoorarrival</tt>, and emits the event
-								<tt>weight(CARWEIGHT)</tt>.
-
-							<li><em>INDOOR</em> is marked as occupied.
-
-							<li> It's expected the event <tt>finished</tt> emitted by <b>trolley</b> at the end of his
+							<li> It's expected the event <tt>finishedPath</tt> emitted by <b>trolley</b> at the end of his
 								path.
 
 							<li>
 								<ks>[receipt]</ks> It's generated the <em>TOKENID</em> related to <em>SLOTNUM</em>
-								assigned to <b>client</b> and reply to him with <tt>receipt(TOKENID)</tt>.
+								assigned to <b>client</b> and reply to him with <tt>receipt(TOKENID)</tt> and <em>INDOOR</em> is marked as free.
 
 							<li>
 								<ks>[moveToSlotIn]</ks> If <b>trolley</b> is in <em>INDOOR-area</em>, <b>Trolley</b>
 								takes the car and moves it to slot assigned to it.
 
-							<li>When event <tt>finished</tt> is perceived, <em>INDOOR</em> is marked as free.
+								<li> It's expected the event <tt>finishedPath</tt> emitted by <b>trolley</b> at the end of his
+									path.
 
 							<li>
 								<ks>[moveToHome]</ks> If for a while no requests are received, commands are sent to the
