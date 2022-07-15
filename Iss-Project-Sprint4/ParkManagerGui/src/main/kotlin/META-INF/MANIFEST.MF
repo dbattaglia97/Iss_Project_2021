@@ -1,0 +1,48 @@
+Manifest-Version: 1.0
+Main-Class: it.unibo.parkmanagergui.ApplicationKt
+Class-Path: kotlin-stdlib-1.5.10.jar snakeyaml-1.28.jar netty-codec-http
+ 2-4.1.65.Final.jar spring-boot-starter-websocket-2.5.6.jar element-conn
+ ector-3.0.0.jar spring-boot-starter-2.5.0.jar spring-beans-5.3.7.jar sl
+ f4j-api-1.7.30.jar spring-core-5.3.7.jar commons-io-2.6.jar classgraph-
+ 4.8.115.jar netty-common-4.1.65.Final.jar error_prone_annotations-2.7.1
+ .jar kotlin-stdlib-common-1.5.10.jar spring-boot-starter-webflux-2.5.6.
+ jar netty-transport-native-epoll-4.1.65.Final-linux-x86_64.jar thymelea
+ f-extras-java8time-3.0.4.RELEASE.jar spring-boot-starter-web-2.5.6.jar 
+ reactor-netty-http-1.0.7.jar kotlin-stdlib-jdk7-1.5.10.jar failureacces
+ s-1.0.1.jar spring-messaging-5.3.7.jar attoparser-2.0.5.RELEASE.jar tom
+ cat-embed-el-9.0.46.jar jackson-datatype-jdk8-2.12.3.jar spring-boot-st
+ arter-thymeleaf-2.5.6.jar spring-jcl-5.3.7.jar okio-jvm-2.8.0.jar thyme
+ leaf-spring5-3.0.12.RELEASE.jar jackson-annotations-2.12.3.jar okhttp-4
+ .9.2.jar thymeleaf-3.0.12.RELEASE.jar IssActorKotlinRobotSupport-2.0.ja
+ r spring-web-5.3.7.jar netty-resolver-dns-native-macos-4.1.65.Final-osx
+ -x86_64.jar californium-legal-3.0.0.jar spring-boot-starter-tomcat-2.5.
+ 0.jar spring-websocket-5.3.7.jar jul-to-slf4j-1.7.30.jar netty-transpor
+ t-4.1.65.Final.jar unibonoawtsupports.jar webjars-locator-core-0.48.jar
+  netty-buffer-4.1.65.Final.jar spring-expression-5.3.7.jar logback-clas
+ sic-1.2.3.jar reactor-netty-core-1.0.7.jar jsr305-3.0.2.jar jackson-mod
+ ule-parameter-names-2.12.3.jar jakarta.annotation-api-1.3.5.jar reactiv
+ e-streams-1.0.3.jar kotlinx-coroutines-core-common-1.3.8.jar spring-boo
+ t-devtools-2.5.6.jar httpcore-nio-4.4.14.jar checker-qual-3.12.0.jar bo
+ otstrap-5.1.1.jar commons-codec-1.15.jar httpcore-4.4.14.jar jackson-da
+ tatype-jsr310-2.12.3.jar tomcat-embed-core-9.0.46.jar sockjs-client-1.5
+ .1.jar j2objc-annotations-1.3.jar IssWsHttpJavaSupport-1.0.jar spring-b
+ oot-starter-logging-2.5.0.jar jackson-core-2.12.3.jar log4j-to-slf4j-2.
+ 14.1.jar reactor-core-3.4.6.jar logback-core-1.2.3.jar uniboInterfaces.
+ jar spring-boot-2.5.0.jar kotlin-stdlib-jdk8-1.5.10.jar kotlin-reflect-
+ 1.5.10.jar json-20210307.jar californium-core-3.0.0.jar aima-core-3.0.0
+ .jar spring-webflux-5.3.7.jar unbescape-1.1.6.RELEASE.jar netty-resolve
+ r-dns-4.1.65.Final.jar tomcat-embed-websocket-9.0.46.jar netty-codec-ht
+ tp-4.1.65.Final.jar netty-codec-socks-4.1.65.Final.jar spring-webmvc-5.
+ 3.7.jar spring-boot-starter-json-2.5.0.jar annotations-13.0.jar kolor-1
+ .0.0.jar netty-transport-native-unix-common-4.1.65.Final.jar netty-reso
+ lver-4.1.65.Final.jar netty-handler-proxy-4.1.65.Final.jar spring-conte
+ xt-5.3.7.jar spring-boot-starter-reactor-netty-2.5.0.jar netty-codec-4.
+ 1.65.Final.jar httpclient-4.5.13.jar kotlinx-coroutines-core-jvm-1.5.0.
+ jar netty-handler-4.1.65.Final.jar spring-boot-autoconfigure-2.5.0.jar 
+ jackson-module-kotlin-2.13.0.jar it.unibo.qakactor-2.4.jar popper.js-2.
+ 9.3.jar log4j-api-2.14.1.jar stomp-websocket-2.3.4.jar guava-31.0.1-jre
+ .jar jquery-3.6.0.jar netty-codec-dns-4.1.65.Final.jar jackson-databind
+ -2.12.3.jar californium-proxy-2.6.0.jar httpasyncclient-4.1.4.jar liste
+ nablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar spring-aop-5.
+ 3.7.jar
+
