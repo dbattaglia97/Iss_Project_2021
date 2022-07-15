@@ -939,7 +939,7 @@ QActor thermometer context ctxcarparking{
   
 	State increasing{
 		println("temperature increasing, actual temperature: $Temp| THERMOMETER")
-		delay 6000
+		delay 3000
 		[#Temp=Temp+5#]
 		[#forward("updateGui", "temp($Temp)" ,"guiupdater" )#]
 		delay 3000
@@ -949,9 +949,9 @@ QActor thermometer context ctxcarparking{
      
 	State decreasing{
 		println("temperature decreasing, actual temperature: $Temp| THERMOMETER")
-		delay 3000
+		delay 4000
 		[#Temp=Temp-5#]
-		delay 3000
+		delay 4000
 		[#forward("updateGui", "temp($Temp)" ,"guiupdater" )#]
 		emit temperature:temperature($Temp)
 	}Transition t0 whenTime 100->decreasing
@@ -961,7 +961,7 @@ QActor thermometer context ctxcarparking{
 QActor fanautomatizer context ctxcarparking{
 	[#var fanIsStarted=0
 	var minTemp=20
-	var maxTemp=45#]
+	var maxTemp=40#]
      
 	State s0 initial{
 		println("fanautomatizer | start")

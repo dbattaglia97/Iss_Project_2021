@@ -18,7 +18,7 @@ class Fanautomatizer ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( n
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		var fanIsStarted=0
 			var minTemp=20
-			var maxTemp=45 
+			var maxTemp=40 
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State

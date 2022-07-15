@@ -27,7 +27,7 @@ class Thermometer ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name
 				state("increasing") { //this:State
 					action { //it:State
 						println("temperature increasing, actual temperature: $Temp| THERMOMETER")
-						delay(6000) 
+						delay(3000) 
 						Temp=Temp+5 
 						forward("updateGui", "temp($Temp)" ,"guiupdater" ) 
 						delay(3000) 
@@ -41,9 +41,9 @@ class Thermometer ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name
 				state("decreasing") { //this:State
 					action { //it:State
 						println("temperature decreasing, actual temperature: $Temp| THERMOMETER")
-						delay(3000) 
+						delay(4000) 
 						Temp=Temp-5 
-						delay(3000) 
+						delay(4000) 
 						forward("updateGui", "temp($Temp)" ,"guiupdater" ) 
 						emit("temperature", "temperature($Temp)" ) 
 						stateTimer = TimerActor("timer_decreasing", 
