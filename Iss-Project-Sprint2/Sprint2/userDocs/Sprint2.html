@@ -475,7 +475,7 @@ port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR
 				<li>planning the <tt>trolley's</tt> movements to move it in an organized way;</li>
 				<li>communicate with the <tt> trolley</tt>.</li>
 
-</div>
+
 
 <h4>Map - Configuration own map</h4>
 <p>As mentioned in requirements we need to a map that virtually represents our environment. This map it was provided by the customer
@@ -491,7 +491,7 @@ port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR
 	whose position is fixed and cannot change over time. However, through one of the available tool, it is given the possibility
 	to modify a specific cell of the map in case occurs.</p>
 
-	The <a href="https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.planner20/resources/itunibo/planner/plannerUtil.kt" target="web"> plannerUtil.kt</a> is the support of the transport-rolley that is able to generate a plan of basic actions.
+	The <a href="https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.planner20/resources/itunibo/planner/plannerUtil.kt" target="web"> plannerUtil.kt</a> is the support of the trolley that is able to generate a plan of basic actions.
 	<br>
 	The <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/parkingMap0.bin" target="web"> parkingMap0.bin</a> is the a binary file that represents the parking-area. It will be used by the planner to plan the path.
 		<table>
@@ -574,7 +574,7 @@ The support is: <a href="https://raw.githubusercontent.com/anatali/issLab2021/ma
 	<tbody>
 		<tr>
 			<td style="width:50%" >
-				 The basicrobot, as saied in analysis requirements phase, interacts with the real robot throught the object  <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/resources/unibo/robot/robotSupport.kt"target="web">robotSupport.kt.</a>
+				 The basicrobot interacts with the real robot throught the object  <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/resources/unibo/robot/robotSupport.kt"target="web">robotSupport.kt.</a>
 				<br>It is the adatper for the devices described in the configuration file : <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/basicrobotConfig.json"target="web">basicrobotConfig.json</a>
 				<br>In this project it is used a virtual robot that is inside the vitual evirorment WEnv.
 				<br>The messages will be sent to the websoket (port:8091).
@@ -593,7 +593,7 @@ The support is: <a href="https://raw.githubusercontent.com/anatali/issLab2021/ma
 The trolley will use the DDRrobot to execute its opertation that comes from the requirements of the application. In fact it should be able to generate a sequence of actions to reach the commands given by the ParkManagerService and exceute them sending the basic moves to the <kn>DDRrobot</kn> through the basic robot.
 It is a computational entity with a own autonomous flow of control so it will be modelled as QActor.
 <br>The trasport trolley should reach the goal place in a organizzed way, as the costumer required.
-</div>
+
 <table>
 <tbody>
 	<tr>
@@ -614,21 +614,6 @@ It is a computational entity with a own autonomous flow of control so it will be
 
 <li><ks>Load/Unload the car:</ks> The transport trolley when arrives near a SLOT/INDOORAREA/OUTDOORAREA it should load/unload the car so it should simulate the correct direction and the time to do this operation.
 
-<table>
-		<tbody>
-			<tr>
-				<td style="width:50%" >
-					To satisfy the single responsibility principle (SRP) it was decided to create a support for the transpor trolley.
-					<br>The tasks of the <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/utility/TrolleyPlannerSupport.kt"target="web">TrolleyPlannerSupport.kt</a> are to plan the greatest path and update the map, thus the transporttrolley will have the only responsibility of sending the commands to the basicrobot.
-
-				</td>
-				<td>
-					<center><img src="img/transport_trolley_project_sprint2.png" alt="mappa" width="50%" ></center>
-				</td>
-
-		</tr>
-	</tbody>
-</table>
 
 
 
@@ -636,6 +621,7 @@ It is a computational entity with a own autonomous flow of control so it will be
 
 
 
+</div>
 
 <h3>Components comunication</h3>
 <table>
@@ -795,7 +781,7 @@ It is a computational entity with a own autonomous flow of control so it will be
 
 		</div>
 		<h2>Test plans</h2>
-
+<div class=remark>
 		<p>
 			In this test plan are considered only <ks>non-distributed</ks> tests.
 			<br>
@@ -844,8 +830,24 @@ It is a computational entity with a own autonomous flow of control so it will be
           </div>
 			</ul>
 		</p>
-
+</div>
 		<h2>Project</h2>
+
+		<table>
+				<tbody>
+					<tr>
+						<td style="width:50%" >
+							To satisfy the single responsibility principle (SRP) it was decided to create a support for the transpor trolley.
+							<br>The tasks of the <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/utility/TrolleyPlannerSupport.kt"target="web">TrolleyPlannerSupport.kt</a> are to plan the greatest path and update the map, thus the transporttrolley will have the only responsibility of sending the commands to the basicrobot.
+
+						</td>
+						<td>
+							<center><img src="img/transport_trolley_project_sprint2.png" alt="mappa" width="50%" ></center>
+						</td>
+
+				</tr>
+			</tbody>
+		</table>
 
 		<div class=remark>
 			<p><h3>Parking Phase - <a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint2/Sprint2/src/sprint2.qak">sprint2.qak: </a></h3></p>
@@ -1349,6 +1351,7 @@ fun loadUnloadCar(): ArrayList<String> {
 		</div>
 
 		<h2>Testing</h2>
+		<div class=remark>
 		<a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/test/it/unibo/parkingmanagerservicetest/TestPlan2.kt">TestPlan2.kt </a><br>
 		<p>
 			In this test plan are considered only <ks>non-distributed</ks> tests.
@@ -1633,12 +1636,13 @@ assertEquals("IDLE", status)
 
 			</ul>
 		</p>
+	</div>
 		<h2>Deployment</h2>
 		The deployment of SPRINT 2 consists in a release on a <a
 			href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2">Github repository</a>.
 
 		<h2>Maintenance</h2>
-		This is the second SPRINT, more features will be released in the next (Third) Sprint.
+		This is the second SPRINT, features regarding the fan and the temperature will be released in the next (Third) Sprint.
 		<br /><br />
 	</div>
 

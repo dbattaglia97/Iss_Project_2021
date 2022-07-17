@@ -570,141 +570,154 @@
 
 
 
-            <h3>First Naive Macro Architecture</h3>
-            <p>
-                The goal of this section is to show a naive architecture of our system in order to have a better
-                vision of
-                the interactions between components that compose it.
-                In this first schema, we still consider components of system as generic entities and we don't yet
-                describe kind of their interactions.
-            </p>
-            <center><img src="img/macroArchitectureRaw.png" width="40%"> </center>
-
-            <ul>
-                <li>
-                    <k>ParkingSystem:</k> is the main component that handles functioning of the entire automated
-                    parking. It triggers the sensors and receives their data, it sends to the trolley the actions that
-                    need to be performed and comunicate with GUIs.
-                <li>
-                    <k>Trolley:</k> it's the component that directly interfaces with the basicRobot.
-                <li>
-                    <k>BasicRobot:</k> it's the physical/virtual Trolley that moves inside parking area and performs the commands
-                    that it receives from Trolley.
-
-                <li>
-                    <k>WeightSensor:</k> it is the component that manages the data collected by the related sensor,
-                    that detects presence of cars into the INDOOR area, and sends these data to ParkingSystem.
-                    This component also has the goal to set INDOOR area state. It is a component that is not provided by the customer, so it will be simulated by mock-objects or mock-actors.
-                <li>
-                    <k>Sonar: </k> it is the component that manages the inputs received by the related sensor, that
-                    detects the presence of cars in OUTDOOR area.
-                    This component also has the goals to set OUTDOOR area state and to trigger its internal timer which
-                    emits an alarm when a car is not withdrawn within time limit. It is a component that may be simulated by mock-objects or mock-actors or implemented by a C library
-          					called <ks>SonarAlone.c</ks> provided by customer and handled by a kotlin class called <ks>
-          						sonarHCSR04Support2021.kt</ks>
-
-                <li>
-                    <k>Thermometer:</k> it's the component that sends data about evironment temperature.
-                <li>
-                    <k>Fan:</k> it's the component that has the task of cooling the system when turned on.
-
-
-	                <li>
-                    <k>ClientGUI:</k> it's a graphic interface at the customer's disposal. It allows clients to submit a
-                    parking or picking request to the ParkingSystem.
-                <li>
-                    <k>ManagerGUI:</k> it's a graphic interface at the manager's disposal. Its aim is to show the
-                    internal state of parking area and it permits to stop or resume Trolley when necessary.
-
-            </ul>
-
-            <h3>First Macro Architecture</h3>
-            <p>
-                Via the following picture, we want to propose a first architecture in which we describe also the nature
-                of components, reserving the chooices about the type of interactions for future phases.
-            </p>
-            <center><img src="img/macroModel.png" width="50%"> </center>
-
-            <h4>Component Analysis</h4>
-            <p>
-                Most of our component should be <a
-                    href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">QAktor</a>,
-                in order to get fast prototyping and executable model of the system.
-            </p>
-            <ul>
-                <li>
-                    <ks>parkingmanagerservice:</ks> we consider this component a QAktor.
-                    It must receive informations from any sensors and messages from GUIs.
-                    It also must send messages to several component, for example to activate sensors or
-                    reply to parking customer requests.
-                <li>
-                    <ks>Trolley:</ks>  The transport-trolley will use the DDRrobot to execute its opertation that comes from the requirements of the application. In fact it should be able to generate a sequence of actions to reach the commands given by the ParkManagerService and exceute them sending the basic moves to the <kn>DDRrobot</kn> through the basic robot.
-                		It is a computational entity with a own autonomous flow of control so it will be modelled as QActor.
-                		<br>The trasport trolley should reach the goal place in a organizzed way, as the costumer required, so it will represent the buisness logic of the DDR Robot.
-                    In order to exploit this component, also ours will be a QAktor.
-                    <br>
-                    It receives messages from <b>parkingmanagerservice</b> which concerning the action that
-                    <b>Trolley</b> have to perform.
-
-
-
-
-                <li>
-                    <ks>BasicRobot: </ks>The model of the DDR-robot is related to the basicrobot given by the costumer: 	<a href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qak21.basicrobot/userDocs/basicrobot2021.html" target="web"> basicrobot2021.html</a>. <br>
-          						The DDR-robot could be a VirtualRobot, Mbot or Nanobot:
-											<ul>
-          						<li><bc>virtual</bc>: <br/><m>the virtual robot described in
-                      <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.virtualRobot2020/userDocs/VirtualRobot2021.html" target="robot">Virtual robot 2021</a>,
-                      that can be launched by using the docker-compose file
-                      <a href="https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.issLabStart/Dockercompose/virtualRobotOnly2.0.yaml" target="code">virtualRobotOnly2.0.yaml</a></m>.
-                      The support is: <a href="https://github.com/noemival/ParkManagerService_2021/blob/main/it.unibo.parkManagerService/it.unibo.sprint1/src/resources/robotVirtual/virtualrobotSupport2021.ktt" target="code">virtualrobotSupport2021.kt</a>
-                      </li>
-                      <li> <bc>nano</bc>: <br/><m>the self-made robot described in
-                      <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.qak21.basicrobot/userDocs/LabNanoRobot.html" target="robot">LabNanoRobot | The home-made basicrobot</a></m>
-                      The support is: <a href="https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.qak21.basicrobot/resources/robotNano/nanoSupport.kt" target="code">nanoSupport.kt</a>
-                      </li>
-                      <li> <bc>mbot</bc>: <br/><m>the  robot described in
-                      <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.qak21.basicrobot/userDocs/Mbot3030.html" target="robot">Mbot3030 | The reference ddr robot</a> </m>
-                      The support is: <a href="https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.qak21.basicrobot/resources/robotMbot/mbotSupport.kt" target="code">mbotSupport</a>
-</ul>
-                <li>
-                    <ks>weightsensor: </ks>about this component, we don't have at our disposal any component to start with and so it could be
-                    simulated by QAktor that sends messages to <b>parkingmanagerservice</b> about the weight of car that
-                    is in <em>INDOOR area</em>.
-                <li>
-                    <ks>outsonar: </ks> customer provided to us a C library called <ks>SonarAlone.c</ks> and a kotlin
-                    class called <ks>sonarHCSR04Support2021.kt</ks> that are necessary to using a physical
-                    sonar to detect the presence of car in <em>OUTDOOR area</em>. For time reasons, this component could
-                    be also simulated during first phases.
-                <li>
-                    <ks>fan:</ks> goal of this component is to manage a cooling system in order to lower the
-                    temperature. We don't have at our disposal any component to start with,
-                    so it could be a QAktor that somehow lower the temperature
-                <li>
-                    <ks>thermometer:</ks> to manage thermometer informations, we don't have at our disposal any component to start with, so
-                    it could be a QAktor. This Actor comunicates emitting a value of the temperature of the environment that will be handled by the <b>fanautomatizer</b>
-                    temperature.
-								<li>
-									<ks>fanautomatizer:</ks>  This Actor handles the problem relative to temperature/fan. It receives the temperature and communicates directly with <b>fan</b> starting and stopping it when necessary.
-									temperature.
-                <li>
-                    <ks>clientGUI:</ks> it will create a graphic interface which implements a service that allows the
-                    clients to start parking or picking operations, and to obtain informations about them.<br>
-                    Obviously, more then one <b>client</b> will can forward request to <b>parkingmanagerservice</b> and receive reply, so
-                    this interaction could be intended as <i>Client-Server Pattern</i>.
-                <li>
-                    <ks>managerGUI:</ks> it will create a graphic interface which implements a service that has the goal
-                    to show to manager all informations about the system state.
-                    When needed, it has to also allow manager to stop and resume <b>Trolley</b>, through sending messages to
-                    <b>parkingmanagerservice</b>.
-
-            </ul>
-
-
         </div>
         <h2>Problem analysis</h2>
-        <div class="remark">
+
+  <div class="remark">
+				            <h3>First Naive Macro Architecture</h3>
+				            <p>
+				                The goal of this section is to show a naive architecture of our system in order to have a better
+				                vision of
+				                the interactions between components that compose it.
+				                In this first schema, we still consider components of system as generic entities and we don't yet
+				                describe kind of their interactions.
+				            </p>
+				            <center><img src="img/macroArchitectureRaw.png" width="40%"> </center>
+
+				            <ul>
+				                <li>
+				                    <k>ParkingSystem:</k> is the main component that handles functioning of the entire automated
+				                    parking. It triggers the sensors and receives their data, it sends to the trolley the actions that
+				                    need to be performed and comunicate with GUIs.
+				                <li>
+				                    <k>Trolley:</k> it's the component that directly interfaces with the basicRobot.
+				                <li>
+				                    <k>BasicRobot:</k> it's the physical/virtual Trolley that moves inside parking area and performs the commands
+				                    that it receives from Trolley.
+
+				                <li>
+				                    <k>WeightSensor:</k> it is the component that manages the data collected by the related sensor,
+				                    that detects presence of cars into the INDOOR area, and sends these data to ParkingSystem.
+				                    This component also has the goal to set INDOOR area state. It is a component that is not provided by the customer, so it will be simulated by mock-objects or mock-actors.
+				                <li>
+				                    <k>Sonar: </k> it is the component that manages the inputs received by the related sensor, that
+				                    detects the presence of cars in OUTDOOR area.
+				                    This component also has the goals to set OUTDOOR area state and to trigger its internal timer which
+				                    emits an alarm when a car is not withdrawn within time limit. It is a component that may be simulated by mock-objects or mock-actors or implemented by a C library
+				          					called <ks>SonarAlone.c</ks> provided by customer and handled by a kotlin class called <ks>
+				          						sonarHCSR04Support2021.kt</ks>
+
+				                <li>
+				                    <k>Thermometer:</k> it's the component that sends data about evironment temperature.
+				                <li>
+				                    <k>Fan:</k> it's the component that has the task of cooling the system when turned on.
+
+
+					                <li>
+				                    <k>ClientGUI:</k> it's a graphic interface at the customer's disposal. It allows clients to submit a
+				                    parking or picking request to the ParkingSystem.
+				                <li>
+				                    <k>ManagerGUI:</k> it's a graphic interface at the manager's disposal. Its aim is to show the
+				                    internal state of parking area and it permits to stop or resume Trolley when necessary.
+
+				            </ul>
+
+									<h3>Technologies and abstraction gap</h3>
+
+									An object oriented programming language, as Kotlin or Java, seems the best fit to implement the services of our system. Kotlin would be preferred for its native support for coroutines and actors that would benefit developers by not having to import many libraries and dependencies and, of course, in terms of resources, as coroutines are more lightweight than threads and don't need many expensive context switches.
+This distributed system, made of several heterogeneous components, would benefit greatly from an actor-based framework with a support for a message-based interaction. For this purpose, the product owner provides us a custom modelling language (DSL) and metamodel, QAK meta-model, that will help us in building a model of the system exploiting actors technology, as a substitute for the usual object technology, to achieve high-level interaction between components, as the actors possess an inward message queue which can be used to communicate with a specific message-based application level protocol, which sits on top of the usual, most used transport and application level protocols (HTTP, WS, TCP, UDP, etc.). In addition the QAK meta-model provides compatibility with other communication protocols such as MQTT and CoAP, equally valid for the interaction between actors.
+Thanks to the QAK meta-model that the customer gives to us there is not an abstraction gap for what is concerning the communication between actors, even if those actors are located in different nodes of a distributed system.
+
+
+
+				            <h3>First Macro Architecture</h3>
+				            <p>
+				                Via the following picture, we want to propose a first architecture in which we describe also the nature
+				                of components, reserving the chooices about the type of interactions for future phases.
+				            </p>
+				            <center><img src="img/macroModel.png" width="50%"> </center>
+
+				            <h4>Component Analysis</h4>
+				            <p>
+				                Most of our component should be <a
+				                    href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">QAktor</a>,
+				                in order to get fast prototyping and executable model of the system.
+				            </p>
+				            <ul>
+				                <li>
+				                    <ks>parkingmanagerservice:</ks> we consider this component a QAktor.
+				                    It must receive informations from any sensors and messages from GUIs.
+				                    It also must send messages to several component, for example to activate sensors or
+				                    reply to parking customer requests.
+				                <li>
+				                    <ks>Trolley:</ks>  The transport-trolley will use the DDRrobot to execute its opertation that comes from the requirements of the application. In fact it should be able to generate a sequence of actions to reach the commands given by the ParkManagerService and exceute them sending the basic moves to the <kn>DDRrobot</kn> through the basic robot.
+				                		It is a computational entity with a own autonomous flow of control so it will be modelled as QActor.
+				                		<br>The trasport trolley should reach the goal place in a organizzed way, as the costumer required, so it will represent the buisness logic of the DDR Robot.
+				                    In order to exploit this component, also ours will be a QAktor.
+				                    <br>
+				                    It receives messages from <b>parkingmanagerservice</b> which concerning the action that
+				                    <b>Trolley</b> have to perform.
+
+
+
+
+				                <li>
+				                    <ks>BasicRobot: </ks>The model of the DDR-robot is related to the basicrobot given by the costumer: 	<a href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qak21.basicrobot/userDocs/basicrobot2021.html" target="web"> basicrobot2021.html</a>. <br>
+				          						The DDR-robot could be a VirtualRobot, Mbot or Nanobot:
+															<ul>
+				          						<li><bc>virtual</bc>: <br/><m>the virtual robot described in
+				                      <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.virtualRobot2020/userDocs/VirtualRobot2021.html" target="robot">Virtual robot 2021</a>,
+				                      that can be launched by using the docker-compose file
+				                      <a href="https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.issLabStart/Dockercompose/virtualRobotOnly2.0.yaml" target="code">virtualRobotOnly2.0.yaml</a></m>.
+				                      The support is: <a href="https://github.com/noemival/ParkManagerService_2021/blob/main/it.unibo.parkManagerService/it.unibo.sprint1/src/resources/robotVirtual/virtualrobotSupport2021.ktt" target="code">virtualrobotSupport2021.kt</a>
+				                      </li>
+				                      <li> <bc>nano</bc>: <br/><m>the self-made robot described in
+				                      <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.qak21.basicrobot/userDocs/LabNanoRobot.html" target="robot">LabNanoRobot | The home-made basicrobot</a></m>
+				                      The support is: <a href="https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.qak21.basicrobot/resources/robotNano/nanoSupport.kt" target="code">nanoSupport.kt</a>
+				                      </li>
+				                      <li> <bc>mbot</bc>: <br/><m>the  robot described in
+				                      <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.qak21.basicrobot/userDocs/Mbot3030.html" target="robot">Mbot3030 | The reference ddr robot</a> </m>
+				                      The support is: <a href="https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.qak21.basicrobot/resources/robotMbot/mbotSupport.kt" target="code">mbotSupport</a>
+				</ul>
+				                <li>
+				                    <ks>weightsensor: </ks>about this component, we don't have at our disposal any component to start with and so it could be
+				                    simulated by QAktor that sends messages to <b>parkingmanagerservice</b> about the weight of car that
+				                    is in <em>INDOOR area</em>.
+				                <li>
+				                    <ks>outsonar: </ks> customer provided to us a C library called <ks>SonarAlone.c</ks> and a kotlin
+				                    class called <ks>sonarHCSR04Support2021.kt</ks> that are necessary to using a physical
+				                    sonar to detect the presence of car in <em>OUTDOOR area</em>. For time reasons, this component could
+				                    be also simulated during first phases.
+				                <li>
+				                    <ks>fan:</ks> goal of this component is to manage a cooling system in order to lower the
+				                    temperature. We don't have at our disposal any component to start with,
+				                    so it could be a QAktor that somehow lower the temperature
+				                <li>
+				                    <ks>thermometer:</ks> to manage thermometer informations, we don't have at our disposal any component to start with, so
+				                    it could be a QAktor. This Actor comunicates emitting a value of the temperature of the environment that will be handled by the <b>fanautomatizer</b>
+				                    temperature.
+												<li>
+													<ks>fanautomatizer:</ks>  This Actor handles the problem relative to temperature/fan. It receives the temperature and communicates directly with <b>fan</b> starting and stopping it when necessary.
+													temperature.
+				                <li>
+				                    <ks>clientGUI:</ks> it will create a graphic interface which implements a service that allows the
+				                    clients to start parking or picking operations, and to obtain informations about them.<br>
+				                    Obviously, more then one <b>client</b> will can forward request to <b>parkingmanagerservice</b> and receive reply, so
+				                    this interaction could be intended as <i>Client-Server Pattern</i>.
+				                <li>
+				                    <ks>managerGUI:</ks> it will create a graphic interface which implements a service that has the goal
+				                    to show to manager all informations about the system state.
+				                    When needed, it has to also allow manager to stop and resume <b>Trolley</b>, through sending messages to
+				                    <b>parkingmanagerservice</b>.
+
+				            </ul>
+
+
+</div>
+<h3>First Sprint - Problem Analysis</h3>
+  <div class="remark">
             <p>
+
                 As mentioned in the <a href="#introduction">Introduction</a> we will use SCRUM methodology, so this
                 paper will cover SPRINT 1.
                 <br>
@@ -895,84 +908,6 @@
 
     					</tr>
     				</table>
-
-    				<h4>Handling of <k>Parking</k> and <k>Picking</k> requests (check state)</h4>
-                    <p>It is present a check, in order to verify if <tt>reqenter</tt> and
-                        <tt>pickup</tt> sended by a <b>client</b> can be accepted by <b>parkingmanagerservice</b>.</p>
-                    <p>
-                        The <tt>reqenter</tt> will be accepted if:
-                        <ul>
-                            <li>There is at least a free parking slot;
-                        </ul>
-
-                        By requirements, <tt>reqenter</tt> can be accepted only if there is at least one parking-slot
-                        available, and can be subsequently elaborated in case of the <em>INDOOR-area</em> is free.
-                        <br>If <em>INDOOR-area</em> is occupied, <b>parkingmanagerservice</b> send to <b>client</b> a
-                        message <tt>waitIndoor</tt> to notify him that at this moment he can't bring his car to
-                        <em>INDOOR-area</em> and that He have to wait.
-                    </p>
-                    <p>
-                        The <tt>picking</tt> will be accepted if:
-                        <ul>
-                            <li><em>OUTDOOR-area</em> is free;</li>
-                        </ul>
-                    </p>
-
-
-    				<h4>TokenID handling</h4>
-            <p>By requirements it's necessary to generate a UNIQUE TokenID that is uniquely linked to <tt>SLOTNUM</tt>.
-    					The <tt>TOKENID</tt> is a code composed by two parts: the first one is relative to a progressive number which increases every time it is accepted a <tt>reqenter</tt> request and the second one is relative to the <tt>SLOTNUM</tt>. So, in order to extract the <tt>SLOTNUM</tt> from the <tt>TOKENID</tt>, we have to extract the last digit.
-    				</p>
-    				<p>
-              The generated tokens are added to the knowledge base, in order to check if the inserted token during the pickup phase is wrong or not.
-    					While when a car is picked by a <b>client</b> his related <tt>TOKENID</tt> is deleted from this knowledge base.
-    				</p>
-    				</p>
-    				<p>
-
-    					When a <tt>pickup(TOKENID)</tt> message arrives to <b>parkingmanagerservice</b>, it's performed a
-    					check that establishes
-    					if the inserted <tt>TOKENID</tt> is valid (if it is present in the KB).<br>
-    					While when a car is picked by a <b>client</b> his related <tt>TOKENID</tt> is deleted from file.
-    				</p>
-
-
-
-    				<h4>ParkingAreaKb</h4>
-    				<p>
-    					It's necessary to introduce a knowledge base, to permit the system to know and modify the status of
-    					<em>parking slots</em> and <em>INDOOR</em> and
-    					<em>OUTDOOR</em> areas.<br>
-
-                This knowledge base is written in prolog and it is used to
-                <li>Check and changes of the system status: parking slots, indoor and outdoor areas</li>
-      					<li>TokenID management</li>
-
-      					A possible way of implementing this knowledge base can be seen in the file <a
-      						href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint1/Sprint1\ParkingAreaKb.pl">ParkingAreaKb.pl</a>.
-
-    				</p>
-
-
-
-
-
-
-
-    				<h4>KBSupports</h4>
-            <p>
-            It was noted that it is not possible to edit the KnowledgeBase(encoded by the .pl file ) simultaneously by different actor because each time it is "opened" by a different actor, each actor creates its own copy and the changes remain local and not global. To overcome this problem, the following steps were considered:
-<li> Choose a single actor to manage changes to the knowledge base (it is chosen then ParkingManagerService actor).</li>
-<li>Create an intermediary that also allows other actors to modify the knowledge base by leveraging the ParkingManagerService actor (KBSupports.kt explained later) </li>
-</p>
-
-            <h4>testUpdater</h4><p>
-              During the project phase, it has proved necessary to have only a QAktor with the goal of updating all resources, so that the test part could detect them in a more organized and simpler way.
-              So, whenever a component modifies any resource, a dispatch updateForTesting:resourceName(VALUE) is sent to testUpdater coded-actor.
-              Then, this actor elaborates received messageand use it to update the corresponding resource.
-    				</p>
-
-
 
 
 
@@ -1184,6 +1119,86 @@
     		<h2>Project</h2>
 				 <div class="remark">
 
+					 <h4>Handling of <k>Parking</k> and <k>Picking</k> requests (check state)</h4>
+										<p>It is present a check, in order to verify if <tt>reqenter</tt> and
+												<tt>pickup</tt> sended by a <b>client</b> can be accepted by <b>parkingmanagerservice</b>.</p>
+										<p>
+												The <tt>reqenter</tt> will be accepted if:
+												<ul>
+														<li>There is at least a free parking slot;
+												</ul>
+
+												By requirements, <tt>reqenter</tt> can be accepted only if there is at least one parking-slot
+												available, and can be subsequently elaborated in case of the <em>INDOOR-area</em> is free.
+												<br>If <em>INDOOR-area</em> is occupied, <b>parkingmanagerservice</b> send to <b>client</b> a
+												message <tt>waitIndoor</tt> to notify him that at this moment he can't bring his car to
+												<em>INDOOR-area</em> and that He have to wait.
+										</p>
+										<p>
+												The <tt>picking</tt> will be accepted if:
+												<ul>
+														<li><em>OUTDOOR-area</em> is free;</li>
+												</ul>
+										</p>
+
+
+					 <h4>TokenID handling</h4>
+						<p>By requirements it's necessary to generate a UNIQUE TokenID that is uniquely linked to <tt>SLOTNUM</tt>.
+						 The <tt>TOKENID</tt> is a code composed by two parts: the first one is relative to a progressive number which increases every time it is accepted a <tt>reqenter</tt> request and the second one is relative to the <tt>SLOTNUM</tt>. So, in order to extract the <tt>SLOTNUM</tt> from the <tt>TOKENID</tt>, we have to extract the last digit.
+					 </p>
+					 <p>
+							The generated tokens are added to the knowledge base, in order to check if the inserted token during the pickup phase is wrong or not.
+						 While when a car is picked by a <b>client</b> his related <tt>TOKENID</tt> is deleted from this knowledge base.
+					 </p>
+					 </p>
+					 <p>
+
+						 When a <tt>pickup(TOKENID)</tt> message arrives to <b>parkingmanagerservice</b>, it's performed a
+						 check that establishes
+						 if the inserted <tt>TOKENID</tt> is valid (if it is present in the KB).<br>
+						 While when a car is picked by a <b>client</b> his related <tt>TOKENID</tt> is deleted from file.
+					 </p>
+
+
+
+					 <h4>ParkingAreaKb</h4>
+					 <p>
+						 It's necessary to introduce a knowledge base, to permit the system to know and modify the status of
+						 <em>parking slots</em> and <em>INDOOR</em> and
+						 <em>OUTDOOR</em> areas.<br>
+
+								This knowledge base is written in prolog and it is used to
+								<li>Check and changes of the system status: parking slots, indoor and outdoor areas</li>
+							 <li>TokenID management</li>
+
+							 A possible way of implementing this knowledge base can be seen in the file <a
+								 href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint1/Sprint1\ParkingAreaKb.pl">ParkingAreaKb.pl</a>.
+
+					 </p>
+
+
+
+
+
+
+
+					 <h4>KBSupports</h4>
+						<p>
+						It was noted that it is not possible to edit the KnowledgeBase(encoded by the .pl file ) simultaneously by different actor because each time it is "opened" by a different actor, each actor creates its own copy and the changes remain local and not global. To overcome this problem, the following steps were considered:
+<li> Choose a single actor to manage changes to the knowledge base (it is chosen then ParkingManagerService actor).</li>
+<li>Create an intermediary that also allows other actors to modify the knowledge base by leveraging the ParkingManagerService actor (KBSupports.kt explained later) </li>
+</p>
+
+						<h4>testUpdater</h4><p>
+							During the project phase, it has proved necessary to have only a QAktor with the goal of updating all resources, so that the test part could detect them in a more organized and simpler way.
+							So, whenever a component modifies any resource, a dispatch updateForTesting:resourceName(VALUE) is sent to testUpdater coded-actor.
+							Then, this actor elaborates received messageand use it to update the corresponding resource.
+					 </p>
+
+
+
+
+<h4>Models</h4>
     			We now proceed with the project phase, where we show the implementation of our system having only the features provided by this SPRINT. In particular we will see the implementation of 7 QAktors which living in the same context that is ctxcarparking :
     			<br><br>
     			    <table style="width:100%">
@@ -2314,7 +2329,7 @@ fun testOutsonar(){
 				href="https://github.com/dbattaglia97/battagliadario/Automated_Car_Parking/tree/main/sprint_1">Github repository</a>.
 
 			<h2>Maintenance</h2>
-			This is the first Sprint, more features will be released in the next (Second) Sprint.
+			This is the first Sprint, features about the trolley will be released in the next (Second) Sprint.
 			<br /><br />
 		</div>
 
