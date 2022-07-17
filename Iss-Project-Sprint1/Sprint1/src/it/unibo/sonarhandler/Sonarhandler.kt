@@ -24,13 +24,13 @@ class Sonarhandler ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						KBSupport.init() 
 						println("SonarHandler INIT|SONAR")
 					}
-					 transition(edgeName="t08",targetState="start",cond=whenDispatch("startsonar"))
+					 transition(edgeName="t07",targetState="start",cond=whenDispatch("startsonar"))
 				}	 
 				state("start") { //this:State
 					action { //it:State
 						delay(1000) 
 					}
-					 transition(edgeName="t09",targetState="handleSonarData",cond=whenEvent("sonaroutdoor"))
+					 transition(edgeName="t08",targetState="handleSonarData",cond=whenEvent("sonaroutdoor"))
 				}	 
 				state("handleSonarData") { //this:State
 					action { //it:State
@@ -51,12 +51,11 @@ class Sonarhandler ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						            	outdoorfree=true
 						                KBSupport.changeOutdoorToFree() 
 						forward("stoptimer", "timer(OFF)" ,"timer" ) 
-						forward("withdrawn", "withdrawn(OK)" ,"parkingmanagerservice" ) 
 						forward("updateForTesting", "outdoorStatus(FREE)" ,"testupdater" ) 
 						} 
 						} 
 					}
-					 transition(edgeName="t010",targetState="handleSonarData",cond=whenEvent("sonaroutdoor"))
+					 transition(edgeName="t09",targetState="handleSonarData",cond=whenEvent("sonaroutdoor"))
 				}	 
 			}
 		}

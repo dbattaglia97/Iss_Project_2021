@@ -9,9 +9,9 @@ context(ctxcarparking, "localhost",  "TCP", "5683").
   qactor( timer, ctxcarparking, "it.unibo.timer.Timer").
   qactor( weightsensor, ctxcarparking, "it.unibo.weightsensor.Weightsensor").
   qactor( weightsensorhandler, ctxcarparking, "it.unibo.weightsensorhandler.Weightsensorhandler").
-  qactor( parkingmanagerservice, ctxcarparking, "it.unibo.parkingmanagerservice.Parkingmanagerservice").
+  qactor( parkingmanagerservive, ctxcarparking, "it.unibo.parkingmanagerservive.Parkingmanagerservive").
   qactor( trolley, ctxcarparking, "it.unibo.trolley.Trolley").
   qactor( basicrobot, ctxcarparking, "it.unibo.basicrobot.Basicrobot").
   qactor( fan, ctxcarparking, "it.unibo.fan.Fan").
   qactor( thermometer, ctxcarparking, "it.unibo.thermometer.Thermometer").
-  qactor( parkingmanager, ctxcarparking, "it.unibo.parkingmanager.Parkingmanager").
+  qactor( fanautomatizer, ctxcarparking, "it.unibo.fanautomatizer.Fanautomatizer").

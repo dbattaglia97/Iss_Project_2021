@@ -43,7 +43,7 @@ class TestPlan {
 
 		fun init() {
 			GlobalScope.launch{
-				it.unibo.ctxCarParking.main()
+				it.unibo.ctxcarparking.main()
 			}
 			GlobalScope.launch{
 				myactor = QakContext.getActor("parkingmanagerservice")

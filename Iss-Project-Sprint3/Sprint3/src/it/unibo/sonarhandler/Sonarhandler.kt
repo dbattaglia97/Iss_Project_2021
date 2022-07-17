@@ -51,7 +51,7 @@ class Sonarhandler ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 						            	outdoorfree=true
 						                KBSupport.changeOutdoorToFree() 
 						forward("stoptimer", "timer(OFF)" ,"timer" ) 
-						forward("withdrawn", "withdrawn(OK)" ,"parkingmanagerservice" ) 
+						forward("withdrawn", "withdrawn(OK)" ,"parkingmanagerservive" ) 
 						forward("updateForTesting", "outdoorStatus(FREE)" ,"testupdater" ) 
 						} 
 						} 

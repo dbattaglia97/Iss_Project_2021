@@ -41,9 +41,9 @@ class Weightsensorhandler ( name: String, scope: CoroutineScope  ) : ActorBasicF
 								            println("Weight: " + Www) 
 								if(Www>=500){ 
 								KBSupport.changeIndoorToOccupied() 
-								forward("weightcheck", "wc(OK)" ,"parkingmanagerservice" ) 
+								forward("weightcheck", "wc(OK)" ,"parkingmanagerservive" ) 
 								}else{ 
-								forward("weightcheck", "wc(NOTOK)" ,"parkingmanagerservice" ) 
+								forward("weightcheck", "wc(NOTOK)" ,"parkingmanagerservive" ) 
 								} 
 								forward("updateForTesting", "weight($Www)" ,"testupdater" ) 
 						}

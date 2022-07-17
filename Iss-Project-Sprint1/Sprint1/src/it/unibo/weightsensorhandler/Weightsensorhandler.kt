@@ -23,21 +23,21 @@ class Weightsensorhandler ( name: String, scope: CoroutineScope  ) : ActorBasicF
 						println("WeightsensorHandler INIT | WEIGHTSENSORHANDLER")
 						KBSupport.init() 
 					}
-					 transition(edgeName="t015",targetState="working",cond=whenDispatch("startweightsensor"))
+					 transition(edgeName="t014",targetState="working",cond=whenDispatch("startweightsensor"))
 				}	 
 				state("working") { //this:State
 					action { //it:State
 						println("WeightsensorHandler START | WEIGHTSENSORHANDLER")
 						delay(1000) 
 					}
-					 transition(edgeName="t016",targetState="handleWeightData",cond=whenEvent("weight"))
+					 transition(edgeName="t015",targetState="handleWeightData",cond=whenEvent("weight"))
 				}	 
 				state("handleWeightData") { //this:State
 					action { //it:State
 						println("WeightsensorHandler handling weight | WEIGHTSENSORHANDLER")
 						if( checkMsgContent( Term.createTerm("weight(W)"), Term.createTerm("weight(W)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								 Www = payloadArg(0).toInt() 
+								 Www = payloadArg(0).toInt()
 								            println("Weight: " + Www) 
 								if(Www>=500){ 
 								KBSupport.changeIndoorToOccupied() 

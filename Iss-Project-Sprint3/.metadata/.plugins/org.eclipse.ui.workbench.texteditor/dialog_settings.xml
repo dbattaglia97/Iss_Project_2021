@@ -8,6 +8,7 @@
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="ctxcarparking"/>
 			<item value="ctxCarParking"/>
 			<item value="temperature"/>
 			<item value="movetohome"/>

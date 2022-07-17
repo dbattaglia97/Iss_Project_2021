@@ -4,7 +4,6 @@ Request reqenter : reqenter(X)
 Reply enter: enter(SLOTNUM)
 Request carenter: carenter(SLOTNUM)
 Reply receipt : receipt(TOKENID)
-Dispatch pickup:pickup(V)
 Request pickup : pickup(TOKENID)
 Reply pickupaccepted: pickupaccepted(TOKENID)
 Reply waitIndoor: waitIndoor(TOKENID)
@@ -43,9 +42,9 @@ Dispatch end : end(e)
 Event  endall	   : endall( ARG )
 Event finishedPath:finishedPath(V)
 
-Context ctxCarParking ip[host="localhost" port=8092]
+Context ctxcarparking ip[host="localhost" port=8092]
 
-CodedQActor testupdater	context ctxCarParking className "testUpdater"
+CodedQActor testupdater	context ctxcarparking className "testUpdater"
 
 
 QActor client context ctxcarparking{
@@ -99,7 +98,7 @@ QActor client context ctxcarparking{
 
 	State reqpickup{
 		println("client notify his interest in picking his car | CLIENT")
-		forward parkingmanagerservice -m pickup : pickup($TOKENID)
+		request parkingmanagerservice -m pickup : pickup($TOKENID)
 	} Transition t0 whenTime 2000->pickupcar
 
 	State pickupcar{
@@ -114,7 +113,7 @@ QActor client context ctxcarparking{
 }
 
 
-QActor outsonar context ctxCarParking{
+QActor outsonar context ctxcarparking{
 	State s0 initial{
 	}Goto working
 
@@ -134,7 +133,7 @@ QActor outsonar context ctxCarParking{
 	}Goto working
 }
 
-QActor sonarhandler context ctxCarParking{
+QActor sonarhandler context ctxcarparking{
     [#var distance=2000
     	var outdoorfree=true#]
 
@@ -172,7 +171,7 @@ QActor sonarhandler context ctxCarParking{
 }
 
 
-QActor timer context ctxCarParking{
+QActor timer context ctxcarparking{
     State s0 initial{
 
     }Goto working
@@ -198,7 +197,7 @@ QActor timer context ctxCarParking{
 
 
 
-QActor weightsensor context ctxCarParking{
+QActor weightsensor context ctxcarparking{
 	[#var P = 0#]
 	State s0 initial{
 		println("Weightsensor starts | WEIGHTSENSOR")
@@ -216,7 +215,7 @@ QActor weightsensor context ctxCarParking{
 }
 
 
-QActor weightsensorhandler context ctxCarParking{
+QActor weightsensorhandler context ctxcarparking{
     [#var Www=1#]
     State s0 initial{
         println("WeightsensorHandler INIT | WEIGHTSENSORHANDLER")
@@ -245,7 +244,7 @@ QActor weightsensorhandler context ctxCarParking{
 }
 
 
-QActor parkingmanagerservice context ctxCarParking{
+QActor parkingmanagerservice context ctxcarparking{
 	[#
 	lateinit var testUpdaterActor	: ActorBasic
 	var prog= 0
@@ -503,11 +502,11 @@ QActor parkingmanagerservice context ctxCarParking{
 			emit carwithdrawn:cw(bye)
 		[#}#]
 		 //deve essere percepito dal sensore
-	}Transition t0 whenTime 2000 -> checkAcceptIN
+	}Transition t0 whenTime 10000 -> checkAcceptIN
 
 }
 
-QActor trolley context ctxCarParking{
+QActor trolley context ctxcarparking{
 [#  val mapname     = "parkingMap0"
   var Myself      = myself
   var CurrentPlannedMove = ""
@@ -585,7 +584,7 @@ QActor trolley context ctxCarParking{
 	}
 }
 
-QActor basicrobot context ctxCarParking{
+QActor basicrobot context ctxcarparking{
 	[#
 	  var StepTime      = 0L
 	  var StartTime     = 0L

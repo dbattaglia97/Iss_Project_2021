@@ -1,16 +1,16 @@
 System carparking
 
- 
-//DECOMMENTARE se si usa il sonar fisico     
-//mqttBroker "broker.hivemq.com" : 1883 eventTopic "parkingArea/feedback"     
- 
+
+//DECOMMENTARE se si usa il sonar fisico
+//mqttBroker "broker.hivemq.com" : 1883 eventTopic "parkingArea/feedback"
+
 
 Dispatch systemready:systemready(X)
 Dispatch startManager: start(X)
 Dispatch stopTrolley:stop(X)
 Dispatch resumeTrolley:resume(X)
-  
-   
+
+
 Request reqenter : reqenter(X)
 Reply enter: enter(SLOTNUM)
 Request carenter: carenter(SLOTNUM)
@@ -21,7 +21,6 @@ Reply waitIndoor: waitIndoor(TOKENID)
 Event caroutdoorarrival : coa(V)
 Event carwithdrawn : cw(X)
 Event carindoorarrival : cia(V)
-Dispatch withdrawn:withdrawn(X)
 
 Event sonaroutdoor:distance(D)
 Event timeout 			: timeout(V)
@@ -57,21 +56,21 @@ Dispatch obstacle  : obstacle( ARG )
 Dispatch end : end(e)
 Event  endall	   : endall( ARG )
 Event finishedPath:finishedPath(V)
- 
+
 Context ctxcarparking ip[host="localhost" port=5683]
 
 CodedQActor testupdater	context ctxcarparking className "testUpdater"
 CodedQActor guiupdater	context ctxcarparking className "guiUpdater"
 CodedQActor outsonar	context ctxcarparking className "outSonar"
- 
-QActor client2 context ctxcarparking{ 
+
+QActor client2 context ctxcarparking{
 		State s0 initial{
-		
+
 		}Transition t0
 			whenTime 5000 -> work
-		
+
 		State work{
-			
+
 		}
 /*	[#
 		var CLIENTDONE  = 0
@@ -81,7 +80,7 @@ QActor client2 context ctxcarparking{
 	State s0 initial{
 		println("Client mock simulation START | CLIENT")
 	} Transition t0
-					whenTime 4000 -> requestToEnter  
+					whenTime 4000 -> requestToEnter
 
 	State init{
 	}
@@ -257,7 +256,7 @@ QActor weightsensor context ctxcarparking{
 		println("Weight simulation | WEIGHTSENSOR")
 		[# P =kotlin.random.Random.nextInt(500,4000) #]
 		emit weight : weight($P)
-		
+
 	}Goto ready
 }
 
@@ -273,7 +272,7 @@ QActor weightsensorhandler context ctxcarparking{
         println("WeightsensorHandler START | WEIGHTSENSORHANDLER")
         delay 1000
     }Transition t0 whenEvent weight -> handleWeightData
- 
+
     State handleWeightData{
         println("WeightsensorHandler handling weight | WEIGHTSENSORHANDLER")
         onMsg(weight : weight(W)){
@@ -282,7 +281,7 @@ QActor weightsensorhandler context ctxcarparking{
 
             forward guiupdater -m updateGui : weight($Www)
             forward testupdater -m updateForTesting:weight($Www)
-            
+
             [#if(Www>=500){#]
 				[#KBSupport.changeIndoorToOccupied()#]
 				[#forward("updateGui", "indoorStatus(BUSY)" ,"guiupdater" )
@@ -292,7 +291,7 @@ QActor weightsensorhandler context ctxcarparking{
             [#}else{#]
                 forward parkingmanagerservice -m weightcheck:wc(NOTOK)
             [#}#]
-            
+
         }
     }Goto working
 }
@@ -319,7 +318,7 @@ QActor parkingmanagerservice context ctxcarparking{
 	State s0 initial{
 		solve( consult("sysRules.pl"))
 		solve( consult("parkingAreaKb.pl"))
-		
+
 		solve(outsonarSimulated)
 		ifSolved{
 			println("Outsonar simulato | SERVICE")
@@ -330,15 +329,15 @@ QActor parkingmanagerservice context ctxcarparking{
 			[#outsonarSimulated=false#]
 			println("Outsonar reale | SERVICE")
 		}
-		
+
 		[#guiUpdaterActor= sysUtil.getActor("guiupdater")!!
 		testUpdaterActor= sysUtil.getActor("testupdater")!!#]
-		
-		
-		
+
+
+
 	}Transition t0 whenMsg startManager-> setup
 
- 
+
 	State setup{
 		delay 2000
 		forward trolley -m systemready:systemready(X)
@@ -354,19 +353,19 @@ QActor parkingmanagerservice context ctxcarparking{
 		forward guiupdater -m updateGui : temp(20)
 		delay 50
 		[#forward("updateGui", "alarm(OFF)" ,"guiupdater" )#]
-		
+
 		forward testupdater -m updateForTesting: indoorAtStart(FREE)
 		delay 100
 		forward testupdater -m updateForTesting: outdoorAtStart(FREE)
 		delay 100
 		forward testupdater -m updateForTesting: posRobot(0,0)
-		
+
 		forward sonarhandler -m startsonar:sonar(ON)
 		forward weightsensorhandler -m startweightsensor:sensor(ON)
 		forward thermometer -m startthermometer : startthermometer(X)
-		
+
 		println("Park System START | SERVICE")
-		
+
 	}Transition t0 whenTime 1000-> checkAcceptIN
 
 	State checkAcceptIN{
@@ -378,13 +377,13 @@ QActor parkingmanagerservice context ctxcarparking{
 	        [#boolIN=false#]
 	    }
 	}Goto checkOutdoor if [#boolIN==true#] else checkOnlyOutdoor
- 
+
 	State checkOutdoor{
 	    println("Checking if an AcceptOut can be elaborated| SERVICE")
 	    solve(acceptOUT)
 	    ifSolved{
 	        [#boolOUT=true#]
-	        
+
 	    }else{
 	        [#boolOUT=false#]
 	    }
@@ -417,8 +416,8 @@ QActor parkingmanagerservice context ctxcarparking{
 	State waiting{
         println("The system can't elaborate any request| SERVICE")
 	}	 Transition t0 whenTime 5000-> moveToHome
-   
-	State moveToHome{  
+
+	State moveToHome{
 		[#notAllowed=false#]
 	    [#if(!TrolleyPlannerSupport.alreadyThere(0)){#]
 	    	println("Moving Trolley to HOME")
@@ -443,7 +442,7 @@ QActor parkingmanagerservice context ctxcarparking{
 				[# SLOTNUM = getCurSol("S").toString().toInt()#]
 			}else{
 			    [#SLOTNUM=0#]
-			} 
+			}
 			solve(acceptIN)
 			ifSolved{
 			    forward testupdater -m updateForTesting: slotnum($SLOTNUM)
@@ -458,7 +457,7 @@ QActor parkingmanagerservice context ctxcarparking{
 	}Goto carenterCanBeAccepted if [#notAllowed==false#] else moveToHome
 
 	State carenterCanBeAccepted{
-		
+
 	}Transition t0 whenRequest carenter ->carenter
 
 	State carenter{
@@ -492,12 +491,12 @@ QActor parkingmanagerservice context ctxcarparking{
 		onMsg(finishedPath:finishedPath(V)){
 			[#location = payloadArg(0).toString()
 			location= location.substringAfter("(",location).substringBefore(")",location)
-			println("Location: " + location + " || trolleyIsInIndoor")	
+			println("Location: " + location + " || trolleyIsInIndoor")
 			forward("updateForTesting", "posRobot($location)" ,"testupdater" )
 			#]
 		}
 	}Goto receipt
-	
+
 
 	State receipt{
 		delay 1000
@@ -531,7 +530,7 @@ QActor parkingmanagerservice context ctxcarparking{
         onMsg(finishedPath:finishedPath(V)){
             [#location = payloadArg(0).toString()
             location= location.substringAfter("(",location).substringBefore(")",location)
-            println("Location: " + location + " || trolleyIsInSlot")	
+            println("Location: " + location + " || trolleyIsInSlot")
             forward("updateForTesting", "posRobot($location)" ,"testupdater" )
             #]
         }
@@ -560,18 +559,18 @@ QActor parkingmanagerservice context ctxcarparking{
 	State tokenError{
 	    println("TOKEN ERROR | SERVICE")
 	}Goto checkAcceptIN
- 
-    
+
+
 	State checkAlreadyInSlot{
 		[#alreadythere=TrolleyPlannerSupport.alreadyThere(SLOTNUM)#]
 	}Goto picking if [#alreadythere==true#] else goToSlot
- 
+
 	State goToSlot{
 		println("Trolley moves to slot $SLOTNUM | SERVICE")
 		[#	var MOVETOSLOT = "moveToSlot".plus(SLOTNUM)#]
 		forward trolley -m trolleycmd:trolleycmd($MOVETOSLOT)
 	}Transition t0 	whenEvent finishedPath-> picking
-	 
+
 	State picking{
 		onMsg(finishedPath:finishedPath(V)){
 			[#location = payloadArg(0).toString()
@@ -579,7 +578,7 @@ QActor parkingmanagerservice context ctxcarparking{
 			println("Location: " + location )
 			forward("updateForTesting", "posRobot($location)" ,"testupdater" )
 		#]
-			
+
 		}
 		println("Trolley is picking a car | SERVICE")
 		println("Trolley picking car from slot $CARSLOTNUM result from $TOKENIN % 10 | SERVICE")
@@ -609,7 +608,7 @@ QActor parkingmanagerservice context ctxcarparking{
 		[#}#]
 		 //deve essere percepito dal sensore
 	}Transition t0 whenTime 2000 -> checkAcceptIN
-				
+
 
 }
 
@@ -639,12 +638,12 @@ QActor trolley context ctxcarparking{
 		[#KBSupport.changeTrolleyStatusToIdle() #]
 	}	Transition t1  	 whenMsg     trolleycmd  -> working
 		whenMsg trolleystop ->stopped
- 
+
 	State working{
 		println("trolley [working] | TROLLEY")
 		[#home = 0
 		KBSupport.changeTrolleyStatusToWorking() #]
-		forward guiupdater -m updateGui : status(WORKING) 
+		forward guiupdater -m updateGui : status(WORKING)
 		//forward testupdater -m updateForTesting:trolley(WORKING)
 		onMsg( trolleycmd : trolleycmd(V) ){
 			[#	trolleyCmd = "${payloadArg(0)}"
@@ -679,17 +678,17 @@ QActor trolley context ctxcarparking{
 		println("trolley stopped | TROLLEY")
 		delay 380
 		forward basicrobot -m cmd:cmd(h)
-		forward guiupdater -m updateGui : status(STOPPED) 
+		forward guiupdater -m updateGui : status(STOPPED)
 		//forward testupdater -m updateForTesting:trolley(STOPPED)
 	}Transition t0 whenMsg trolleyresume ->resuming
-		
- 
+
+
 
 	State resuming{
 		[#if (KBSupport.previousTrolleyStatus.equals(TrolleyStatus.WORKING)){
 				KBSupport.changeTrolleyStatusToWorking()
 				println("Trolley RESUMING and previously was working | TROLLEY")
-				
+
 				println(trolleyCmd)
 				TrolleyPlannerSupport.reset()
 				TrolleyPlannerSupport.setGoal(trolleyCmd)
@@ -705,7 +704,7 @@ QActor trolley context ctxcarparking{
 	}Goto idle if [#KBSupport.previousTrolleyStatus.equals(TrolleyStatus.IDLE)#] else execPlannedMoves
 
 
-	
+
 
  	State finishPlannedMoves{
  		println("trolley | finishPlannedMoves")
@@ -730,7 +729,7 @@ QActor trolley context ctxcarparking{
 			} #]
  	}
 	Goto endWork if [# terminate == 1  #] else idle
- 
+
 	State endWork{
 		println("trolley |  endWork")
 		forward basicrobot -m end : end(V)
@@ -738,30 +737,30 @@ QActor trolley context ctxcarparking{
 }
 
 QActor basicrobot context ctxcarparking{
-[#  
-  var StepTime      = 0L 
-  var StartTime     = 0L     
-  var Duration      = 0L  
-  var RobotType     = "" 
+[#
+  var StepTime      = 0L
+  var StartTime     = 0L
+  var Duration      = 0L
+  var RobotType     = ""
   var CurrentMove   = "moveUnknown"
-#]     
-	State s0 initial {     
-		println("basicrobot | START")	 
+#]
+	State s0 initial {
+		println("basicrobot | START")
  		//[# sysUtil.trace = true #]		//Equivalent to the -trace flag
- 		 
+
  		[# sysUtil.waitUser("hello", 3000) #]
- 		qrun unibo.robot.robotSupport.create(myself,"basicrobotConfig.json")	
+ 		qrun unibo.robot.robotSupport.create(myself,"basicrobotConfig.json")
  		[# RobotType = unibo.robot.robotSupport.robotKind #]
         if[# RobotType != "virtual" #]{
-	 		println("basicrobot | type=$RobotType attempts to activate the sonar pipe")	
+	 		println("basicrobot | type=$RobotType attempts to activate the sonar pipe")
 	 		[#  //For real robots
 				//delay( 1500 ) //give to the realsonar the time to start
-	 			var robotsonar = context!!.hasActor("realsonar")  
-	 			if( robotsonar != null ){ 
-	 				println("basicrobot | WORKING WITH SONARS") 
+	 			var robotsonar = context!!.hasActor("realsonar")
+	 			if( robotsonar != null ){
+	 				println("basicrobot | WORKING WITH SONARS")
 	 				//ACTIVATE THE DATA SOURCE realsonar
-	 				forward("sonarstart", "sonarstart(1)" ,"realsonar" ) 				
-	 				//SET THE PIPE  
+	 				forward("sonarstart", "sonarstart(1)" ,"realsonar" )
+	 				//SET THE PIPE
 	 				robotsonar.
 	 				subscribeLocalActor("datacleaner").
 	 				subscribeLocalActor("distancefilter").
@@ -769,110 +768,110 @@ QActor basicrobot context ctxcarparking{
 	 			}else{
 	 				println("basicrobot | WARNING: realsonar NOT FOUND")
 	 			}
-	 		#]  
-	 		
- 		} 
+	 		#]
+
+ 		}
 		else{ //virtual
-			[#  var robotsonar = context!!.hasActor("robotsonar") 
-	 			if( robotsonar != null ){ 
-	 				println("basicrobot | WORKING WITH VIRTUAL SONAR") 
+			[#  var robotsonar = context!!.hasActor("robotsonar")
+	 			if( robotsonar != null ){
+	 				println("basicrobot | WORKING WITH VIRTUAL SONAR")
 	 				//ACTIVATE THE DATA SOURCE realsonar
-	 				forward("sonarstart", "sonarstart(1)" ,"robotsonar" ) 				
+	 				forward("sonarstart", "sonarstart(1)" ,"robotsonar" )
 	 				//WE DO NOT SET THE PIPE, since we don't have sonar data  to clean
-	 			
+
 	 				//robotsonar.
 	 				//subscribeLocalActor("datacleaner").
 	 				//subscribeLocalActor("distancefilter").
-	 				//subscribeLocalActor("basicrobot")		
+	 				//subscribeLocalActor("basicrobot")
 	 			}else{
 	 				println("basicrobot | WARNING: robotsonar NOT FOUND")
 	 			}
- 
- 			#] 
+
+ 			#]
  		}
- 		
+
 	//	updateResource [# "basicrobot(start)" #]
- 
-		discardMsg Off  //WE want receive any msg 
-	} 
-	
+
+		discardMsg Off  //WE want receive any msg
+	}
+
 	Goto work
-	 
-	State work{  
-		println("basicrobot  | waiting .................. ")  
-		
+
+	State work{
+		println("basicrobot  | waiting .................. ")
+
 	}
 	Transition t1   whenMsg    	cmd		-> exec
-					whenRequest step	-> doStep			
+					whenRequest step	-> doStep
 					whenMsg		obstacle	-> handleObstacle  //in virtualrobot caused by the move w/s
-				  	whenMsg    	end	-> endwork			   
+				  	whenMsg    	end	-> endwork
 	State exec{
 		printCurrentMessage
-		onMsg( cmd : cmd(MOVE) ){ 
-  			//activate the motors  
-			[# CurrentMove =  "${payloadArg(0)}" #] 
+		onMsg( cmd : cmd(MOVE) ){
+  			//activate the motors
+			[# CurrentMove =  "${payloadArg(0)}" #]
 			println("CurrentMove = $CurrentMove")
 		 	if [# CurrentMove == "w" #] {
 				//delay 1000
-				run unibo.robot.robotSupport.move( "w" ) 
+				run unibo.robot.robotSupport.move( "w" )
 				delay 400
 				run unibo.robot.robotSupport.move( "h" )
 			}else{
 				run unibo.robot.robotSupport.move( "${payloadArg(0)}" )
-				
-				
+
+
 			}
-			if [# CurrentMove != "h" #] { 
+			if [# CurrentMove != "h" #] {
 				updateResource [# "$CurrentMove" #]
 			}
 		}
-	 }  
-	 
-	Goto work      
-	        
-	State handleObstacle{   
+	 }
+
+	Goto work
+
+	State handleObstacle{
 	    run unibo.robot.robotSupport.move( "h" )
-		println("basicrobot | handleObstacle CurrentMove=$CurrentMove")	
+		println("basicrobot | handleObstacle CurrentMove=$CurrentMove")
 		printCurrentMessage
 			//msg(obstacle,dispatch,distancefilter,basicrobot,obstacle(5),18)
 		if[# CurrentMove == "w" #]{
- 			
-			  // collision Json      : emitted by the virtualrobot 
+
+			  // collision Json      : emitted by the virtualrobot
 			  // obstacle(virtual)   : emitted by the virtualrobotSupport2021 when endmove=false
 			  // obstacle(5)         : emitted by the distanceFilter
 			  // obstacle(w)         : emitted by the basicrobot
-			 
+
 			//updateResource [# "obstacle(w)" #]
 			//delay 300
-			
+
 			//println("COMPENSATEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
-			run unibo.robot.robotSupport.move( "s" ) 
+			run unibo.robot.robotSupport.move( "s" )
 			delay 100 //loose the control ...
-			run unibo.robot.robotSupport.move( "h" ) 
-		
+			run unibo.robot.robotSupport.move( "h" )
+
 			//delay 1000	//give time
- 		 
-		} 	
+
+		}
 	}
 	Goto work
 
-	
-   	State doStep{ 
- 		printCurrentMessage  
-		onMsg( step : step( T ) ){  
-			[#	StepTime = payloadArg(0).toLong() 	#]  
+
+   	State doStep{
+ 		printCurrentMessage
+		onMsg( step : step( T ) ){
+			[#	StepTime = payloadArg(0).toLong() 	#]
 			updateResource [# "step(${StepTime})" #]
-  		}  
-        memoCurrentTime StartTime  
-        println("basicrobot | doStep StepTime =$StepTime ")        
+  		}
+        memoCurrentTime StartTime
+        println("basicrobot | doStep StepTime =$StepTime ")
         run unibo.robot.robotSupport.move( "w" )  //moves a real robot forever
-        
-	}  
+
+	}
 	Transition t0 	whenTimeVar StepTime  -> stepDone //stepPerhapsDone	//caused by p
-					whenMsg  obstacle     -> stepFail		
+					whenMsg  obstacle     -> stepFail
         //whenMsg     cmd       -> execcmd
-  	 
-	State stepDone{   
+
+	State stepDone{
  		run unibo.robot.robotSupport.move( "h" )  //stop the real robot already done
 		println("basicrobot | stepDone")
 		updateResource [# "stepDone($StepTime)" #]
@@ -880,37 +879,37 @@ QActor basicrobot context ctxcarparking{
    		replyTo step with stepdone : stepdone(ok)
 		//println("basicrobot | stepDone reply done")
   	}
-	Goto work  
- 
-	State stepFail{  		    
+	Goto work
+
+	State stepFail{
 		setDuration Duration from StartTime
 		run unibo.robot.robotSupport.move( "h" )  //stop the (real) robot
-		[# var TunedDuration = Duration;  
+		[# var TunedDuration = Duration;
 			TunedDuration = Duration * 5 / 6
 		#]
 		println("basicrobot | stepFail duration=$Duration TunedDuration=$TunedDuration")
 			run unibo.robot.robotSupport.move( "s" )
-			delayVar TunedDuration 
-			run unibo.robot.robotSupport.move( "h" ) 
- 		updateResource [# "stepFail($Duration)" #] 
+			delayVar TunedDuration
+			run unibo.robot.robotSupport.move( "h" )
+ 		updateResource [# "stepFail($Duration)" #]
  		//emit info : info( stepFail($Duration) )
  		replyTo step with stepfail : stepfail($Duration, obst)
     }
 	Goto work
-	
-	State endwork{ 
+
+	State endwork{
 		println("basicrobot | endwork")
-		onMsg( end : end( V ) ){ 
+		onMsg( end : end( V ) ){
 			println("basicrobot | endwork")
-			updateResource [# "basicrobot(end)" #]	 		
+			updateResource [# "basicrobot(end)" #]
 		}
- 		emit endall : endall(normal) 
+ 		emit endall : endall(normal)
  		terminate 1
 	}
-	       
+
  }
- 
- 	
+
+
 QActor fan context ctxcarparking{
 	State s0 initial{
 		println("fan | start")
@@ -936,7 +935,7 @@ QActor thermometer context ctxcarparking{
 	State s0 initial{
 		println("thermometer | starting ")
 	}Transition t0 whenMsg startthermometer ->increasing
-  
+
 	State increasing{
 		println("temperature increasing, actual temperature: $Temp| THERMOMETER")
 		delay 3000
@@ -946,7 +945,7 @@ QActor thermometer context ctxcarparking{
 		emit temperature:temperature($Temp)
 	}Transition t0 whenTime 100->increasing
 		whenEvent decrease -> decreasing
-     
+
 	State decreasing{
 		println("temperature decreasing, actual temperature: $Temp| THERMOMETER")
 		delay 4000
@@ -957,22 +956,22 @@ QActor thermometer context ctxcarparking{
 	}Transition t0 whenTime 100->decreasing
 		whenEvent increase -> increasing
 }
-   
+
 QActor fanautomatizer context ctxcarparking{
 	[#var fanIsStarted=0
 	var minTemp=20
 	var maxTemp=40#]
-     
+
 	State s0 initial{
 		println("fanautomatizer | start")
-		
+
 	}Goto monitoring
-  
+
 	State monitoring{
 		println("fanautomatizer monitoring the situation | fanautomatizer")
 	} Transition t0 whenEvent temperature -> handleTemp
-      
-	State handleTemp{   
+
+	State handleTemp{
 		onMsg(temperature : temperature (T)){
 			[# var temp=payloadArg(0).toInt()
 			if(  temp >= maxTemp  && fanIsStarted == 0){
@@ -990,18 +989,18 @@ QActor fanautomatizer context ctxcarparking{
 }
 
 QActor trolleystopper context ctxcarparking{
-	
+
 	State s0 initial {
 	}Goto work
-	 
+
 	State work{
 	}Transition t0 whenMsg stopTrolley -> stopped
-			
+
 	State stopped{
 		forward trolley -m trolleystop : trolleystop(manager)
 	} Transition t0
 		whenMsg resumeTrolley -> resumed
-		
+
     State resumed{
     	forward trolley -m trolleyresume : trolleyresume(manager)
     }Goto work

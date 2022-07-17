@@ -80,13 +80,10 @@ class Client ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 					action { //it:State
 						println("client notify his interest in picking his car | CLIENT")
 						request("pickup", "pickup($TOKENID)" ,"parkingmanagerservice" )  
+						stateTimer = TimerActor("timer_reqpickup", 
+							scope, context!!, "local_tout_client_reqpickup", 2000.toLong() )
 					}
-					 transition(edgeName="t04",targetState="waitingForCar",cond=whenReply("pickupaccepted"))
-				}	 
-				state("waitingForCar") { //this:State
-					action { //it:State
-					}
-					 transition(edgeName="t05",targetState="pickupcar",cond=whenDispatch("pickup"))
+					 transition(edgeName="t04",targetState="pickupcar",cond=whenTimeout("local_tout_client_reqpickup"))   
 				}	 
 				state("pickupcar") { //this:State
 					action { //it:State

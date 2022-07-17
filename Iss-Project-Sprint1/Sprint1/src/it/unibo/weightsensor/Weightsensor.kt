@@ -28,7 +28,7 @@ class Weightsensor ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( nam
 					action { //it:State
 						println("Weightsensor waiting | WEIGHTSENSOR")
 					}
-					 transition(edgeName="t014",targetState="simulate",cond=whenEvent("carindoorarrival"))
+					 transition(edgeName="t013",targetState="simulate",cond=whenEvent("carindoorarrival"))
 				}	 
 				state("simulate") { //this:State
 					action { //it:State

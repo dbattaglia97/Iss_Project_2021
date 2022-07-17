@@ -1,15 +1,15 @@
-System carparking
+System carparking 
 
 Request reqenter : reqenter(X)
 Reply enter: enter(SLOTNUM)
 Request carenter: carenter(SLOTNUM)
 Reply receipt : receipt(TOKENID)
-Dispatch pickup : pickup(TOKENID)
+Request pickup : pickup(TOKENID)
 Reply waitIndoor: waitIndoor(TOKENID)
 Event caroutdoorarrival : coa(V)
 Event carwithdrawn : cw(X)
 Event carindoorarrival : cia(V)
-Dispatch withdrawn:withdrawn(X)
+
 
 Event sonaroutdoor:distance(D)
 Event timeout 			: timeout(V)
@@ -23,12 +23,9 @@ Dispatch startweightsensor:startweightsensor(X)
 
 Dispatch updateForTesting: update(X)
 
-
-
 Context ctxcarparking ip[host="localhost" port=8092]
 
 CodedQActor testupdater	context ctxcarparking className "testUpdater"
-
 
 QActor client context ctxcarparking{
 	[#
@@ -81,7 +78,7 @@ QActor client context ctxcarparking{
 
 	State reqpickup{
 		println("client notify his interest in picking his car | CLIENT")
-		forward parkingmanagerservice -m pickup : pickup($TOKENID)
+		request parkingmanagerservice -m pickup : pickup($TOKENID)
 	} Transition t0 whenTime 2000->pickupcar
 
 	State pickupcar{
@@ -147,7 +144,6 @@ QActor sonarhandler context ctxcarparking{
             	outdoorfree=true
                 KBSupport.changeOutdoorToFree()#]
                 forward timer -m stoptimer:timer(OFF)
-								forward parkingmanagerservice -m withdrawn:withdrawn(OK)
                 forward testupdater -m updateForTesting:outdoorStatus(FREE)
             [#}#]
         [#}#]
@@ -290,7 +286,7 @@ QActor parkingmanagerservice context ctxcarparking{
        [#boolOUT=false
         boolIN=false #]
 	}Transition t0 whenTime 10000-> moveToHome
-	                whenMsg pickup-> acceptout
+	                whenRequest pickup-> acceptout
 
 	State waiting{
         println("The system can't elaborate any request| SERVICE")
@@ -406,7 +402,7 @@ QActor parkingmanagerservice context ctxcarparking{
 		println("Car is in Outdoor area | SERVICE")
 		emit caroutdoorarrival : coa(car_outdoor)  //deve essere percepito dal sensore
 	}
-	Transition t0 	whenMsg withdrawn  -> withdrawn
+	Transition t0 	whenTime 10000->withdrawn
 					whenEvent timeout -> timeout
 
 	State withdrawn{

@@ -38,7 +38,7 @@ class Client ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 						 var t = kotlin.random.Random.nextLong(2000,4000)  
 						 delay(t)  
 						println("client notify his interest in entering | CLIENT")
-						request("reqenter", "reqenter(client)" ,"parkingmanagerservice" )  
+						request("reqenter", "reqenter(client)" ,"parkingmanagerservive" )  
 					}
 					 transition(edgeName="t01",targetState="noImmediatlyEntry",cond=whenReply("waitIndoor"))
 					transition(edgeName="t02",targetState="cartoindoor",cond=whenReply("enter"))
@@ -65,7 +65,7 @@ class Client ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 								 SLOTNUM = payloadArg(0).toInt()  
 								if(  SLOTNUM > 0  
 								 ){println("SLOTNUM = $SLOTNUM . Moving car to Indoor | CLIENT")
-								request("carenter", "carenter(V)" ,"parkingmanagerservice" )  
+								request("carenter", "carenter(V)" ,"parkingmanagerservive" )  
 								}
 						}
 					}
@@ -88,7 +88,7 @@ class Client ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sco
 				state("reqpickup") { //this:State
 					action { //it:State
 						println("client notify his interest in picking his car | CLIENT")
-						request("pickup", "pickup($TOKENID)" ,"parkingmanagerservice" )  
+						request("pickup", "pickup($TOKENID)" ,"parkingmanagerservive" )  
 					}
 					 transition(edgeName="t04",targetState="waitingForCar",cond=whenReply("pickupaccepted"))
 				}	 

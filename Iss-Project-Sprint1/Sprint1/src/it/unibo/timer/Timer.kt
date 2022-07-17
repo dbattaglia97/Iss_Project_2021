@@ -25,7 +25,7 @@ class Timer ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scop
 				state("working") { //this:State
 					action { //it:State
 					}
-					 transition(edgeName="t011",targetState="startTimer",cond=whenDispatch("starttimer"))
+					 transition(edgeName="t010",targetState="startTimer",cond=whenDispatch("starttimer"))
 				}	 
 				state("startTimer") { //this:State
 					action { //it:State
@@ -34,8 +34,8 @@ class Timer ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scop
 						stateTimer = TimerActor("timer_startTimer", 
 							scope, context!!, "local_tout_timer_startTimer", 20000.toLong() )
 					}
-					 transition(edgeName="t012",targetState="timeout",cond=whenTimeout("local_tout_timer_startTimer"))   
-					transition(edgeName="t013",targetState="stopTimer",cond=whenDispatch("stoptimer"))
+					 transition(edgeName="t011",targetState="timeout",cond=whenTimeout("local_tout_timer_startTimer"))   
+					transition(edgeName="t012",targetState="stopTimer",cond=whenDispatch("stoptimer"))
 				}	 
 				state("stopTimer") { //this:State
 					action { //it:State

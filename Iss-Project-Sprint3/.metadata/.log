@@ -1829,3 +1829,84 @@ java.util.ConcurrentModificationException
 
 !ENTRY org.jetbrains.kotlin.core 2 0 2022-07-01 11:08:30.564
 !MESSAGE Could not check for update (Could not obtain update site)
+!SESSION 2022-07-17 19:17:49.716 -----------------------------------------------
+eclipse.buildId=4.16.0.I20200604-0540
+java.version=1.8.0_202
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=it_IT
+Framework arguments:  -product org.eclipse.epp.package.dsl.product -product org.eclipse.epp.package.dsl.product -product org.eclipse.epp.package.dsl.product -product org.eclipse.epp.package.dsl.product -product org.eclipse.epp.package.dsl.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.dsl.product -product org.eclipse.epp.package.dsl.product -product org.eclipse.epp.package.dsl.product -product org.eclipse.epp.package.dsl.product -data C:\Users\batta\Desktop\ISS\Iss_Project_2021\Iss-Project-Sprint3 -product org.eclipse.epp.package.dsl.product
+
+!ENTRY org.eclipse.jface 2 0 2022-07-17 19:17:53.876
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2022-07-17 19:17:53.876
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@65da4a5d,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolinworkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@fbe8fd3,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.eclipse.egit.ui 2 0 2022-07-17 19:18:03.834
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\batta'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.jetbrains.kotlin.core 2 0 2022-07-17 19:18:54.221
+!MESSAGE Could not check for update (Could not obtain update site)
+
+!ENTRY org.jetbrains.kotlin.core 2 0 2022-07-17 19:19:07.899
+!MESSAGE Could not check for update (Could not obtain update site)
+
+!ENTRY org.eclipse.core.jobs 4 0 2022-07-17 19:19:29.194
+!MESSAGE Text Search
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2022-07-17 19:19:29.194
+!MESSAGE An internal error occurred during: "testPlan3.kt".
+!STACK 0
+java.lang.IndexOutOfBoundsException
+	at org.eclipse.search.internal.core.text.DocumentCharSequence.charAt(DocumentCharSequence.java:43)
+	at java.lang.Character.codePointAt(Unknown Source)
+	at java.util.regex.Pattern$Bound.check(Unknown Source)
+	at java.util.regex.Pattern$Bound.match(Unknown Source)
+	at java.util.regex.Pattern$Start.match(Unknown Source)
+	at java.util.regex.Matcher.search(Unknown Source)
+	at java.util.regex.Matcher.find(Unknown Source)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor.locateMatches(TextSearchVisitor.java:521)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor.access$8(TextSearchVisitor.java:517)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:224)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:188)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.jetbrains.kotlin.core 2 0 2022-07-17 19:19:44.458
+!MESSAGE Could not check for update (Could not obtain update site)
+
+!ENTRY org.jetbrains.kotlin.core 2 0 2022-07-17 19:19:54.621
+!MESSAGE Could not check for update (Could not obtain update site)
+
+!ENTRY org.jetbrains.kotlin.core 2 0 2022-07-17 19:21:36.511
+!MESSAGE Could not check for update (Could not obtain update site)
+
+!ENTRY org.jetbrains.kotlin.core 2 0 2022-07-17 19:22:19.810
+!MESSAGE Could not check for update (Could not obtain update site)
+
+!ENTRY org.jetbrains.kotlin.core 2 0 2022-07-17 19:22:31.364
+!MESSAGE Could not check for update (Could not obtain update site)
+
+!ENTRY org.jetbrains.kotlin.core 2 0 2022-07-17 19:22:35.659
+!MESSAGE Could not check for update (Could not obtain update site)
+
+!ENTRY org.jetbrains.kotlin.core 2 0 2022-07-17 19:22:53.083
+!MESSAGE Could not check for update (Could not obtain update site)

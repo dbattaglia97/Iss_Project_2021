@@ -26,8 +26,8 @@ class Outsonar ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, s
 					action { //it:State
 						println("Sonar working")
 					}
-					 transition(edgeName="t06",targetState="distanceSimulationOccupied",cond=whenEvent("caroutdoorarrival"))
-					transition(edgeName="t07",targetState="distanceSimulationFreed",cond=whenEvent("carwithdrawn"))
+					 transition(edgeName="t05",targetState="distanceSimulationOccupied",cond=whenEvent("caroutdoorarrival"))
+					transition(edgeName="t06",targetState="distanceSimulationFreed",cond=whenEvent("carwithdrawn"))
 				}	 
 				state("distanceSimulationOccupied") { //this:State
 					action { //it:State

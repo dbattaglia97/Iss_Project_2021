@@ -116,23 +116,23 @@ class TestPlan {
 
 			result = channelForObserver.receive()
 			println("+++++++++ temperature 40 RESULT=$result +++++++++")
-			var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+			t = result.substringAfter("(",result).substringBefore(")",result).toInt()
 			assertEquals(25, t)
 
 			result = channelForObserver.receive()
 			println("+++++++++ temperature 40 RESULT=$result +++++++++")
-			var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+			 t = result.substringAfter("(",result).substringBefore(")",result).toInt()
 			assertEquals(30, t)
 
 			result = channelForObserver.receive()
 			println("+++++++++ temperature 40 RESULT=$result +++++++++")
-			var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+			 t = result.substringAfter("(",result).substringBefore(")",result).toInt()
 			assertEquals(35, t)
 
 			result = channelForObserver.receive()
 			println("+++++++++ temperature 40 RESULT=$result +++++++++")
-			var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
-			assertEquals(40), t)
+			t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+			assertEquals(40, t)
 
 
 			testingObserver!!.addObserver(channelForObserver, "fan")
@@ -144,17 +144,17 @@ class TestPlan {
 
 			result = channelForObserver.receive()
 			println("+++++++++ temperature 40 RESULT=$result +++++++++")
-			var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+			 t = result.substringAfter("(",result).substringBefore(")",result).toInt()
 			assertEquals(35, t)
 
 			result = channelForObserver.receive()
 			println("+++++++++ temperature 40 RESULT=$result +++++++++")
-			var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+			 t = result.substringAfter("(",result).substringBefore(")",result).toInt()
 			assertEquals(30, t)
 
 			result = channelForObserver.receive()
 			println("+++++++++ temperature 40 RESULT=$result +++++++++")
-			var t = result.substringAfter("(",result).substringBefore(")",result).toInt()
+			 t = result.substringAfter("(",result).substringBefore(")",result).toInt()
 			assertEquals(25, t)
 
 			result = channelForObserver.receive()
