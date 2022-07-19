@@ -251,7 +251,7 @@ port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR
 			</p>
 		</div>
 
-		<h2>Problem analysis</h2>
+		<h2 id="problem-analysis">Problem analysis</h2>
 		<div class="remark">
 			<p>As mentioned in the <a href="#introduction">Introduction</a> in this SPRINT, we will analyze a simplified
         version (with less functionality) of the final system.</p>
@@ -291,7 +291,7 @@ port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR
 					</ul>
 				</p>
 
-				<h3>Model - SPRINT 2</h3>
+				<h3 id="first-model">Model - SPRINT 2</h3>
 
 				<br>
 				<table style="width:100%; border:1px solid; font-family: Consolas; background-color:#f5f5f5;">
@@ -477,21 +477,8 @@ port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR
 
 
 
-<h4>Map - Configuration own map</h4>
-<p>As mentioned in requirements we need to a map that virtually represents our environment. This map it was provided by the customer
-	by a software component, which documentation of its functioning is reported in
-	(<a href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.planner20/userDocs/LabPlanner.html">LabPlanner.html</a>). <br>
-	The client also provides us a library (<a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/unibolibs/IssActorKotlinRobotSupport-2.0.jar"><ks>IssActorKotlinRobotSupport-2.0.jar</ks></a>)
-	that contains a set of tools that permits to interact and work with the system map.
-	<center><img src="./img/plant.png"  width="425" height="300"></center>
-</p>
-<p>Map is necessary as a support for the planner (that is managed by some tools in the library) to calculate the fastest and safe path to a destination and to keep track of trolley moves.
-	When trolley do a movement the cell of the map on which trolley is located, is updated.</p>
-<p>In our system, position of obstacles are setted a priori, because they represent boundary wall and the parking slot,
-	whose position is fixed and cannot change over time. However, through one of the available tool, it is given the possibility
-	to modify a specific cell of the map in case occurs.</p>
-
-	The <a href="https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.planner20/resources/itunibo/planner/plannerUtil.kt" target="web"> plannerUtil.kt</a> is the support of the trolley that is able to generate a plan of basic actions.
+<h4 id="map">Configuration Own Map / PlannerUtil</h4>
+	The <a href="https://raw.githubusercontent.com/anatali/issLab2021/main/it.unibo.planner20/resources/itunibo/planner/plannerUtil.kt" target="web"> plannerUtil.kt</a> is the support of the trolley that is able to generate a plan of basic actions and it is given by the customer.
 	<br>
 	The <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/parkingMap0.bin" target="web"> parkingMap0.bin</a> is the a binary file that represents the parking-area. It will be used by the planner to plan the path.
 		<table>
@@ -533,7 +520,14 @@ port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR
 </pre>
 
 
-<h4>BasicRobot/DDRrobot</h4>
+<h4>Parking-slots traslation</h4>
+The <k>trolley</k> can be commanded to reach a certain point on the map, indicated by a pair of coordinates.
+Relevant locations within the environment, such as <i>parking slots</i>, <i>indoor</i> and <i>outdoor</i> are identified by the system in the form of natural language words, so it's necessary to
+traslate these in the relative pair of coordinates understandable by the <b>planner</b> provided by customer, which calculates the list of movements that the <k>Trolley</k> must carry out to
+reach the goal.
+
+
+<h4 id="basicrobot">BasicRobot/DDRrobot</h4>
 
 			The model of the DDR-robot is related to the basicrobot given by the costumer: 	<a href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qak21.basicrobot/userDocs/basicrobot2021.html" target="web"> basicrobot2021.html</a>. <br>
 			The DDR-robot could be a VirtualRobot, Mbot or Nanobot:
@@ -588,10 +582,10 @@ The support is: <a href="https://raw.githubusercontent.com/anatali/issLab2021/ma
 </tbody>
 </table>
 
-<h4>The trolley</h4>
+<h4 id="trolley">The trolley</h4>
 <div class="remark">
 The trolley will use the DDRrobot to execute its opertation that comes from the requirements of the application. In fact it should be able to generate a sequence of actions to reach the commands given by the ParkManagerService and exceute them sending the basic moves to the <kn>DDRrobot</kn> through the basic robot.
-It is a computational entity with a own autonomous flow of control so it will be modelled as QActor.
+It is a computational entity with a own autonomous flow of control so it will be modelled as qActor.
 <br>The trasport trolley should reach the goal place in a organizzed way, as the costumer required.
 
 <table>
@@ -638,7 +632,7 @@ It is a computational entity with a own autonomous flow of control so it will be
 
 
 
-				<h3>Logical Architecture</h3>
+				<h3 id="logical-architecture">Logical Architecture</h3>
 				<p>
 					<table style="width:100%" border="1">
 						<tr>
@@ -649,7 +643,7 @@ It is a computational entity with a own autonomous flow of control so it will be
 									context <tt>ctxcarparking</tt>, everyone of them
 									providing a different service.</p>
 								<p>Actors that we implement, will be of <ks><a
-											href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">QActor</a>
+											href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">qActor</a>
 									</ks>
 									type.</p>
 								<ul>
@@ -675,7 +669,7 @@ It is a computational entity with a own autonomous flow of control so it will be
 								<center>
 									<ks>parkingmanagerservice: </ks>
 								</center>
-								This QActor represents the system. It handles all client's request: <tt>reqenter</tt>,
+								This qActor represents the system. It handles all client's request: <tt>reqenter</tt>,
 								<tt>carenter</tt> and <tt>pickup</tt> and performs some check to verify is it's possible to accept and manage them.
 								It provides the clients the SLOTNUM and the TICKETID. It coordinates the movements of the
 								trolley (in this version they are only simulated with delays). <br>
@@ -687,7 +681,7 @@ It is a computational entity with a own autonomous flow of control so it will be
 								<center>
 									<ks>client: </ks>
 								</center>
-								It's the QActor that sends the requests (<tt>reqenter</tt> and <tt>carenter</tt>) to the
+								It's the qActor that sends the requests (<tt>reqenter</tt> and <tt>carenter</tt>) to the
 								system during the parking phase
 								and sends request (<tt>pickup</tt>) during the picking phase.<br>
 								It replaces, in this version, the role of the <ks>ParkServiceGUI</ks>.
@@ -759,7 +753,7 @@ It is a computational entity with a own autonomous flow of control so it will be
 								<center>
 									<ks>trolley: </ks>
 								</center>
-								This QActor works as an intermediary between the system and the remote virtual robot.
+								This qActor works as an intermediary between the system and the remote virtual robot.
 								It can receive from parkingmmanagerservice dispatch move:move(GOAL), where GOAL represents the location that must be reached by the Trolley inside the environment.
 								this actor uses some functions implemented in KBSupport.kt to obtain from the GOAL a set of moves that the robot must make to reach it. In particular, the GOAL is translated into the corresponding pair of coordinates, then they are passed as arguments to a method of a class into the package "itunibo.planner" inside the library IssActorKotlinRobotSupport-2.0.jar , provided by the client.
 							</td>
@@ -780,7 +774,7 @@ It is a computational entity with a own autonomous flow of control so it will be
 
 
 		</div>
-		<h2>Test plans</h2>
+		<h2 id="test-plan">Test plans</h2>
 <div class=remark>
 		<p>
 			In this test plan are considered only <ks>non-distributed</ks> tests.
@@ -831,14 +825,14 @@ It is a computational entity with a own autonomous flow of control so it will be
 			</ul>
 		</p>
 </div>
-		<h2>Project</h2>
+		<h2 id="project">Project</h2>
 
 		<table>
 				<tbody>
 					<tr>
 						<td style="width:50%" >
 							To satisfy the single responsibility principle (SRP) it was decided to create a support for the transpor trolley.
-							<br>The tasks of the <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/utility/TrolleyPlannerSupport.kt"target="web">TrolleyPlannerSupport.kt</a> are to plan the greatest path and update the map, thus the transporttrolley will have the only responsibility of sending the commands to the basicrobot.
+							<br>The tasks of the <a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/utility/TrolleyPlannerSupport.kt"target="web">TrolleyPlannerSupport.kt</a> are to plan the greatest path and update the map, thus the trolley will have the only responsibility of sending the commands to the basicrobot. Its functioning will be explained later.
 
 						</td>
 						<td>
@@ -1058,7 +1052,7 @@ State trolleyIsInOutdoor{
 				<tr>
 					<td>
 <pre>
-QActor trolley context ctxcarparking{
+qActor trolley context ctxcarparking{
 [#  val mapname     = "parkingMap0"
   var Myself      = myself
   var CurrentPlannedMove = ""
@@ -1163,9 +1157,10 @@ fun changeTrolleyStatusToWorking(){
 
 					</td>
 				</tr>
+
 				<tr >
 					<td colspan=2 style="border-left-color: transparent; border-right-color: transparent;">
-						<p><h3>TrolleyPlannerSupport - <a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint2/Sprint2/utility/TrolleyPlannerSupport.kt">TrolleyPlannerSupport.kt</a></h3></p>
+						<p><h3 id="trolleyPlannerSupport">TrolleyPlannerSupport - <a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint2/Sprint2/utility/TrolleyPlannerSupport.kt">TrolleyPlannerSupport.kt</a></h3></p>
 					</td>
 				</tr>
 				<tr>
@@ -1350,7 +1345,7 @@ fun loadUnloadCar(): ArrayList<String> {
 			</table>
 		</div>
 
-		<h2>Testing</h2>
+		<h2  id="testing">Testing</h2>
 		<div class=remark>
 		<a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint2/Sprint2/test/it/unibo/parkingmanagerservicetest/TestPlan2.kt">TestPlan2.kt </a><br>
 		<p>
@@ -1646,11 +1641,62 @@ assertEquals("IDLE", status)
 		<br /><br />
 	</div>
 
+
+
+	<div>
+	<h2><a name="summary"></a>Summary - SPRINT 2</h2>
+	<div class="remark">
+
+		<ol>
+
+
+			<li>
+				<a href="#problem-analysis">Second Sprint Problem Analysis</a>: here it is discussed the problem analysis of the second sprint
+				<ol>
+					<li>
+						<a href="#first-model">Model</a>: here it is proposed a model relative to the second sprint.
+					</li>
+					<li>
+						<a href="#map">Configuration own map - Planner</a>: here it is discussed the usage of the planner and the configuration of the map.
+					</li>
+					<li>
+						<a href="#basicrobot">BasicRobot</a>: here it is described the basicRobot given by the customer
+					</li>
+					<li>
+						<a href="#trolley">Trolley</a>: here it is discussed the usage of a Trolley as an entit that ywill use the basicRobot to execute its operation that comes from the requirements of the application
+					</li>
+					<li>
+						<a href="#logical-architecture">Logical Architecture</a>: here it is proposed a logical architecture relative to the second sprint
+					</li>
+				</ol>
+			</li>
+
+				<li>
+					<a href="#test-plan">Test Plan</a>
+				</li>
+				<li>
+					<a href="#project">Project</a>
+					<ol>
+						<li>
+							<a href="#trolleyPlannerSupport">trolleyPlannerSupport</a>: To satisfy the single responsibility principle (SRP) it was decided to create a support for the transport trolley. The tasks of the TrolleyPlannerSupport.kt are to plan the greatest path and update the map, thus the trolley will have the only responsibility of sending the commands to the basicrobot.
+						</li>
+					</ol>
+				</li>
+				<li>
+					<a href="#testing">Testing</a>
+				</li>
+			</li>
+		</ol>
+
+	</div>
+	</div>
+
+
 	<div style="background-color:rgba(42, 7, 241, 1.0); width:100%;text-align:center;color:white">
 		<table style="width:100%" border="1">
 			<tr>
 				By Dario Battaglia email: dario.battaglia2@studio.unibo.it
-				<img src="./img/darioBattaglia.jpg" alt="mbot" width="15%" height="15%">
+
 
 			</tr>
 		</table>

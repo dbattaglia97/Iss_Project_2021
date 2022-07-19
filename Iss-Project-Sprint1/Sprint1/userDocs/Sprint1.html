@@ -469,7 +469,7 @@
 
             </ul>
         </div>
-        <h2>Requirement analysis</h2>
+        <h2 id="requirement-analysis">Requirement analysis</h2>
         <div class="remark">
             <h3>Meanings analysis</h3>
             <p>After interviewing client, meanings he associates with nouns have been clarified:</p>
@@ -571,10 +571,10 @@
 
 
         </div>
-        <h2>Problem analysis</h2>
+        <h2 id="general-problem-analysis">Problem analysis</h2>
 
   <div class="remark">
-				            <h3>First Naive Macro Architecture</h3>
+				            <h3  id="naive-macro-architecture">First Naive Macro Architecture</h3>
 				            <p>
 				                The goal of this section is to show a naive architecture of our system in order to have a better
 				                vision of
@@ -622,7 +622,7 @@
 
 				            </ul>
 
-									<h3>Technologies and abstraction gap</h3>
+									<h3 id="abstraction-gap">Technologies and abstraction gap</h3>
 
 									An object oriented programming language, as Kotlin or Java, seems the best fit to implement the services of our system. Kotlin would be preferred for its native support for coroutines and actors that would benefit developers by not having to import many libraries and dependencies and, of course, in terms of resources, as coroutines are more lightweight than threads and don't need many expensive context switches.
 This distributed system, made of several heterogeneous components, would benefit greatly from an actor-based framework with a support for a message-based interaction. For this purpose, the product owner provides us a custom modelling language (DSL) and metamodel, QAK meta-model, that will help us in building a model of the system exploiting actors technology, as a substitute for the usual object technology, to achieve high-level interaction between components, as the actors possess an inward message queue which can be used to communicate with a specific message-based application level protocol, which sits on top of the usual, most used transport and application level protocols (HTTP, WS, TCP, UDP, etc.). In addition the QAK meta-model provides compatibility with other communication protocols such as MQTT and CoAP, equally valid for the interaction between actors.
@@ -630,7 +630,7 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 
 
 
-				            <h3>First Macro Architecture</h3>
+				            <h3  id="first-macro-architecture">First Macro Architecture</h3>
 				            <p>
 				                Via the following picture, we want to propose a first architecture in which we describe also the nature
 				                of components, reserving the chooices about the type of interactions for future phases.
@@ -651,7 +651,7 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 				                    reply to parking customer requests.
 				                <li>
 				                    <ks>Trolley:</ks>  The transport-trolley will use the DDRrobot to execute its opertation that comes from the requirements of the application. In fact it should be able to generate a sequence of actions to reach the commands given by the ParkManagerService and exceute them sending the basic moves to the <kn>DDRrobot</kn> through the basic robot.
-				                		It is a computational entity with a own autonomous flow of control so it will be modelled as QActor.
+				                		It is a computational entity with a own autonomous flow of control so it will be modelled as qAktor.
 				                		<br>The trasport trolley should reach the goal place in a organizzed way, as the costumer required, so it will represent the buisness logic of the DDR Robot.
 				                    In order to exploit this component, also ours will be a QAktor.
 				                    <br>
@@ -714,7 +714,7 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 
 
 </div>
-<h3>First Sprint - Problem Analysis</h3>
+<h3  id="first-sprint-problem-analysis">First Sprint - Problem Analysis</h3>
   <div class="remark">
             <p>
 
@@ -759,7 +759,7 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
                               </ol>
             </p>
 
-            <h3>A First Model</h3>
+            <h3 id="first-model">A First Model</h3>
 
             <br>
     				<table style="width:100%; border:1px solid; font-family: Consolas; background-color:#f5f5f5;">
@@ -911,7 +911,7 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 
 
 
-						<h3>Logical Architecture</h3>
+						<h3 id="logical-architecture">Logical Architecture</h3>
 
 						<p>
 							<table style="width:100%" border="1">
@@ -923,7 +923,7 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 											context <tt>ctxcarparking</tt>, everyone of them
 											providing a different service.</p>
 										<p>Actors that we implement, will be of <ks><a
-													href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">QActor</a>
+													href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">qAktor</a>
 											</ks>
 											type.</p>
 										<ul>
@@ -947,7 +947,7 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 										<center>
 											<ks>parkingmanagerservice: </ks>
 										</center>
-										This QActor represents the system. It handles all client's request: <tt>reqenter</tt>,
+										This qAktor represents the system. It handles all client's request: <tt>reqenter</tt>,
 										<tt>carenter</tt> and <tt>pickup</tt> and performs some check to verify is it's possible to accept and manage them.
 										It provides the clients the SLOTNUM and the TICKETID. It coordinates the movements of the
 										trolley (in this version they are only simulated with delays). <br>
@@ -959,7 +959,7 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 										<center>
 											<ks>client: </ks>
 										</center>
-										It's the QActor that sends the requests (<tt>reqenter</tt> and <tt>carenter</tt>) to the
+										It's the qAktor that sends the requests (<tt>reqenter</tt> and <tt>carenter</tt>) to the
 										system during the parking phase
 										and sends a request (<tt>pickup</tt>) during the picking phase.<br>
 										It replaces, in this version, the role of the <ks>ParkServiceGUI</ks>.
@@ -1028,6 +1028,29 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 							</table>
 						</p>
 
+						<h4>Handling of <k>Parking</k> and <k>Picking</k> requests (check state)</h4>
+					 					<p>It is present a check, in order to verify if <tt>reqenter</tt> and
+					 							<tt>pickup</tt> sended by a <b>client</b> can be accepted by <b>parkingmanagerservice</b>.</p>
+					 					<p>
+					 							The <tt>reqenter</tt> will be accepted if:
+					 							<ul>
+					 									<li>There is at least a free parking slot;
+					 							</ul>
+
+					 							By requirements, <tt>reqenter</tt> can be accepted only if there is at least one parking-slot
+					 							available, and can be subsequently elaborated in case of the <em>INDOOR-area</em> is free.
+					 							<br>If <em>INDOOR-area</em> is occupied, <b>parkingmanagerservice</b> send to <b>client</b> a
+					 							message <tt>waitIndoor</tt> to notify him that at this moment he can't bring his car to
+					 							<em>INDOOR-area</em> and that He have to wait.
+					 					</p>
+					 					<p>
+					 							The <tt>picking</tt> will be accepted if:
+					 							<ul>
+					 									<li><em>OUTDOOR-area</em> is free;</li>
+					 							</ul>
+					 					</p>
+
+
 				</div>
 
 
@@ -1037,7 +1060,7 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 
 
 
-    		<h2>Test plans</h2>
+    		<h2 id="test-plan">Test plans</h2>
     		<p>
     			In this test plan are considered only <ks>non-distributed</ks> tests.
     			<br>
@@ -1116,33 +1139,30 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 
     		</p>
 
-    		<h2>Project</h2>
+    		<h2 id="project">Project</h2>
 				 <div class="remark">
 
-					 <h4>Handling of <k>Parking</k> and <k>Picking</k> requests (check state)</h4>
-										<p>It is present a check, in order to verify if <tt>reqenter</tt> and
-												<tt>pickup</tt> sended by a <b>client</b> can be accepted by <b>parkingmanagerservice</b>.</p>
-										<p>
-												The <tt>reqenter</tt> will be accepted if:
-												<ul>
-														<li>There is at least a free parking slot;
-												</ul>
 
-												By requirements, <tt>reqenter</tt> can be accepted only if there is at least one parking-slot
-												available, and can be subsequently elaborated in case of the <em>INDOOR-area</em> is free.
-												<br>If <em>INDOOR-area</em> is occupied, <b>parkingmanagerservice</b> send to <b>client</b> a
-												message <tt>waitIndoor</tt> to notify him that at this moment he can't bring his car to
-												<em>INDOOR-area</em> and that He have to wait.
-										</p>
+
+
+
+										<h4 id="parkingAreaKB">ParkingAreaKb</h4>
 										<p>
-												The <tt>picking</tt> will be accepted if:
-												<ul>
-														<li><em>OUTDOOR-area</em> is free;</li>
-												</ul>
+											It's necessary to introduce a knowledge base, to permit the system to know and modify the status of
+											<em>parking slots</em> and <em>INDOOR</em> and
+											<em>OUTDOOR</em> areas.<br>
+
+												 This knowledge base is written in prolog and it is used to
+												 <li>Check and changes of the system status: parking slots, indoor and outdoor areas</li>
+												<li>TokenID management</li>
+
+												A possible way of implementing this knowledge base can be seen in the file <a
+													href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint1/Sprint1\parkingAreaKb.pl">ParkingAreaKb.pl</a>.
+
 										</p>
 
 
-					 <h4>TokenID handling</h4>
+					 <h4 id="token">TokenID handling</h4>
 						<p>By requirements it's necessary to generate a UNIQUE TokenID that is uniquely linked to <tt>SLOTNUM</tt>.
 						 The <tt>TOKENID</tt> is a code composed by two parts: the first one is relative to a progressive number which increases every time it is accepted a <tt>reqenter</tt> request and the second one is relative to the <tt>SLOTNUM</tt>. So, in order to extract the <tt>SLOTNUM</tt> from the <tt>TOKENID</tt>, we have to extract the last digit.
 					 </p>
@@ -1161,20 +1181,6 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 
 
 
-					 <h4>ParkingAreaKb</h4>
-					 <p>
-						 It's necessary to introduce a knowledge base, to permit the system to know and modify the status of
-						 <em>parking slots</em> and <em>INDOOR</em> and
-						 <em>OUTDOOR</em> areas.<br>
-
-								This knowledge base is written in prolog and it is used to
-								<li>Check and changes of the system status: parking slots, indoor and outdoor areas</li>
-							 <li>TokenID management</li>
-
-							 A possible way of implementing this knowledge base can be seen in the file <a
-								 href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint1/Sprint1\ParkingAreaKb.pl">ParkingAreaKb.pl</a>.
-
-					 </p>
 
 
 
@@ -1182,14 +1188,15 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 
 
 
-					 <h4>KBSupports</h4>
+
+					 <h4  id="kbsupport">KBSupports</h4>
 						<p>
 						It was noted that it is not possible to edit the KnowledgeBase(encoded by the .pl file ) simultaneously by different actor because each time it is "opened" by a different actor, each actor creates its own copy and the changes remain local and not global. To overcome this problem, the following steps were considered:
 <li> Choose a single actor to manage changes to the knowledge base (it is chosen then ParkingManagerService actor).</li>
-<li>Create an intermediary that also allows other actors to modify the knowledge base by leveraging the ParkingManagerService actor (KBSupports.kt explained later) </li>
+<li>Create an intermediary that also allows other actors to modify the knowledge base by leveraging the ParkingManagerService actor (KBSupports.kt written later) </li>
 </p>
 
-						<h4>testUpdater</h4><p>
+						<h4 id="testupdater">testUpdater</h4><p>
 							During the project phase, it has proved necessary to have only a QAktor with the goal of updating all resources, so that the test part could detect them in a more organized and simpler way.
 							So, whenever a component modifies any resource, a dispatch updateForTesting:resourceName(VALUE) is sent to testUpdater coded-actor.
 							Then, this actor elaborates received messageand use it to update the corresponding resource.
@@ -1206,7 +1213,7 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
                         <center><b><u>CLIENT</u></b></center>
                         <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">parkingmanagerservice</a></center>
                         <pre>
-QActor client context ctxcarparking{
+qAktor client context ctxcarparking{
 	[#
 		var CLIENTDONE  = 0
 		var SLOTNUM 	= 0 //slot assegnato
@@ -1289,7 +1296,7 @@ QActor client context ctxcarparking{
 
 
     <pre>
-QActor weightsensor context ctxcarparking{
+qAktor weightsensor context ctxcarparking{
 	[#var P = 0#]
 	State s0 initial{
 		println("Weightsensor starts | WEIGHTSENSOR")
@@ -1306,7 +1313,7 @@ QActor weightsensor context ctxcarparking{
 	}Goto ready
 }
     </pre>
-		In the absence of the real weightsensor, this qactor was implemented to precisely simulate the real operation of a physical weightsensor. At the time it receives a carindoorarrival event (issued by the parkingmanagerservice) it emits a weight more than the threshold set in the weightsensorhandler to simulate the presence of a car in the indoor-area.
+		In the absence of the real weightsensor, this qAktor was implemented to precisely simulate the real operation of a physical weightsensor. At the time it receives a carindoorarrival event (issued by the parkingmanagerservice) it emits a weight more than the threshold set in the weightsensorhandler to simulate the presence of a car in the indoor-area.
 
 </tr>
 
@@ -1317,7 +1324,7 @@ QActor weightsensor context ctxcarparking{
     		  <center><b><u>WEIGHTSENSORHANDLER</u></b></center>
     		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">weightsensorhandler </a></center>
     <pre>
-QActor weightsensorhandler context ctxcarparking{
+qAktor weightsensorhandler context ctxcarparking{
     [#var Www=1#]
     State s0 initial{
         println("WeightsensorHandler INIT | WEIGHTSENSORHANDLER")
@@ -1345,7 +1352,7 @@ QActor weightsensorhandler context ctxcarparking{
     }Goto working
 }
     </pre>
-		Qactor whose task is to handle the weight emitted by the weightsensor so that the parkingmanagerservice is aware that there is a machine in the indoor, also has the task of changing the state of the indoorarea.
+		qAktor whose task is to handle the weight emitted by the weightsensor so that the parkingmanagerservice is aware that there is a machine in the indoor, also has the task of changing the state of the indoorarea.
 </tr>
 
 
@@ -1356,7 +1363,7 @@ QActor weightsensorhandler context ctxcarparking{
     		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">outsonar </a></center>
 
     <pre>
-QActor outsonar context ctxcarparking{
+qAktor outsonar context ctxcarparking{
 	State s0 initial{
 	}Goto working
 
@@ -1376,7 +1383,7 @@ QActor outsonar context ctxcarparking{
 	}Goto working
 }
     </pre>
-		In the absence of the real outsonar, this qactor was implemented to precisely simulate the real operation of a physical sonar. At the time it receives a caroutdoorarrival event (issued by the parkingmanagerservice) it emits a distance less than the threshold set in the sonarhandler to simulate the presence of a car in the outdoor-area, on the other hand, if it receives the carwithdrawn event (issued by the client) it emits a distance greater than the threshold set in the sonarhandler to simulate the departure of the car itself.
+		In the absence of the real outsonar, this qAktor was implemented to precisely simulate the real operation of a physical sonar. At the time it receives a caroutdoorarrival event (issued by the parkingmanagerservice) it emits a distance less than the threshold set in the sonarhandler to simulate the presence of a car in the outdoor-area, on the other hand, if it receives the carwithdrawn event (issued by the client) it emits a distance greater than the threshold set in the sonarhandler to simulate the departure of the car itself.
 
 </tr>
 
@@ -1388,7 +1395,7 @@ QActor outsonar context ctxcarparking{
     		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">sonarhandler </a></center>
 
     <pre>
-QActor sonarhandler context ctxcarparking{
+qAktor sonarhandler context ctxcarparking{
     [#var distance=2000
     	var outdoorfree=true#]
 
@@ -1444,7 +1451,7 @@ QActor sonarhandler context ctxcarparking{
     		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">timer </a></center>
 
     <pre>
-QActor timer context ctxcarparking{
+qAktor timer context ctxcarparking{
     State s0 initial{
 
     }Goto working
@@ -1479,7 +1486,7 @@ QActor timer context ctxcarparking{
                         <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">parkingmanagerservice</a></center>
 
     <pre>
-QActor parkingmanagerservice context ctxcarparking{
+qAktor parkingmanagerservice context ctxcarparking{
 	[#lateinit var testUpdaterActor	: ActorBasic
 	var prog= 0
 	var SLOTNUM=-1
@@ -1813,7 +1820,7 @@ class testUpdater (name : String ) : ActorBasic( name ) {
 
 </div>
 
-    		<h2>Testing</h2>
+    		<h2 id="testing">Testing</h2>
     		<a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/test/it/unibo/parkingmanagerservicetest/testPlan1.kt">TestPlan1.kt </a><br>
     		<p>Tests is built using CoapObserver provided by the costumer in the project <ks>it.unibo.qak21.basicrobot
     				</ks> (<a
@@ -2333,11 +2340,80 @@ fun testOutsonar(){
 			<br /><br />
 		</div>
 
+		<div>
+		<h2><a name="summary"></a>Summary - SPRINT 1</h2>
+		<div class="remark">
+
+			<ol>
+
+				<li>
+		      <a href="#requirement-analysis">Requirement Analysis</a>
+				</li>
+
+					<li>
+					<a href="#general-problem-analysis">General Problem Analysis</a>: here it is discussed the problem analysis of all the project
+		      <ol>
+		        <li>
+		          <a href="#naive-macro-architecture">Naive Macro Architecture</a>: here it is shown a naive architecture of the system where we still consider components of system as generic entities and we don't yet describe kind of their interactions.
+		        </li>
+		        <li>
+		          <a href="#abstraction-gap">Usage of Qaktor</a>: here it is discussed why QAktor are suggested for the project
+		        </li>
+		        <li>
+		          <a href="#first-macro-architecture">General Macro Architecture</a>: here it is proposed a first macro architecture, after reviewing the reasons for why QActors will be used, Without going into detail regarding the interactions between the components.
+		        </li>
+					</ol>
+				</li>
+
+				<li>
+					<a href="#first-sprint-problem-analysis">First Sprint Problem Analysis</a>: here it is discussed the problem analysis of all the first sprint
+					<ol>
+		        <li>
+		          <a href="#first-model">First Model</a>: here it is proposed a model relative to the first sprint
+		        </li>
+		        <li>
+		          <a href="#logical-architecture">Logical Architecture</a>: here it is proposed a logical architecture relative to the first sprint
+		        </li>
+					</ol>
+				</li>
+
+		      <li>
+		        <a href="#test-plan">Test Plan</a>
+		      </li>
+		      <li>
+		        <a href="#project">Project</a>
+						<ol>
+			        <li>
+			          <a href="#parkingAreaKB">ParkingAreaKb</a>: ParkingAreaKB.pl is a prolog file used as a knowledge base for the entire system and used for editing the information contained therein and verifying certain aspects of the system
+			        </li>
+			        <li>
+			          <a href="#token">Token Handling</a>: here it is discussed how the token will be handled
+			        </li>
+							<li>
+			          <a href="#kbsupport">KBSupport</a>: intermediary object that allows to more than one actor to modify the knowledge base written in prolog
+			        </li>
+							<li>
+			          <a href="#testupdater">TestUpdater</a>: codedqak  with the goal of updating all resources
+			        </li>
+						</ol>
+		      </li>
+		      <li>
+		        <a href="#testing">Testing</a>
+		      </li>
+		    </li>
+		  </ol>
+
+
+
+
+
+				</p>
+		</div>
 		<div style="background-color:rgba(42, 7, 241, 1.0); width:100%;text-align:center;color:white">
 			<table style="width:100%" border="1">
 				<tr>
 					By Dario Battaglia email: dario.battaglia2@studio.unibo.it
-					<img src="./img/darioBattaglia.jpg" alt="mbot" width="15%" height="15%">
+					
 				</tr>
 			</table>
 		</div>

@@ -254,7 +254,7 @@
 			</p>
 		</div>
 
-		<h2>Problem analysis</h2>
+		<h2 id="problem-analysis">Problem analysis</h2>
 		<div class="remark">
 			<p>As mentioned in the <a href="#introduction">Introduction</a> in this SPRINT, we will analyze the system
 				during
@@ -287,7 +287,7 @@
 				</ul>
 			</p>
 
-			<h3>Model - SPRINT 4</h3>
+			<h3 id="first-model">Model - SPRINT 4</h3>
 			<br>
 			<table style="width:100%; border:1px solid; font-family: Consolas; background-color:#f5f5f5;">
 				<tr>
@@ -473,7 +473,7 @@
 				We also want to implement a real HC-SR04 Sonar which will allow to detect the effective presence or absence of a real car during the pickup phase.
 			</div>
 
-			<h4>Client GUI</h4>
+			<h4 id="clientGui">Client GUI</h4>
 			<p>
 				A graphical interface is required to allow the customer to make requests to the parking system.
 				This GUI will be a service, probably implemented using <a href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/sonarguispring/userDocs/LabSpringUsageIntro.html"></a>Spring Boot</a>.
@@ -487,7 +487,7 @@
 				</ul>
 
 			</p>
-			<h4>Manager GUI</h4>
+			<h4 id="managerGui">Manager GUI</h4>
 			<p>
 				For ParkingManager is required an interface that shows status of any component that compose our system.
 				This GUI will be a service, probably implemented using <a href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/sonarguispring/userDocs/LabSpringUsageIntro.html"></a>Spring Boot</a>.
@@ -517,7 +517,7 @@
 				</ul>
 			</p>
 			<!--stop trolley handling (trolleyStopper qak)-->
-			<h4>Real Sonar</h4>
+			<h4 id="realsonar">Real Sonar</h4>
 				At this final stage, we introduce a <b>real sonar</b> in order to perform the tasks previously made by simulated one.<br>
 				In particular, this sonar will be mounted on a physical device (e.g.: Raspberry, Arduino or similar) and its goal will be to
 				send to the <b>parkingmanagerservice</b> many and periodical messages containing the value of distance detected.
@@ -526,7 +526,7 @@
 				Regarding the involvement of this device, as mentioned above, we received some components and documentation for its use from the customer.
 
 
-			<h3>Logical Architecture</h3>
+			<h3 id="logical-architecture">Logical Architecture</h3>
 			<p>
 				<table style="width:100%" border="1">
 					<tr>
@@ -537,7 +537,7 @@
 								Two separated <ks>services</ks> that represent the GUIs.
 							</p>
 							<p>Actors that we implement, will be of <ks><a
-										href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">QActor</a>
+										href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">qActor</a>
 								</ks>
 								type.</p>
 							<ul>
@@ -582,7 +582,7 @@
 							<center>
 								<ks>parkingmanagerservice: </ks>
 							</center>
-							This QActor represents the system. It handles all client's request: <tt>reqenter</tt>,
+							This qActor represents the system. It handles all client's request: <tt>reqenter</tt>,
 							<tt>carenter</tt> and <tt>pickup</tt> and performs some check to verify is it's possible to accept and manage them.
 							It provides the clients the SLOTNUM and the TOKENID. It coordinates the movements of the
 							trolley, sending to it the positions to reach.. <br>
@@ -679,7 +679,7 @@
 							<center>
 								<ks>trolley: </ks>
 							</center>
-							This QActor works as an intermediary between the system and the remote virtual robot.
+							This qActor works as an intermediary between the system and the remote virtual robot.
 							It can receive from parkingmmanagerservice dispatch move:move(GOAL), where GOAL represents the location that must be reached by the Trolley inside the environment.
 							this actor uses some functions implemented in KBSupport.kt to obtain from the GOAL a set of moves that the robot must make to reach it. In particular, the GOAL is translated into the corresponding pair of coordinates, then they are passed as arguments to a method of a class into the package "itunibo.planner" inside the library IssActorKotlinRobotSupport-2.0.jar , provided by the client.
 						</td>
@@ -760,7 +760,7 @@
 			</p>
 
 		</div>
-		<h2>Test plans</h2>
+		<h2  id="test-plan">Test plans</h2>
 				<p>
 					During this final SPRINT, it will be necessary perform also <k>distributed-tests</k>, in order to check the correct functioning of some
 					remote components like <b>clientGUI</b>, <b>managerGUI</b> and <b>sonar</b>.
@@ -791,7 +791,7 @@
 			</ul>
 			</div>
 
-		<h2>Project</h2>
+		<h2 id="project">Project</h2>
 		Now, we preoceed to the last project phase, during which it will be implemented the final version of all component, before releasing of prototype.<br>
 		In particular, we will implement some solutions proposed during <a>problem analysis</a> but may be possible we adopt others solution, if necessary.<br>
 		<div class=remark>
@@ -799,9 +799,9 @@
 			<table>
 				<tr>
 					<td>
-						 <center><b><u>SONAR</u></b></center>
+						 <center><b id="sonar"><u>SONAR</u></b></center>
 						<center><a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/it.unibo.sonar/src/sonaronrasp.qak">sonaronrasp.qak</a></center>
-						<pre>QActor sonar context ctxsonaronrasp {
+						<pre>qActor sonar context ctxsonaronrasp {
 [#
    lateinit var firstActorInPipe : ActorBasic
 #]
@@ -838,10 +838,10 @@
    	Transition t0 whenEvent sonar -> sendSonarData</pre>
 					</td>
 					<td>
-						This Qactor is in another context <tt>ctxsonaronrasp</tt> which runs on a remote device, a <b>Raspberry Pi</b> that is equipped with
+						This qActor is in another context <tt>ctxsonaronrasp</tt> which runs on a remote device, a <b>Raspberry Pi</b> that is equipped with
 						a sonar <i>HCSR04</i>. The PORT of this contex is <b>8028</b>.<br>
 						The implementation of this component is obtained starting from another component already at our disposal, into the project <a>it.unibo.rasp2021</a>.<br><br>
-						Before emitting <tt>sonaroutdoor</tt> event, which will be perceives by <b>sonarhandler</b> Qactor on <tt>ctxcarparking</tt>, the data
+						Before emitting <tt>sonaroutdoor</tt> event, which will be perceives by <b>sonarhandler</b> qActor on <tt>ctxcarparking</tt>, the data
 						collected by sonar are taken, cleaned and showed, respectively thanks to three mock-actor: <b>sonardatasource</b>, <b>datalogger</b> and <b>datacleaner</b>.
 						This kind of structure can be inteded as <i>Pipeline Design Pattern</i>.
 						<br>The emitted events can be perceived also in another context because this context is registred on a topic of a MTTQ Broker, in particular: <br>
@@ -852,7 +852,7 @@ eventTopic "parkingArea/feedback"</pre>
 				</tr>
 				<tr>
 					<td>
-						<center><b><u>OUTSONAR</u></b></center>
+						<center><b id="outsonar"><u>OUTSONAR</u></b></center>
 						<center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint4/Sprint4/codedqak/outSonar.kt">outsonar.kt</a></center>
 						<pre>
 class outSonar (name : String ) : ActorBasic( name ) {
@@ -886,12 +886,12 @@ class outSonar (name : String ) : ActorBasic( name ) {
 						</pre>
 					</td>
 					<td>
-						To ensure that the simulated outsonar is instantiated only at the time when the real sonar is not being used, the outsonar is now no longer a normal qActor (as in previous sprints) but has been implemented in the form of a coded-qactor.
+						To ensure that the simulated outsonar is instantiated only at the time when the real sonar is not being used, the outsonar is now no longer a normal qActor (as in previous sprints) but has been implemented in the form of a coded-qActor.
 					</td>
 
 				</tr>
 			</table>
-			<h3>Manager GUI</h3>
+			<h3 id="managergui">Manager GUI</h3>
 			This graphic inteface, like the client's one, is created using Spring Boot, referring to an existing project <i><a href="https://github.com/anatali/issLab2021/tree/main/sonarguispring">sonarguispring</a></i>.<br>
 			<br>
 			<table>
@@ -1001,7 +1001,7 @@ override fun onLoad(response: CoapResponse) {
 
 				<tr>
 					<td>
-						<center><b><u>GUIUPDATER</u></b></center>
+						<center><b id="guiupdater"><u>GUIUPDATER</u></b></center>
 						<center><a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/Sprint4/codedqak/guiUpdater.kt">guiUpdater.kt</a></center>
 						<pre>
 class guiUpdater (name : String ) : ActorBasic( name ) {
@@ -1027,7 +1027,7 @@ class guiUpdater (name : String ) : ActorBasic( name ) {
 }</pre>
 					</td>
 					<td>
-						During the project phase, it has proved necessary to have only a Qactor with the goal of updating all resources, so that the <b>managerGUI</b> could detect them.<br>
+						During the project phase, it has proved necessary to have only a qActor with the goal of updating all resources, so that the <b>managerGUI</b> could detect them.<br>
 						So, whenever a component modifies any resource, a dispatch <tt>updateGui:resourceName(VALUE)</tt> is sent to <b>guiUpdater</b> mock-actor.<br>
 						Then, this actor elaborates received message, converting it in JSON format and use it to update the corresponding resource.<br>
 
@@ -1040,9 +1040,9 @@ class guiUpdater (name : String ) : ActorBasic( name ) {
 					</td>
 				</tr>
 					<td>
-						<center><b><u>TROLLEYSTOPPER</u></b></center>
+						<center><b id="trolleystopper"><u>TROLLEYSTOPPER</u></b></center>
 						<center><a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/Sprint4/src/sprint4.qak">sprint4.qak</a></center>
-						<pre>QActor trolleystopper context ctxcarparking{
+						<pre>qActor trolleystopper context ctxcarparking{
 
 	State s0 initial {
 	}Goto work
@@ -1062,7 +1062,7 @@ class guiUpdater (name : String ) : ActorBasic( name ) {
 }</pre>
 					</td>
 					<td>
-						This is a Qactor which as an intermediary between <b>managerGUI</b> and <b>trolley</b>. Its task is to avoid that <b>managerGUI</b> sends <tt>stopTrolley</tt>
+						This is a qActor which as an intermediary between <b>managerGUI</b> and <b>trolley</b>. Its task is to avoid that <b>managerGUI</b> sends <tt>stopTrolley</tt>
 						ans <tt>resumeTrolley</tt> messages directly to <b>Trolley</b>.<br> So, <b>trolleystopper</b> receives this kind of dispatches from <b>managerGUI</b> and
 						forward them to <b>trolley</b>.
 					</td>
@@ -1071,10 +1071,10 @@ class guiUpdater (name : String ) : ActorBasic( name ) {
 <tr>
 
 					<td>
-						<center><b><u>TROLLEY</u></b></center>
+						<center><b id="trolley"><u>TROLLEY</u></b></center>
 						<center><a href="https://github.com/dbattaglia97/Iss_Project_2021/tree/main/Iss-Project-Sprint4/Sprint4/src/sprint4.qak">sprint4.qak</a></center>
 						<pre>
-QActor trolley context ctxcarparking{
+qActor trolley context ctxcarparking{
 	...
 	State stopped{
 		[#KBSupport.changeTrolleyStatusToStopped()#]
@@ -1111,7 +1111,7 @@ QActor trolley context ctxcarparking{
 						</pre>
 					</td>
 <td>
-It was necessary to modify the Trolley QActor since, from requirements, through the <b>ParkingManagerGui</b> must be given the ability to do stop/resume of the trolley.
+It was necessary to modify the Trolley qActor since, from requirements, through the <b>ParkingManagerGui</b> must be given the ability to do stop/resume of the trolley.
 Therefore, two states were added:
 <li>stopped: a halt command is sent to the basicrobot, the state of the Trolley is updated and the Gui is also updated with the new state.
 <li>resuming: if the trolley was previously in the working state, the path needed to get to the requested location is recalculated.
@@ -1128,7 +1128,7 @@ Therefore, two states were added:
 
 				</tr>
 			</table>
-			<h3>Client GUI</h3>
+			<h3 id="clientgui">Client GUI</h3>
 			<table>
 				<tr>
 					<td>
@@ -1328,7 +1328,7 @@ fun forward(message: String?) {
 			</table>
 		</div>
 
-		<h2>Testing</h2>
+		<h2 id="testing">Testing</h2>
 
 
 			<p>
@@ -1574,6 +1574,73 @@ WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element((By.ID, "adv"),
 			This is the first complete working prototype release of the system. Every bug or problem will be resolved over time.
 		<br /><br />
 	</div>
+
+
+		<div>
+		<h2><a name="summary"></a>Summary - SPRINT 4</h2>
+		<div class="remark">
+
+			<ol>
+
+
+				<li>
+					<a href="#problem-analysis">Fourth Sprint Problem Analysis</a>: here it is discussed the problem analysis of the second sprint
+					<ol>
+						<li>
+							<a href="#first-model">Model</a>: here it is proposed a model relative to the fourth sprint.
+						</li>
+						<li>
+							<a href="#clientGui">clientGui</a>: here it is discussed how the clientGui should be implemented and how it should works
+						</li>
+						<li>
+							<a href="#managerGui">managereGui</a>: here it is discussed how the managerGui should be implemented and how it should works
+						</li>
+						<li>
+							<a href="#realsonar">Sonar</a>: here it is discussed the usage of a real sonar instead of a simulated one. It will be used some resources given by the customer which will be deployed on RaspberryPi
+						</li>
+						<li>
+							<a href="#logical-architecture">Logical Architecture</a>: here it is proposed a logical architecture relative to the fourth sprint
+						</li>
+					</ol>
+				</li>
+
+					<li>
+						<a href="#test-plan">Test Plan</a>: The proposed testplan involves testing the entire system workflow including simulating the use of the clientGui
+					</li>
+					<li>
+						<a href="#project">Project</a>
+						<ol>
+							<li>
+								<a href="#sonar">Real Sonar</a>: This qActor is in another context ctxsonaronrasp which runs on a remote device, a Raspberry Pi that is equipped with a sonar HCSR04. The implementation of this component is obtained starting from another component given by the customer in the project it.unibo.rasp2021.
+							</li>
+							<li>
+								<a href="#outsonar">Simulated Sonar</a>: To ensure that the simulated outsonar is instantiated only at the time when the real sonar is not being used, the outsonar is now no longer a normal qAktor (as in previous sprints) but has been implemented in the form of a coded-qActor.
+							</li>
+							<li>
+								<a href="#managergui">managerGui</a>: This graphic inteface, like the client's one, is created using Spring Boot, referring to an existing project sonarguispring. Here it is described how it works
+							<li>
+								<a href="#guiupdater">guiUpdater</a>: Unique qActor with the goal of updating all resources, so that the managerGUI could detect them.
+							<li>
+								<a href="#trolley">trolley</a>: It was necessary to modify the Trolley qActor since, from requirements, through the ParkingManagerGui must be given the ability to do stop/resume of the trolley.
+							</li>
+							<li>
+								<a href="#trolleystopper">trolleystopper</a>:This is a qActor which as an intermediary between managerGUI and trolley. Its task is to avoid that managerGUI sends stopTrolley ans resumeTrolley messages directly to Trolley.
+							</li>
+							<li>
+								<a href="clientgui">clientGui</a>:This graphic inteface, like the client's one, is created using Spring Boot, referring to an existing project sonarguispring. Here it is described how it works
+							</li>
+						</ol>
+					</li>
+					<li>
+						<a href="#testing">Testing</a>
+					</li>
+				</li>
+			</ol>
+
+		</div>
+		</div>
+
+
 
 	<div style="background-color:rgba(42, 7, 241, 1.0); width:100%;text-align:center;color:white">
 		<table style="width:100%" border="1">
