@@ -16,11 +16,11 @@ class Basicrobot ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 	@kotlinx.coroutines.ObsoleteCoroutinesApi
 	@kotlinx.coroutines.ExperimentalCoroutinesApi			
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
-		  
-		  var StepTime      = 0L 
-		  var StartTime     = 0L     
-		  var Duration      = 0L  
-		  var RobotType     = "" 
+		
+		  var StepTime      = 0L
+		  var StartTime     = 0L
+		  var Duration      = 0L
+		  var RobotType     = ""
 		  var CurrentMove   = "moveUnknown"
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
@@ -33,12 +33,12 @@ class Basicrobot ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 						 ){println("basicrobot | type=$RobotType attempts to activate the sonar pipe")
 						  //For real robots
 										//delay( 1500 ) //give to the realsonar the time to start
-							 			var robotsonar = context!!.hasActor("realsonar")  
-							 			if( robotsonar != null ){ 
-							 				println("basicrobot | WORKING WITH SONARS") 
+							 			var robotsonar = context!!.hasActor("realsonar")
+							 			if( robotsonar != null ){
+							 				println("basicrobot | WORKING WITH SONARS")
 							 				//ACTIVATE THE DATA SOURCE realsonar
-							 				forward("sonarstart", "sonarstart(1)" ,"realsonar" ) 				
-							 				//SET THE PIPE  
+							 				forward("sonarstart", "sonarstart(1)" ,"realsonar" )
+							 				//SET THE PIPE
 							 				robotsonar.
 							 				subscribeLocalActor("datacleaner").
 							 				subscribeLocalActor("distancefilter").
@@ -48,21 +48,21 @@ class Basicrobot ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 							 			}
 						}
 						else
-						 {  var robotsonar = context!!.hasActor("robotsonar") 
-						 	 			if( robotsonar != null ){ 
-						 	 				println("basicrobot | WORKING WITH VIRTUAL SONAR") 
+						 {  var robotsonar = context!!.hasActor("robotsonar")
+						 	 			if( robotsonar != null ){
+						 	 				println("basicrobot | WORKING WITH VIRTUAL SONAR")
 						 	 				//ACTIVATE THE DATA SOURCE realsonar
-						 	 				forward("sonarstart", "sonarstart(1)" ,"robotsonar" ) 				
+						 	 				forward("sonarstart", "sonarstart(1)" ,"robotsonar" )
 						 	 				//WE DO NOT SET THE PIPE, since we don't have sonar data  to clean
-						 	 			
+						 
 						 	 				//robotsonar.
 						 	 				//subscribeLocalActor("datacleaner").
 						 	 				//subscribeLocalActor("distancefilter").
-						 	 				//subscribeLocalActor("basicrobot")		
+						 	 				//subscribeLocalActor("basicrobot")
 						 	 			}else{
 						 	 				println("basicrobot | WARNING: robotsonar NOT FOUND")
 						 	 			}
-						  
+						 
 						 }
 						discardMessages = false
 					}
@@ -145,7 +145,7 @@ class Basicrobot ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name,
 					action { //it:State
 						Duration = getDuration(StartTime)
 						unibo.robot.robotSupport.move( "h"  )
-						 var TunedDuration = Duration;  
+						 var TunedDuration = Duration;
 									TunedDuration = Duration * 5 / 6
 						println("basicrobot | stepFail duration=$Duration TunedDuration=$TunedDuration")
 						unibo.robot.robotSupport.move( "s"  )

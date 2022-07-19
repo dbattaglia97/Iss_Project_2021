@@ -102,7 +102,7 @@ class Trolley ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, sc
 						if (KBSupport.previousTrolleyStatus.equals(TrolleyStatus.WORKING)){
 										KBSupport.changeTrolleyStatusToWorking()
 										println("Trolley RESUMING and previously was working | TROLLEY")
-										
+						
 										println(trolleyCmd)
 										TrolleyPlannerSupport.reset()
 										TrolleyPlannerSupport.setGoal(trolleyCmd)

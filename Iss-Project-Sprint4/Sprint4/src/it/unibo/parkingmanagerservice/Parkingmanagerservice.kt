@@ -252,7 +252,7 @@ class Parkingmanagerservice ( name: String, scope: CoroutineScope  ) : ActorBasi
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								location = payloadArg(0).toString()
 											location= location.substringAfter("(",location).substringBefore(")",location)
-											println("Location: " + location + " || trolleyIsInIndoor")	
+											println("Location: " + location + " || trolleyIsInIndoor")
 											forward("updateForTesting", "posRobot($location)" ,"testupdater" )
 						}
 					}
@@ -293,7 +293,7 @@ class Parkingmanagerservice ( name: String, scope: CoroutineScope  ) : ActorBasi
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								location = payloadArg(0).toString()
 								            location= location.substringAfter("(",location).substringBefore(")",location)
-								            println("Location: " + location + " || trolleyIsInSlot")	
+								            println("Location: " + location + " || trolleyIsInSlot")
 								            forward("updateForTesting", "posRobot($location)" ,"testupdater" )
 						}
 					}

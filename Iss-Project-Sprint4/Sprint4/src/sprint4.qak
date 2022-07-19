@@ -2,7 +2,7 @@ System carparking
 
 
 //DECOMMENTARE se si usa il sonar fisico
-//mqttBroker "broker.hivemq.com" : 1883 eventTopic "parkingArea/feedback"
+mqttBroker "broker.hivemq.com" : 1883 eventTopic "parkingArea/feedback"
 
 
 Dispatch systemready:systemready(X)

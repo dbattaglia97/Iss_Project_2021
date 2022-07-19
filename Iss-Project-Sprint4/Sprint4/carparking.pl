@@ -1,6 +1,7 @@
 %====================================================================================
 % carparking description   
 %====================================================================================
+mqttBroker("broker.hivemq.com", "1883", "parkingArea/feedback").
 context(ctxcarparking, "localhost",  "TCP", "5683").
  qactor( testupdater, ctxcarparking, "testUpdater").
   qactor( guiupdater, ctxcarparking, "guiUpdater").

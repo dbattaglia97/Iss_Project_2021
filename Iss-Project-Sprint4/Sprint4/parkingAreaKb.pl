@@ -7,7 +7,7 @@
 :-dynamic(trolleyStopped/0).
 
 
-outsonarSimulated.
+%%outsonarSimulated.
 
 slotFree(1).
 slotFree(2).

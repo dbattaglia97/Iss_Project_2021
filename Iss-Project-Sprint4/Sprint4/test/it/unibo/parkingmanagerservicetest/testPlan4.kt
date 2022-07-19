@@ -50,7 +50,7 @@ class TestPlan {
 			}
 			GlobalScope.launch{
 				myactor = QakContext.getActor("parkingmanagerservice")
-				clientactor = QakContext.getActor("client")
+				clientactor = QakContext.getActor("client2")
  				while(  myactor == null )		{
 					println("+++++++++ waiting for system startup ...")
 					delay(500)

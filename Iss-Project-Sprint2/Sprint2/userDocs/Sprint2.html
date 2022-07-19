@@ -1,4 +1,4 @@
-port=8092<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <!--
 <link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
@@ -1672,11 +1672,17 @@ assertEquals("IDLE", status)
 			</li>
 
 				<li>
-					<a href="#test-plan">Test Plan</a>
+					<a href="#test-plan">Test Plan</a>: proposed  integration test plan for the workflow and unit testing for the trolley.
 				</li>
 				<li>
 					<a href="#project">Project</a>
 					<ol>
+						<li>
+							<a href="#parkingmanager">ParkingManagerService</a>: changes made to the parkingmanagerservice: in particular to the parkingAreaKB (prolog file) in order to check and change trolley status,  added check also on Trolley for acceptin and acceptout.
+						</li>
+						<li>
+							<a href="#trolley">trolley</a>: implementation of the trolley and its connection with the trolleyPlannerSupport (in this sprint it hasn't the state Stopped because the ParkingMangerGui is not implemented already)
+						</li>
 						<li>
 							<a href="#trolleyPlannerSupport">trolleyPlannerSupport</a>: To satisfy the single responsibility principle (SRP) it was decided to create a support for the transport trolley. The tasks of the TrolleyPlannerSupport.kt are to plan the greatest path and update the map, thus the trolley will have the only responsibility of sending the commands to the basicrobot.
 						</li>
