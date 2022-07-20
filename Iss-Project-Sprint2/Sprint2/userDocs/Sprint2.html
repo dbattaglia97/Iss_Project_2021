@@ -585,7 +585,7 @@ The support is: <a href="https://raw.githubusercontent.com/anatali/issLab2021/ma
 <h4 id="trolley">The trolley</h4>
 <div class="remark">
 The trolley will use the DDRrobot to execute its opertation that comes from the requirements of the application. In fact it should be able to generate a sequence of actions to reach the commands given by the ParkManagerService and exceute them sending the basic moves to the <kn>DDRrobot</kn> through the basic robot.
-It is a computational entity with a own autonomous flow of control so it will be modelled as qActor.
+It is a computational entity with a own autonomous flow of control so it will be modelled as QActor.
 <br>The trasport trolley should reach the goal place in a organizzed way, as the costumer required.
 
 <table>
@@ -643,7 +643,7 @@ It is a computational entity with a own autonomous flow of control so it will be
 									context <tt>ctxcarparking</tt>, everyone of them
 									providing a different service.</p>
 								<p>Actors that we implement, will be of <ks><a
-											href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">qActor</a>
+											href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">QActor</a>
 									</ks>
 									type.</p>
 								<ul>
@@ -669,7 +669,7 @@ It is a computational entity with a own autonomous flow of control so it will be
 								<center>
 									<ks>parkingmanagerservice: </ks>
 								</center>
-								This qActor represents the system. It handles all client's request: <tt>reqenter</tt>,
+								This QActor represents the system. It handles all client's request: <tt>reqenter</tt>,
 								<tt>carenter</tt> and <tt>pickup</tt> and performs some check to verify is it's possible to accept and manage them.
 								It provides the clients the SLOTNUM and the TICKETID. It coordinates the movements of the
 								trolley (in this version they are only simulated with delays). <br>
@@ -681,7 +681,7 @@ It is a computational entity with a own autonomous flow of control so it will be
 								<center>
 									<ks>client: </ks>
 								</center>
-								It's the qActor that sends the requests (<tt>reqenter</tt> and <tt>carenter</tt>) to the
+								It's the QActor that sends the requests (<tt>reqenter</tt> and <tt>carenter</tt>) to the
 								system during the parking phase
 								and sends request (<tt>pickup</tt>) during the picking phase.<br>
 								It replaces, in this version, the role of the <ks>ParkServiceGUI</ks>.
@@ -753,7 +753,7 @@ It is a computational entity with a own autonomous flow of control so it will be
 								<center>
 									<ks>trolley: </ks>
 								</center>
-								This qActor works as an intermediary between the system and the remote virtual robot.
+								This QActor works as an intermediary between the system and the remote virtual robot.
 								It can receive from parkingmmanagerservice dispatch move:move(GOAL), where GOAL represents the location that must be reached by the Trolley inside the environment.
 								this actor uses some functions implemented in KBSupport.kt to obtain from the GOAL a set of moves that the robot must make to reach it. In particular, the GOAL is translated into the corresponding pair of coordinates, then they are passed as arguments to a method of a class into the package "itunibo.planner" inside the library IssActorKotlinRobotSupport-2.0.jar , provided by the client.
 							</td>
@@ -1052,7 +1052,7 @@ State trolleyIsInOutdoor{
 				<tr>
 					<td>
 <pre>
-qActor trolley context ctxcarparking{
+QActor trolley context ctxcarparking{
 [#  val mapname     = "parkingMap0"
   var Myself      = myself
   var CurrentPlannedMove = ""

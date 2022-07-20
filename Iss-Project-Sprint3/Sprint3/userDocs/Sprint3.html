@@ -476,7 +476,7 @@
 									context <tt>ctxcarparking</tt>, everyone of them
 									providing a different service.</p>
 								<p>Actors that we implement, will be of <ks><a
-											href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">qActor</a>
+											href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">QActor</a>
 									</ks>
 									type.</p>
 								<ul>
@@ -506,7 +506,7 @@
 								<center>
 									<ks>parkingmanagerservive: </ks>
 								</center>
-								This qActor represents the system. It handles all client's request: <tt>reqenter</tt>,
+								This QActor represents the system. It handles all client's request: <tt>reqenter</tt>,
 								<tt>carenter</tt> and <tt>pickup</tt> and performs some check to verify is it's possible to accept and manage them.
 								It provides the clients the SLOTNUM and the TICKETID. It coordinates the movements of the
 								trolley (in this version they are only simulated with delays). <br>
@@ -518,7 +518,7 @@
 								<center>
 									<ks>client: </ks>
 								</center>
-								It's the qActor that sends the requests (<tt>reqenter</tt> and <tt>carenter</tt>) to the
+								It's the QActor that sends the requests (<tt>reqenter</tt> and <tt>carenter</tt>) to the
 								system during the parking phase
 								and sends request (<tt>pickup</tt>) during the picking phase.<br>
 								It replaces, in this version, the role of the <ks>ParkServiceGUI</ks>.
@@ -602,7 +602,7 @@
 								<center>
 									<ks>trolley: </ks>
 								</center>
-								This qActor works as an intermediary between the system and the remote virtual robot.
+								This QActor works as an intermediary between the system and the remote virtual robot.
 								It can receive from parkingmmanagerservice dispatch move:move(GOAL), where GOAL represents the location that must be reached by the Trolley inside the environment.
 								this actor uses some functions implemented in KBSupport.kt to obtain from the GOAL a set of moves that the robot must make to reach it. In particular, the GOAL is translated into the corresponding pair of coordinates, then they are passed as arguments to a method of a class into the package "itunibo.planner" inside the library IssActorKotlinRobotSupport-2.0.jar , provided by the client.
 							</td>
@@ -665,13 +665,13 @@
 		<div class="remark">
 
 			We proceed by showing how the added components that allow the new features to work properly are implemented.<br>
-			In particular we'll analyze the most relevant changes to existent qActors, the new qActor added to the system and
+			In particular we'll analyze the most relevant changes to existent QActors, the new QActor added to the system and
 			some other components developed during SPRINT 3.
 			<br><br>
 
 
         <p id="Intro to termo and fan" >
-			Others qActors are unchanged but  <b>thermometer</b>, <b>fan</b> and <b>fanautomatizer</b> are adder.
+			Others QActors are unchanged but  <b>thermometer</b>, <b>fan</b> and <b>fanautomatizer</b> are adder.
         </p>
 
         <table>
@@ -682,7 +682,7 @@
                     <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint3/Sprint3/src/sprint3.qak">thermometer</a></center>
 
 <pre>
-qActor thermometer context ctxcarparking{
+QActor thermometer context ctxcarparking{
 	[#Temp=20#]
 	State s0 initial{
 		println("thermometer | starting ")
@@ -712,7 +712,7 @@ qActor thermometer context ctxcarparking{
 }
 </pre>
 <p>
-	This is a new qActor, introduced from this SPRINT. It's simulate the behavior of a thermometer. It has a state <i>increasing</i>
+	This is a new QActor, introduced from this SPRINT. It's simulate the behavior of a thermometer. It has a state <i>increasing</i>
 	in which increase the temperature every period of time, in order to simulate temperature increasing.
 	There is also another state decreasing that has simply the task of stopping this increasing, and starting the decreasing of temperature (when Fan is ON) <br>
 	In this two state it emits an event <tt>temperature</tt>, cointainig the current temperature value.
@@ -730,7 +730,7 @@ qActor thermometer context ctxcarparking{
 			<center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint3/Sprint3/src/sprint3.qak">fan</a></center>
 
 <pre>
-qActor fan context ctxcarparking{
+QActor fan context ctxcarparking{
 	State s0 initial{
 		println("fan | start")
 	}Transition t0 whenMsg startfan -> working
@@ -762,7 +762,7 @@ qActor fan context ctxcarparking{
                     <center><b id="fanautomatizer2"><u>fanautomatizer</u></b></center>
                     <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint3/Sprint3/src/sprint3.qak">fanautomatizer</a></center>
                     <pre>
-qActor fanautomatizer{
+QActor fanautomatizer{
 	[#var fanIsStarted=0
 		var minTemp=0
 		var maxTemp=40#]

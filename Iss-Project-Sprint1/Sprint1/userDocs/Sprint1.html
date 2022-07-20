@@ -640,20 +640,20 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 				            <h4>Component Analysis</h4>
 				            <p>
 				                Most of our component should be <a
-				                    href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">qActor</a>,
+				                    href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">QActor</a>,
 				                in order to get fast prototyping and executable model of the system.
 				            </p>
 				            <ul>
 				                <li>
-				                    <ks>parkingmanagerservice:</ks> we consider this component a qActor.
+				                    <ks>parkingmanagerservice:</ks> we consider this component a QActor.
 				                    It must receive informations from any sensors and messages from GUIs.
 				                    It also must send messages to several component, for example to activate sensors or
 				                    reply to parking customer requests.
 				                <li>
 				                    <ks>Trolley:</ks>  The transport-trolley will use the DDRrobot to execute its opertation that comes from the requirements of the application. In fact it should be able to generate a sequence of actions to reach the commands given by the ParkManagerService and exceute them sending the basic moves to the <kn>DDRrobot</kn> through the basic robot.
-				                		It is a computational entity with a own autonomous flow of control so it will be modelled as qActor.
+				                		It is a computational entity with a own autonomous flow of control so it will be modelled as QActor.
 				                		<br>The trasport trolley should reach the goal place in a organizzed way, as the costumer required, so it will represent the buisness logic of the DDR Robot.
-				                    In order to exploit this component, also ours will be a qActor.
+				                    In order to exploit this component, also ours will be a QActor.
 				                    <br>
 				                    It receives messages from <b>parkingmanagerservice</b> which concerning the action that
 				                    <b>Trolley</b> have to perform.
@@ -681,7 +681,7 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 				</ul>
 				                <li>
 				                    <ks>weightsensor: </ks>about this component, we don't have at our disposal any component to start with and so it could be
-				                    simulated by qActor that sends messages to <b>parkingmanagerservice</b> about the weight of car that
+				                    simulated by QActor that sends messages to <b>parkingmanagerservice</b> about the weight of car that
 				                    is in <em>INDOOR area</em>.
 				                <li>
 				                    <ks>outsonar: </ks> customer provided to us a C library called <ks>SonarAlone.c</ks> and a kotlin
@@ -691,10 +691,10 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 				                <li>
 				                    <ks>fan:</ks> goal of this component is to manage a cooling system in order to lower the
 				                    temperature. We don't have at our disposal any component to start with,
-				                    so it could be a qActor that somehow lower the temperature
+				                    so it could be a QActor that somehow lower the temperature
 				                <li>
 				                    <ks>thermometer:</ks> to manage thermometer informations, we don't have at our disposal any component to start with, so
-				                    it could be a qActor. This Actor comunicates emitting a value of the temperature of the environment that will be handled by the <b>fanautomatizer</b>
+				                    it could be a QActor. This Actor comunicates emitting a value of the temperature of the environment that will be handled by the <b>fanautomatizer</b>
 				                    temperature.
 												<li>
 													<ks>fanautomatizer:</ks>  This Actor handles the problem relative to temperature/fan. It receives the temperature and communicates directly with <b>fan</b> starting and stopping it when necessary.
@@ -923,7 +923,7 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 											context <tt>ctxcarparking</tt>, everyone of them
 											providing a different service.</p>
 										<p>Actors that we implement, will be of <ks><a
-													href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">qActor</a>
+													href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/main/it.unibo.qakactor/userDocs/LabQakIntro2021.html">QActor</a>
 											</ks>
 											type.</p>
 										<ul>
@@ -947,7 +947,7 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 										<center>
 											<ks>parkingmanagerservice: </ks>
 										</center>
-										This qActor represents the system. It handles all client's request: <tt>reqenter</tt>,
+										This QActor represents the system. It handles all client's request: <tt>reqenter</tt>,
 										<tt>carenter</tt> and <tt>pickup</tt> and performs some check to verify is it's possible to accept and manage them.
 										It provides the clients the SLOTNUM and the TICKETID. It coordinates the movements of the
 										trolley (in this version they are only simulated with delays). <br>
@@ -959,7 +959,7 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 										<center>
 											<ks>client: </ks>
 										</center>
-										It's the qActor that sends the requests (<tt>reqenter</tt> and <tt>carenter</tt>) to the
+										It's the QActor that sends the requests (<tt>reqenter</tt> and <tt>carenter</tt>) to the
 										system during the parking phase
 										and sends a request (<tt>pickup</tt>) during the picking phase.<br>
 										It replaces, in this version, the role of the <ks>ParkServiceGUI</ks>.
@@ -1197,7 +1197,7 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 </p>
 
 						<h4 id="testupdater">testUpdater</h4><p>
-							During the project phase, it has proved necessary to have only a qActor with the goal of updating all resources, so that the test part could detect them in a more organized and simpler way.
+							During the project phase, it has proved necessary to have only a QActor with the goal of updating all resources, so that the test part could detect them in a more organized and simpler way.
 							So, whenever a component modifies any resource, a dispatch updateForTesting:resourceName(VALUE) is sent to testUpdater coded-actor.
 							Then, this actor elaborates received messageand use it to update the corresponding resource.
 					 </p>
@@ -1206,14 +1206,14 @@ Thanks to the QAK meta-model that the customer gives to us there is not an abstr
 
 
 <h4 id="models">Models</h4>
-    			We now proceed with the project phase, where we show the implementation of our system having only the features provided by this SPRINT. In particular we will see the implementation of 7 qActors which living in the same context that is ctxcarparking :
+    			We now proceed with the project phase, where we show the implementation of our system having only the features provided by this SPRINT. In particular we will see the implementation of 7 QActors which living in the same context that is ctxcarparking :
     			<br><br>
     			    <table style="width:100%">
                 <tr>
                         <center><b><u>CLIENT</u></b></center>
                         <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">parkingmanagerservice</a></center>
                         <pre>
-qActor client context ctxcarparking{
+QActor client context ctxcarparking{
 	[#
 		var CLIENTDONE  = 0
 		var SLOTNUM 	= 0 //slot assegnato
@@ -1296,7 +1296,7 @@ qActor client context ctxcarparking{
 
 
     <pre>
-qActor weightsensor context ctxcarparking{
+QActor weightsensor context ctxcarparking{
 	[#var P = 0#]
 	State s0 initial{
 		println("Weightsensor starts | WEIGHTSENSOR")
@@ -1313,7 +1313,7 @@ qActor weightsensor context ctxcarparking{
 	}Goto ready
 }
     </pre>
-		In the absence of the real weightsensor, this qActor was implemented to precisely simulate the real operation of a physical weightsensor. At the time it receives a carindoorarrival event (issued by the parkingmanagerservice) it emits a weight more than the threshold set in the weightsensorhandler to simulate the presence of a car in the indoor-area.
+		In the absence of the real weightsensor, this QActor was implemented to precisely simulate the real operation of a physical weightsensor. At the time it receives a carindoorarrival event (issued by the parkingmanagerservice) it emits a weight more than the threshold set in the weightsensorhandler to simulate the presence of a car in the indoor-area.
 
 </tr>
 
@@ -1324,7 +1324,7 @@ qActor weightsensor context ctxcarparking{
     		  <center><b><u>WEIGHTSENSORHANDLER</u></b></center>
     		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">weightsensorhandler </a></center>
     <pre>
-qActor weightsensorhandler context ctxcarparking{
+QActor weightsensorhandler context ctxcarparking{
     [#var Www=1#]
     State s0 initial{
         println("WeightsensorHandler INIT | WEIGHTSENSORHANDLER")
@@ -1352,7 +1352,7 @@ qActor weightsensorhandler context ctxcarparking{
     }Goto working
 }
     </pre>
-		qActor whose task is to handle the weight emitted by the weightsensor so that the parkingmanagerservice is aware that there is a machine in the indoor, also has the task of changing the state of the indoorarea.
+		QActor whose task is to handle the weight emitted by the weightsensor so that the parkingmanagerservice is aware that there is a machine in the indoor, also has the task of changing the state of the indoorarea.
 </tr>
 
 
@@ -1363,7 +1363,7 @@ qActor weightsensorhandler context ctxcarparking{
     		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">outsonar </a></center>
 
     <pre>
-qActor outsonar context ctxcarparking{
+QActor outsonar context ctxcarparking{
 	State s0 initial{
 	}Goto working
 
@@ -1383,7 +1383,7 @@ qActor outsonar context ctxcarparking{
 	}Goto working
 }
     </pre>
-		In the absence of the real outsonar, this qActor was implemented to precisely simulate the real operation of a physical sonar. At the time it receives a caroutdoorarrival event (issued by the parkingmanagerservice) it emits a distance less than the threshold set in the sonarhandler to simulate the presence of a car in the outdoor-area, on the other hand, if it receives the carwithdrawn event (issued by the client) it emits a distance greater than the threshold set in the sonarhandler to simulate the departure of the car itself.
+		In the absence of the real outsonar, this QActor was implemented to precisely simulate the real operation of a physical sonar. At the time it receives a caroutdoorarrival event (issued by the parkingmanagerservice) it emits a distance less than the threshold set in the sonarhandler to simulate the presence of a car in the outdoor-area, on the other hand, if it receives the carwithdrawn event (issued by the client) it emits a distance greater than the threshold set in the sonarhandler to simulate the departure of the car itself.
 
 </tr>
 
@@ -1395,7 +1395,7 @@ qActor outsonar context ctxcarparking{
     		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">sonarhandler </a></center>
 
     <pre>
-qActor sonarhandler context ctxcarparking{
+QActor sonarhandler context ctxcarparking{
     [#var distance=2000
     	var outdoorfree=true#]
 
@@ -1433,7 +1433,7 @@ qActor sonarhandler context ctxcarparking{
 }
     </pre>
 
-		This qActor, in the same context of <b>parkingmanagerserive</b> has the task to manage informations received by the <b>real sonar</b> , which it's deployed
+		This QActor, in the same context of <b>parkingmanagerserive</b> has the task to manage informations received by the <b>real sonar</b> , which it's deployed
 		on another device, a <i>Raspberry Pi</i> or by the mock <b>outsonar</b>. <br> The behaviour of thi actor is simple:
 		<ul>
 		<li>it starts his work when it receives a dispatch <tt>sonarstart</tt>
@@ -1451,7 +1451,7 @@ qActor sonarhandler context ctxcarparking{
     		  <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">timer </a></center>
 
     <pre>
-qActor timer context ctxcarparking{
+QActor timer context ctxcarparking{
     State s0 initial{
 
     }Goto working
@@ -1486,7 +1486,7 @@ qActor timer context ctxcarparking{
                         <center><a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint1/Sprint1/src/sprint1.qak">parkingmanagerservice</a></center>
 
     <pre>
-qActor parkingmanagerservice context ctxcarparking{
+QActor parkingmanagerservice context ctxcarparking{
 	[#lateinit var testUpdaterActor	: ActorBasic
 	var prog= 0
 	var SLOTNUM=-1
@@ -2357,7 +2357,7 @@ fun testOutsonar(){
 		          <a href="#naive-macro-architecture">Naive Macro Architecture</a>: here it is shown a naive architecture of the system where we still consider components of system as generic entities and we don't yet describe kind of their interactions.
 		        </li>
 		        <li>
-		          <a href="#abstraction-gap">Usage of qActor</a>: here it is discussed why qActor are suggested for the project
+		          <a href="#abstraction-gap">Usage of QActor</a>: here it is discussed why QActor are suggested for the project
 		        </li>
 		        <li>
 		          <a href="#first-macro-architecture">General Macro Architecture</a>: here it is proposed a first macro architecture, after reviewing the reasons for why QActors will be used, Without going into detail regarding the interactions between the components.
@@ -2396,7 +2396,7 @@ fun testOutsonar(){
 			          <a href="#testupdater">TestUpdater</a>: codedqak  with the goal of updating all resources , so that the test part could detect them in a more organized and simpler way.
 			        </li>
 							<li>
-								<a href="#models">Models</a>: various models of different qActor with some explanation about how they work.
+								<a href="#models">Models</a>: various models of different QActor with some explanation about how they work.
 							</li>
 						</ol>
 		      </li>
