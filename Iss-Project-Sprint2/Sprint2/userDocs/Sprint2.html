@@ -844,7 +844,7 @@ It is a computational entity with a own autonomous flow of control so it will be
 		</table>
 
 		<div class=remark>
-			<p><h3>Parking Phase - <a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint2/Sprint2/src/sprint2.qak">sprint2.qak: </a></h3></p>
+			<p><h3 id="parkingmanager">Parking Phase - <a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint2/Sprint2/src/sprint2.qak">sprint2.qak: </a></h3></p>
 			<table>
 				<tr>
 					<td style='text-align:left; padding: 10px;'>
@@ -1046,7 +1046,7 @@ State trolleyIsInOutdoor{
 				</tr>
 				<tr >
 					<td colspan=2 style="border-left-color: transparent; border-right-color: transparent;">
-						<p><h3>Trolley - <a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint2/Sprint2/src/sprint2.qak">parkingservice.qak: </a></h3></p>
+						<p><h3 id="trolley2">Trolley - <a href="https://github.com/dbattaglia97/Iss_Project_2021/blob/main/Iss-Project-Sprint2/Sprint2/src/sprint2.qak">parkingservice.qak: </a></h3></p>
 					</td>
 				</tr>
 				<tr>
@@ -1681,7 +1681,7 @@ assertEquals("IDLE", status)
 							<a href="#parkingmanager">ParkingManagerService</a>: changes made to the parkingmanagerservice: in particular to the parkingAreaKB (prolog file) in order to check and change trolley status,  added check also on Trolley for acceptin and acceptout.
 						</li>
 						<li>
-							<a href="#trolley">trolley</a>: implementation of the trolley and its connection with the trolleyPlannerSupport (in this sprint it hasn't the state Stopped because the ParkingMangerGui is not implemented already)
+							<a href="#trolley2">trolley</a>: implementation of the trolley and its connection with the trolleyPlannerSupport (in this sprint it hasn't the state Stopped because the ParkingMangerGui is not implemented already)
 						</li>
 						<li>
 							<a href="#trolleyPlannerSupport">trolleyPlannerSupport</a>: To satisfy the single responsibility principle (SRP) it was decided to create a support for the transport trolley. The tasks of the TrolleyPlannerSupport.kt are to plan the greatest path and update the map, thus the trolley will have the only responsibility of sending the commands to the basicrobot.
